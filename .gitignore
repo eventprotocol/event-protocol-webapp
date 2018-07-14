@@ -1,6 +1,7 @@
 node_modules/
 *.log
 *.pyc
+*.swp
 __pycache__/
 .cache/
 env
