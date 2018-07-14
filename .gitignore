@@ -1,5 +1,4 @@
 node_modules/
-*.lock
 *.log
 *.pyc
 __pycache__/
