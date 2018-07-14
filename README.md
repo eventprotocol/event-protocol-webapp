@@ -13,14 +13,17 @@
 $ pip install -r requirements
 ```
 
-3. Install frontend dependencies 
+3. Run web server
 ```
-$ cd src/static   // if you aren't already at the src folder
-$ yarn
-```
+$ source activate <insert virtual env name> // if using conda
 
-4. Run web server
-```
-$ cd src         // if you aren't already at the src folder
-$ python app.py
+$ export FLASK_APP=backend/__init__.py
+
+// For debug mode
+$ export FLASK_DEBUG=1
+
+// For no debug mode
+$ export FLASK_DEBUG=0
+
+$ python manage.py run
 ```
