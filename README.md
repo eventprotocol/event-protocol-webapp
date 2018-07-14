@@ -15,5 +15,6 @@ $ pip install -r requirements
 
 3. Run web server
 ```
-$ python /src/app.py
+$ cd src
+$ python app.py
 ```
