@@ -1,6 +1,7 @@
 # Web Application for Event Protocol
 
 # Under the Hood
+- Python 3.6
 - Flask
 - React
 
