@@ -6,6 +6,7 @@
 - React
 - Docker (docker, docker-compose, docker-machine)
 
+
 # To Run
 1. Set up virtual environment, use conda, pipenv, or virtualenv.
 
@@ -28,6 +29,7 @@ $ export FLASK_DEBUG=0
 
 $ python manage.py run
 ```
+
 
 # Docker Development Setup
 1. Check if you have the required docker programs
@@ -53,4 +55,16 @@ $ docker-compose -f docker-compose-dev.yml build
 4. Run the containers
 ```
 $ docker-compose -f docker-compose-dev.yml up -d
+
+// you may find it useful to view logs
+$ docker-compose -f docker-compose-dev.yml logs
+
+// to build while the containter detached and up
+$ docker-compose -f docker-compose-dev.yml up -d --build
+```
+
+# Running Tests
+1. Run tests using this command
+```
+$ docker-compose -f docker-compose-dev.yml run users python manage.py test
 ```
