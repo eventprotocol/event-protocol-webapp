@@ -3,7 +3,7 @@ manage.py for flask application
 """
 
 from flask.cli import FlaskGroup
-from backend import app
+from project import app
 
 cli = FlaskGroup(app)
 
