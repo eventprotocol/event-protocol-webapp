@@ -1,10 +1,7 @@
 FROM python:3.6
 
 # install environment dependencies
-RUN apt-get update -yqq \
-  && apt-get install -yqq --no-install-recommends \
-    netcat \
-  && apt-get -q clean
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends netcat && apt-get -q clean
 
 # set working directory
 RUN mkdir -p /usr/src/app
@@ -23,4 +20,4 @@ COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 COPY . /usr/src/app
 
 # run server
-CMD ["./entrypoint.sh"]
+CMD ["sh", "entrypoint.sh"]
