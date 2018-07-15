@@ -34,6 +34,19 @@ def test():
     else:
         return -1
 
+@cli.command()
+def seed_db():
+    """
+    Seeds the database with some initial data
+    """
+    user0 = User(eth_address = '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+    user1 = User(eth_address = '0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8')
+
+    db.session.add(user0)
+    db.session.add(user1)
+
+    db.session.commit()
+
 
 if __name__ == '__main__':
     cli()

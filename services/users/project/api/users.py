@@ -98,6 +98,7 @@ def get_single_user(user_id):
 def get_all_users():
     """
     Get all users
+    To make this an admin function
     """
     response_object = {
         'status': 'success',
