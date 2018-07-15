@@ -179,5 +179,32 @@ class TestUserService(BaseTestCase):
 
             self.assertIn('success', data['status'])
 
+
+    def test_main_no_users(self):
+        """
+        Ensure we get the desired response if there are no users
+        """
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'<h1>All Users</h1>', response.data)
+        self.assertIn(b'<p>No users!</p>', response.data)
+
+
+    def test_main_with_users(self):
+        """
+        Ensure we get the desired reponse if there are users
+        """
+        add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        add_user('0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8')
+
+        with self.client:
+            response = self.client.get('/')
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b'<h1>All Users</h1>', response.data)
+            self.assertNotIn(b'<p>No users!</p>', response.data)
+            self.assertIn(b'0x0E35462535daE6fd521f0Eea67dc4e9485C714dC', response.data)
+            self.assertIn(b'0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8', response.data)
+
+
 if __name__ == '__main__':
     unittest.main()
