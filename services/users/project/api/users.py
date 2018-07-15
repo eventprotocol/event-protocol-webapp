@@ -1,7 +1,9 @@
 from flask import Blueprint, jsonify, request
+from sqlalchemy import exc
 
 from project.api.models import User
 from project import db
+
 
 users_blueprint = Blueprint('users', __name__)
 
@@ -16,17 +18,77 @@ def ping_pong():
         'message': 'pong!'
     })
 
+
 @users_blueprint.route('/users', methods=['POST'])
 def add_user():
+    """
+    Add user in to database
+    """
     post_data = request.get_json()
-    eth_address = post_data.get('eth_address')
-
-    db.session.add(User(eth_address))
-    db.session.commit()
-
     response_object = {
-        'status': 'success',
-        'message': f'{eth_address} was added!'
+        'status': 'fail',
+        'message': 'Invalid payload.'
     }
 
-    return jsonify(response_object), 201
+    if not post_data:
+        return jsonify(response_object), 400
+
+    eth_address = post_data.get('eth_address')
+
+    eth_address = eth_address.strip()
+
+    if eth_address == '':
+        return jsonify(response_object), 400
+
+    try:
+        user = User.query.filter_by(eth_address = eth_address).first()
+
+        if not user:
+            db.session.add(User(eth_address=eth_address))
+            db.session.commit()
+            response_object['status'] = 'success'
+            response_object['message'] = f'{eth_address} was added!'
+            return jsonify(response_object), 201
+
+        else:
+            response_object['message'] = 'Sorry. That eth address already exists.'
+            return jsonify(response_object), 400
+
+    except exc.IntegrityError as e:
+        db.session.rollback()
+        return jsonify(response_object), 400
+
+
+@users_blueprint.route('/users/<user_id>', methods=['GET'])
+def get_single_user(user_id):
+    """
+    Get single user details
+    """
+    response_object = {
+        'status': 'fail',
+        'message': 'User does not exist'
+    }
+
+    try:
+        user = User.query.filter_by(id=user_id).first()
+
+        if not user:
+            return jsonify(response_object), 404
+
+        else:
+            response_object = {
+                'status': 'success',
+                'data': {
+                    'id': user.id,
+                    'eth_address': user.eth_address,
+                    'active': user.active
+                }
+            }
+
+            return jsonify(response_object), 200
+
+    except ValueError:
+        return jsonify(response_object), 404
+
+    except exc.DataError:
+        return jsonify(response_object), 404
