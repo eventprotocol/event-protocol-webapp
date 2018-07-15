@@ -10,7 +10,7 @@ users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 @users_blueprint.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
+    if request.method == "POST":
         eth_address = request.form['eth_address']
         db.session.add(User(eth_address = eth_address))
         db.session.commit()

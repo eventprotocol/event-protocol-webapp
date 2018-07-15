@@ -49,6 +49,7 @@ class TestUserService(BaseTestCase):
             self.assertIn('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC was added!', data['message'])
             self.assertIn('success', data['status'])
 
+
     def test_add_user_invalid_json(self):
         """
         Ensure that error is thrown when json object is empty
