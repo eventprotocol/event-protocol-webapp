@@ -1,5 +1,6 @@
 from project import db
 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -7,7 +8,6 @@ class User(db.Model):
     username = db.Column(db.String(128), nullable=True)
     email = db.Column(db.String(128), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
-
 
     def __init__(self, eth_address):
         """

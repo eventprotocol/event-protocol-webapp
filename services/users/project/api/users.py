@@ -12,7 +12,7 @@ users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 def index():
     if request.method == "POST":
         eth_address = request.form['eth_address']
-        db.session.add(User(eth_address = eth_address))
+        db.session.add(User(eth_address=eth_address))
         db.session.commit()
 
     users = User.query.all()
@@ -52,7 +52,7 @@ def add_user():
         return jsonify(response_object), 400
 
     try:
-        user = User.query.filter_by(eth_address = eth_address).first()
+        user = User.query.filter_by(eth_address=eth_address).first()
 
         if not user:
             db.session.add(User(eth_address=eth_address))
@@ -62,7 +62,8 @@ def add_user():
             return jsonify(response_object), 201
 
         else:
-            response_object['message'] = 'Sorry. That eth address already exists.'
+            response_object['message'] = \
+                'Sorry. That eth address already exists.'
             return jsonify(response_object), 400
 
     except exc.IntegrityError as e:

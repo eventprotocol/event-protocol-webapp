@@ -10,10 +10,11 @@ def add_user(eth_address):
     """
     Helper function
     """
-    user = User(eth_address = eth_address)
+    user = User(eth_address=eth_address)
     db.session.add(user)
     db.session.commit()
     return user
+
 
 class TestUserService(BaseTestCase):
     """
@@ -30,7 +31,6 @@ class TestUserService(BaseTestCase):
         self.assertIn('pong!', data['message'])
         self.assertIn('success', data['status'])
 
-
     def test_add_user(self):
         """
         Ensure that users can be added to database successfully
@@ -38,7 +38,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/users',
-                data = json.dumps({
+                data=json.dumps({
                     'eth_address': '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC'
                 }),
                 content_type='application/json',
@@ -46,9 +46,11 @@ class TestUserService(BaseTestCase):
 
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 201)
-            self.assertIn('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC was added!', data['message'])
+            self.assertIn(
+                '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC was added!',
+                data['message']
+            )
             self.assertIn('success', data['status'])
-
 
     def test_add_user_invalid_json(self):
         """
@@ -57,7 +59,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/users',
-                data = json.dumps({}),
+                data=json.dumps({}),
                 content_type='application/json',
             )
 
@@ -65,7 +67,6 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 400)
             self.assertIn('Invalid payload.', data['message'])
             self.assertIn('fail', data['status'])
-
 
     def test_add_user_invalid_json_keys(self):
         """
@@ -75,7 +76,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/users',
-                data = json.dumps({
+                data=json.dumps({
                     'eth_address': ''
                 }),
                 content_type='application/json',
@@ -86,7 +87,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('Invalid payload.', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_add_user_duplicate_eth_address(self):
         """
         Ensure that error is thrown if the eth_address already exists
@@ -94,7 +94,7 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/users',
-                data = json.dumps({
+                data=json.dumps({
                     'eth_address': '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC'
                 }),
                 content_type='application/json',
@@ -102,7 +102,7 @@ class TestUserService(BaseTestCase):
 
             response = self.client.post(
                 '/users',
-                data = json.dumps({
+                data=json.dumps({
                     'eth_address': '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC'
                 }),
                 content_type='application/json',
@@ -114,12 +114,10 @@ class TestUserService(BaseTestCase):
                 'Sorry. That eth address already exists.', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_single_user(self):
         """
         Ensure that get single user behaves correctly.
         """
-
         user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
         db.session.add(user)
         db.session.commit()
@@ -132,7 +130,6 @@ class TestUserService(BaseTestCase):
                           data['data']['eth_address'])
             self.assertIn('success', data['status'])
 
-
     def test_single_user_no_id(self):
         """
         Ensure error is thrown if an id is not provided
@@ -144,7 +141,6 @@ class TestUserService(BaseTestCase):
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
 
-
     def test_single_user_incorrect_id(self):
         """
         Ensure error is thrown if the id does not exist
@@ -155,7 +151,6 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
-
 
     def test_all_users(self):
         """
@@ -180,7 +175,6 @@ class TestUserService(BaseTestCase):
 
             self.assertIn('success', data['status'])
 
-
     def test_main_no_users(self):
         """
         Ensure we get the desired response if there are no users
@@ -189,7 +183,6 @@ class TestUserService(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'<h1>All Users</h1>', response.data)
         self.assertIn(b'<p>No users!</p>', response.data)
-
 
     def test_main_with_users(self):
         """
@@ -203,9 +196,14 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertIn(b'<h1>All Users</h1>', response.data)
             self.assertNotIn(b'<p>No users!</p>', response.data)
-            self.assertIn(b'0x0E35462535daE6fd521f0Eea67dc4e9485C714dC', response.data)
-            self.assertIn(b'0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8', response.data)
-
+            self.assertIn(
+                b'0x0E35462535daE6fd521f0Eea67dc4e9485C714dC',
+                response.data
+            )
+            self.assertIn(
+                b'0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8',
+                response.data
+            )
 
     def test_main_add_user(self):
         """
@@ -214,14 +212,19 @@ class TestUserService(BaseTestCase):
         with self.client:
             response = self.client.post(
                 '/',
-                data=dict(eth_address='0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6'),
+                data=dict(
+                    eth_address='0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6'
+                ),
                 follow_redirects=True
             )
 
             self.assertEqual(response.status_code, 200)
             self.assertIn(b'<h1>All Users</h1>', response.data)
             self.assertNotIn(b'<p>No users!</p>', response.data)
-            self.assertIn(b'0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6', response.data)
+            self.assertIn(
+                b'0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6',
+                response.data
+            )
 
 
 if __name__ == '__main__':

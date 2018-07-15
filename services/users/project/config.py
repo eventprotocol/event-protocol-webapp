@@ -3,6 +3,7 @@ Contains all the config for the Flask App
 """
 import os
 
+
 class BaseConfig:
     """
     Base configuration

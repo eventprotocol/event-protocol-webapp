@@ -3,6 +3,7 @@ manage.py for flask application
 """
 import unittest
 import coverage
+import os
 
 from flask.cli import FlaskGroup
 from project import create_app, db
@@ -37,7 +38,10 @@ def cov():
         COV.save()
         print('Coverage Summary:')
         COV.report()
-        COV.html_report(directory='covhtml')
+        basedir = os.path.abspath(os.path.dirname(__file__))
+        covdir = os.path.join(basedir, 'tmp/coverage')
+        COV.html_report(directory=covdir)
+        print('HTML version: file://%s/index.html' % covdir)
         COV.erase()
         return 0
 
