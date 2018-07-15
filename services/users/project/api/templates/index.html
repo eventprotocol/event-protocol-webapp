@@ -1,0 +1,58 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width" />
+      <title>Login</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+      <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fF </head> <body> body </body>IxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+      {% block css %}{% endblock %}
+    </head>
+    <body>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <br>
+            <h1>All Users</h1>
+            <hr>
+            <br>
+            <form action="/" method="POST" accept-charset="utf-8">
+              <div class="form-group">
+                <input type="text" name="eth_address" id="eth_address" placeholder="eth address" class="form-control input-lg" required/>
+              </div>
+              <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit"/>
+            </form>
+            <br>
+            <hr>
+            {% if users %}
+              <ol>
+                {% for user in users %}
+                  <li>{{ user.eth_address }}</li>
+                {% endfor %}
+              </ol>
+            {% else %}
+              <p>No users!</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- script -->
+      <script charset="utf-8">
+        if (typeof web3 !== 'undefined') {
+          web3 = new Web3(web3.currentProvider);
+        } else {
+          web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+        // get current eth address
+        var account = web3.eth.accounts[0]
+        
+        $(function () {
+          $("#eth_address").val(account);
+        });
+      </script>
+    </body>
+  </html>
