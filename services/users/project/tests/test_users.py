@@ -6,6 +6,15 @@ from project import db
 from project.api.models import User
 
 
+def add_user(eth_address):
+    """
+    Helper function
+    """
+    user = User(eth_address = eth_address)
+    db.session.add(user)
+    db.session.commit()
+    return user
+
 class TestUserService(BaseTestCase):
     """
     user service test
@@ -110,7 +119,7 @@ class TestUserService(BaseTestCase):
         Ensure that get single user behaves correctly.
         """
 
-        user = User(eth_address = '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
         db.session.add(user)
         db.session.commit()
 
@@ -146,6 +155,29 @@ class TestUserService(BaseTestCase):
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
 
+
+    def test_all_users(self):
+        """
+        Ensure that all users behave correctly.
+        """
+        add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        add_user('0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8')
+
+        with self.client:
+            response = self.client.get('/users')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(len(data['data']['users']), 2)
+            self.assertIn(
+                '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC',
+                data['data']['users'][0]['eth_address']
+            )
+            self.assertIn(
+                '0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8',
+                data['data']['users'][1]['eth_address']
+            )
+
+            self.assertIn('success', data['status'])
 
 if __name__ == '__main__':
     unittest.main()
