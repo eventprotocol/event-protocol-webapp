@@ -206,5 +206,22 @@ class TestUserService(BaseTestCase):
             self.assertIn(b'0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8', response.data)
 
 
+    def test_main_add_user(self):
+        """
+        Ensure we get the desired response if there are no users
+        """
+        with self.client:
+            response = self.client.post(
+                '/',
+                data=dict(eth_address='0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6'),
+                follow_redirects=True
+            )
+
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(b'<h1>All Users</h1>', response.data)
+            self.assertNotIn(b'<p>No users!</p>', response.data)
+            self.assertIn(b'0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6', response.data)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -8,8 +8,13 @@ from project import db
 users_blueprint = Blueprint('users', __name__, template_folder='./templates')
 
 
-@users_blueprint.route('/', methods=['GET'])
+@users_blueprint.route('/', methods=['GET', 'POST'])
 def index():
+    if request.method == 'POST':
+        eth_address = request.form['eth_address']
+        db.session.add(User(eth_address = eth_address))
+        db.session.commit()
+
     users = User.query.all()
     return render_template('index.html', users=users)
 
