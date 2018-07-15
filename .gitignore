@@ -6,3 +6,4 @@ __pycache__/
 .cache/
 env
 htmlcov/
+__snapshots__/

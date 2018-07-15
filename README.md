@@ -82,3 +82,10 @@ $ docker-compose -f docker-compose-prod.yml run users python manage.py test
 ```
 
 5. Add the desired port the AWS Security Group the ec2 instance is associated with. You should be able to access the web application with `<public-ip>:<port num>`
+
+
+# React
+1. Add the environment variable
+```
+$ export  REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
+```
