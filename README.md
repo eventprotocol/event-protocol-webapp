@@ -32,6 +32,9 @@ $ docker-compose -f docker-compose-dev.yml build
 
 4. Run the containers
 ```
+// Include this in path to run react. Replace DOCKER_MACHINE_DEV_IP with docker-machine eventprotocol-dev ip
+$ export  REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
+
 $ docker-compose -f docker-compose-dev.yml up -d
 
 // you may find it useful to view logs
@@ -74,6 +77,9 @@ $ eval $(docker-machine env eventprotocol-prod
 
 4. Check if the install works
 ```
+// Include this in path to run react. Replace DOCKER_MACHINE_PROD_IP with docker-machine eventprotocol-prod ip
+$ export  REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_PROD_IP
+
 // IMPT NOTE Likewise you might need to run the commands as root $ sudo -s
 $ docker-compose -f docker-compose-prod.yml up -d --build
 $ docker-compose -f docker-compose-prod.yml run users python manage.py recreate_db

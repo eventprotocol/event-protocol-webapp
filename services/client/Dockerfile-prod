@@ -1,0 +1,20 @@
+# build environment
+FROM  node:8.11  as  builder
+RUN mkdir /frontend
+WORKDIR /frontend
+ENV PATH  /frontend/node_modules/.bin:$PATH
+ARG REACT_APP_USERS_SERVICE_URL
+ARG NODE_ENV
+ENV NODE_ENV  $NODE_ENV
+ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
+COPY  package.json  /frontend/package.json
+RUN npm install --silent
+RUN npm install react-scripts@1.1.4 -g  --silent
+COPY  . /frontend
+RUN yarn build
+
+# production  environment
+FROM  nginx:1.15
+COPY  --from=builder  /frontend/build  /usr/share/nginx/html
+EXPOSE  80
+CMD ["nginx", "-g", "daemon off;"]

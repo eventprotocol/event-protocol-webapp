@@ -6,9 +6,12 @@
     "axios": "^0.18.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts": "^1.1.4"
+    "react-scripts": "^1.1.4",
+    "react-web3": "^0.4.5",
+    "web3": "^1.0.0-beta.34"
   },
   "scripts": {
     "start": "react-scripts start",
