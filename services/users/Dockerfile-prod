@@ -14,7 +14,8 @@ ADD . /app
 RUN pip install -r requirements.txt
 
 # entry point
-RUN chmod 777 ./entrypoint.sh
+RUN chmod 777 ./entrypoint-prod.sh
 
 # run server
-CMD ["./entrypoint.sh"]
+CMD ["./entrypoint-prod.sh"]
+
