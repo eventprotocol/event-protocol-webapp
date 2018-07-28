@@ -1,21 +1,54 @@
+// React stuff
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { createBrowserHistory } from "history";
+import { Router, Route, Switch } from 'react-router-dom';
+
+// axios for server access
 import axios from 'axios';
+
+// import Web3 and Drizzle
 import Web3 from 'web3';
 import { Web3Provider } from 'react-web3';
+import { DrizzleProvider } from 'drizzle-react';
 
+// Routes
+import indexRoutes from "./routes/index.jsx";
+
+// Components
+import "./assets/css/material-dashboard-react.css";
+import registerServiceWorker from './registerServiceWorker';
 import UsersList from './components/UsersList';
 import AddUser from './components/AddUser';
 
-const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-web3.eth.getAccounts().then()
+// Initialize browser history
+const hist = createBrowserHistory();
+
+// Initialize Web3
+let web3 = new Web3();
+
+if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
+  web3.setProvider(window.web3.currentProvider);
+}
+
+// Setup Drizzle
+// const options = {
+//   contracts: [
+//     // <<Insert Smart Contract Names>>:w
+//   ],
+//   events: {}
+// }
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      users: []
+      users: [],
+      eth_address: '',
+      username: '',
+      email: '',
+      isRegistered: '',
     };
   };
 
@@ -31,26 +64,19 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-            <br/>
-            <h1>All Users</h1>
-            <hr/><br/>
-            <AddUser/>
-            <br/>
-            <UsersList users={this.state.users}/>
-          </div>
-        </div>
-      </div>
-    )
+      <Router history={hist}>
+        <Switch>
+          {indexRoutes.map((prop, key) => {
+            return <Route path={prop.path} component={prop.component} key={key} />;
+          })}
+        </Switch>
+      </Router>
+    );
   };
 }
 
 ReactDOM.render(  
-  <Web3Provider>
-    <App /> 
-  </Web3Provider>,
-  document.getElementById('root')
+  <App />,
+  document.getElementById('root'));
 
-);
+registerServiceWorker();
