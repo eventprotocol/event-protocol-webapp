@@ -7,7 +7,8 @@ import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
 import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
-// core components/views
+// core components/view
+import Home from "../views/Home/Home.jsx";
 import DashboardPage from "../views/Dashboard/Dashboard.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
 import TableList from "../views/TableList/TableList.jsx";
@@ -20,10 +21,10 @@ import UpgradeToPro from "../views/UpgradeToPro/UpgradeToPro.jsx";
 const dashboardRoutes = [
   {
     path: "/",
-    sidebarName: "Dashboard",
-    navbarName: "Material Dashboard",
+    sidebarName: "Home",
+    navbarName: "Home",
     icon: Dashboard,
-    component: DashboardPage
+    component: Home
   },
   {
     path: "/user",
