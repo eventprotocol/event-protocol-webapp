@@ -1,4 +1,5 @@
 # Web Application for Event Protocol
+[![Build Status](https://travis-ci.com/eventprotocol/event-protocol-webapp.svg?branch=master)](https://travis-ci.com/eventprotocol/event-protocol-webapp)
 
 # Under the Hood
 - Python 3.6
