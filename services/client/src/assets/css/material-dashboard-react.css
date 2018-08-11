@@ -61,7 +61,7 @@ body {
     background-color: #EEEEEE;
     color: #3C4858;
     margin: 0;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-family: Questrial, Helvetica, Arial, sans-serif;
     font-weight: 300;
     line-height: 1.5em;
 }
@@ -116,7 +116,7 @@ blockquote p {
 }
 
 body, h1, h2, h3, h4, h5, h6 {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-family: "Questrial", "Helvetica", "Arial", sans-serif;
     font-weight: 300;
     line-height: 1.5em;
 }
