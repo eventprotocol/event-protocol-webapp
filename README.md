@@ -53,7 +53,7 @@ $ docker-compose -f docker-compose-dev.yml up -d --build
 ```
 
 # Accessing The Application
-1. On you web browser access `http://DOCKER_MACHINE_DEV_IP:3007` as found earlier. This port points to the react client application. On the production settings. http://DOCKER
+1. On you web browser access `http://DOCKER_MACHINE_DEV_IP:3007` as found earlier. This port points to the react client application. 
 
 # Running Tests
 1. Run tests using this command
@@ -98,6 +98,8 @@ $ docker-compose -f docker-compose-prod.yml run users python manage.py test
 ```
 
 5. Add the desired port the AWS Security Group the ec2 instance is associated with. You should be able to access the web application with `<public-ip>:<port num>`
+
+6. You should be able to access the site at `http://DOCKER_MACHINE_PROD_IP`
 
 
 # React
