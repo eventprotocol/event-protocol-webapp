@@ -27,7 +27,7 @@ services:
     expose:
       - "5432"
     environment:
-      # To store secrets safel
+      # To store secrets safely
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres 
 
