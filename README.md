@@ -53,7 +53,7 @@ $ docker-compose -f docker-compose-dev.yml up -d --build
 ```
 
 # Accessing The Application
-1. On you web browser access `http://DOCKER_MACHINE_DEV_IP:3007` as found earlier
+1. On you web browser access `http://DOCKER_MACHINE_DEV_IP:3007` as found earlier. This port points to the react client application. On the production settings. http://DOCKER
 
 # Running Tests
 1. Run tests using this command
@@ -74,10 +74,9 @@ aws_secret_access_key = *****
 aws_access_key_id =  AKI*****
 
 ```
-
-2. Now run
+2. Now run, note you'll need at least a t2.small instance to build web3 dependencies.
 ```
-$ docker-machine create --driver amazonec2 eventprotocol-prod
+$ docker-machine create --driver amazonec2 --amazonec2-instance-type t2.small eventprotocol-prod
 ```
 
 3. Once done run

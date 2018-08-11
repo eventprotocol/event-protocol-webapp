@@ -1,6 +1,9 @@
 # base image
 FROM risingstack/alpine:3.7-v8.10.0-4.8.0
 
+# add bash
+RUN apk add --no-cache bash
+
 # set working directory
 WORKDIR /app
 
