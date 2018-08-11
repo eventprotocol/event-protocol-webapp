@@ -1,8 +1,10 @@
 # build environment
 FROM  node:8.11  as  builder
-RUN mkdir /frontend
-WORKDIR /frontend
-ENV PATH  /frontend/node_modules/.bin:$PATH
+
+RUN mkdir /app
+WORKDIR /app
+
+ENV PATH  /app/node_modules/.bin:$PATH
 ARG REACT_APP_USERS_SERVICE_URL
 ARG NODE_ENV
 ENV NODE_ENV  $NODE_ENV

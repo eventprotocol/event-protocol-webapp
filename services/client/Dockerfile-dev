@@ -1,9 +1,11 @@
 # base image
-FROM node:8.11
+FROM risingstack/alpine:3.7-v8.10.0-4.8.0
 
 # set working directory
-RUN mkdir -p /app
 WORKDIR /app
+
+# Make directory
+RUN mkdir -p /app
 
 # add folder
 ADD . /app

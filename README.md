@@ -9,6 +9,8 @@
 
 
 # Docker Development Setup
+0. Do follow the steps sequentially
+
 1. Check if you have the required docker programs
 ```
 $ docker -v 
@@ -21,6 +23,11 @@ $ docker-machine -v
 // IMPT NOTE you might need to run the docker commands as super user ie. $ sudo -s
 
 $ docker-machine create -d virtualbox eventprotocol-dev
+$ docker-machine env eventprotocol-dev
+$ eval "$(docker-machine env eventprotocol-dev)"
+
+// When you revisit the program after restarting start the machine
+$ docker-machine start eventprotocol-dev
 $ docker-machine env eventprotocol-dev
 $ eval "$(docker-machine env eventprotocol-dev)"
 ```
@@ -44,6 +51,9 @@ $ docker-compose -f docker-compose-dev.yml logs
 // to build while the containter detached and up
 $ docker-compose -f docker-compose-dev.yml up -d --build
 ```
+
+# Accessing The Application
+1. On you web browser access `http://DOCKER_MACHINE_DEV_IP:3007` as found earlier
 
 # Running Tests
 1. Run tests using this command
