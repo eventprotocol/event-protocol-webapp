@@ -9,7 +9,7 @@ import { bugs, website, server } from "../../variables/general";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
-class Home extends React.Component {
+class Marketplace extends React.Component {
   state = {
     value: 0,
   }
@@ -27,8 +27,8 @@ class Home extends React.Component {
   }
 }
 
-Home.PropTypes = {
+Marketplace.PropTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Home);
+export default withStyles(dashboardStyle)(Marketplace);

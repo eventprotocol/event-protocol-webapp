@@ -3,7 +3,6 @@
 import Person from "@material-ui/icons/Person";
 
 import Dashboard from "@material-ui/icons/Dashboard";
-import ContentPaste from "@material-ui/icons/ContentPaste";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import BubbleChart from "@material-ui/icons/BubbleChart";
 import LocationOn from "@material-ui/icons/LocationOn";
@@ -11,15 +10,9 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 
 // core components/view
-import Home from "../views/Home/Home.jsx";
-import DashboardPage from "../views/Dashboard/Dashboard.jsx";
+import Marketplace from "../views/Marketplace/Marketplace.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
-import TableList from "../views/TableList/TableList.jsx";
-import Typography from "../views/Typography/Typography.jsx";
-import Icons from "../views/Icons/Icons.jsx";
-import Maps from "../views/Maps/Maps.jsx";
-import NotificationsPage from "../views/Notifications/Notifications.jsx";
-import UpgradeToPro from "../views/UpgradeToPro/UpgradeToPro.jsx";
+
 
 const dashboardRoutes = [
   {
@@ -27,7 +20,7 @@ const dashboardRoutes = [
     sidebarName: "Marketplace",
     navbarName: "Marketplace",
     icon: Dashboard,
-    component: Home
+    component: Marketplace
   },
   {
     path: "/user",
@@ -37,7 +30,7 @@ const dashboardRoutes = [
     component: UserProfile
   },
 
-  { redirect: true, path: "/", to: "/home", navbarName: "Redirect" }
+  { redirect: true, path: "/", to: "/marketplace", navbarName: "Redirect" }
 
 ];
 
