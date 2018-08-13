@@ -8,7 +8,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
-class Marketplace extends React.Component {
+class PublicProfile extends React.Component {
   state = {
     value: 0,
   }
@@ -26,8 +26,8 @@ class Marketplace extends React.Component {
   }
 }
 
-Marketplace.PropTypes = {
+PublicProfile.PropTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Marketplace);
+export default withStyles(dashboardStyle)(PublicProfile);

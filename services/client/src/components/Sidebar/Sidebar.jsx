@@ -25,7 +25,10 @@ const Sidebar = ({ ...props }) => {
   var links = (
     <List className={classes.list}>
       {routes.map((prop, key) => {
+        {/* Do not show these */}
         if (prop.redirect) return null;
+        if (prop.invisible) return null;
+
         var activePro = " ";
         var listItemClasses;
         if (prop.path === "/upgrade-to-pro") {
@@ -70,7 +73,7 @@ const Sidebar = ({ ...props }) => {
   // TODO chnage the a href if needed
   var brand = (
     <div className={classes.logo}>
-      <a href="#" className={classes.logoLink}>
+      <a href="marketplace" className={classes.logoLink}>
         <div className={classes.logoImage}>
           <img src={logo} alt="logo" className={classes.img} />
         </div>

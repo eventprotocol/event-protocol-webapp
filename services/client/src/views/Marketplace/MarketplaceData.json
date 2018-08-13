@@ -1,0 +1,34 @@
+[
+  {
+    "id": 0,
+    "name": "13% Gastro Wine @ Aliwal",
+    "location": "Singapore, SG",
+    "tags": ["Bars & Clubs", "Alcohol"],
+    "imgSrc": "./media/1.jpg",
+    "url": "https://justdelegate.co/vendor/singapore/venue-bars-clubs/13-gastro-wine-aliwal"
+  },
+  {
+    "id": 1,
+    "name": "Atipico",
+    "location": "Singapore, SG",
+    "tags": ["Buffets", "Canapes"],
+    "imgSrc": "./media/2.jpg",
+    "url": "https://justdelegate.co/vendor/singapore/food-beverage-caterers/atipico"
+  },
+  {
+    "id": 2,
+    "name": "39Artisan",
+    "location": "Singapore, SG",
+    "tags": ["Photographer"],
+    "imgSrc": "./media/2.jpg",
+    "url": "https://justdelegate.co/vendor/singapore/photography-videography-photographers/39artisan"
+  },
+  {
+    "id": 3,
+    "name": "1011 Production",
+    "location": "Singapore, SG",
+    "tags": ["Event Stylists"],
+    "imgSrc": "./media/3.jpg",
+    "url": "https://justdelegate.co/vendor/singapore/event-management-event-stylists/1011-production"
+  }
+ ]

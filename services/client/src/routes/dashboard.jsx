@@ -1,17 +1,13 @@
 // @material-ui/icons
 
 import Person from "@material-ui/icons/Person";
-
 import Dashboard from "@material-ui/icons/Dashboard";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
 
 // core components/view
 import Marketplace from "../views/Marketplace/Marketplace.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
+import PublicProfile from "../views/PublicProfile/PublicProfile.jsx";
+
 
 
 const dashboardRoutes = [
@@ -29,9 +25,15 @@ const dashboardRoutes = [
     icon: Person,
     component: UserProfile
   },
-
+  {
+    path: "/account/:id",
+    sidebarName: "Public Profile",
+    navbarName: "Public Profile",
+    icon: Person, 
+    invisible: true,
+    component: PublicProfile
+  },
   { redirect: true, path: "/", to: "/marketplace", navbarName: "Redirect" }
-
 ];
 
 export default dashboardRoutes;
