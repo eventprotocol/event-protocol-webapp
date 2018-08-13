@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 
-
-import { bugs, website, server } from "../../variables/general";
+// import 
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
-class Home extends React.Component {
+class PublicProfile extends React.Component {
   state = {
     value: 0,
   }
@@ -27,8 +26,8 @@ class Home extends React.Component {
   }
 }
 
-Home.PropTypes = {
+PublicProfile.PropTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Home);
+export default withStyles(dashboardStyle)(PublicProfile);

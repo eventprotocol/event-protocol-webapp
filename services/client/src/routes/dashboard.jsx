@@ -1,82 +1,39 @@
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
+
 import Person from "@material-ui/icons/Person";
-// import ContentPaste from "@material-ui/icons/ContentPaste";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import BubbleChart from "@material-ui/icons/BubbleChart";
-import LocationOn from "@material-ui/icons/LocationOn";
-import Notifications from "@material-ui/icons/Notifications";
-import Unarchive from "@material-ui/icons/Unarchive";
+import Dashboard from "@material-ui/icons/Dashboard";
+
 // core components/view
-import Home from "../views/Home/Home.jsx";
-import DashboardPage from "../views/Dashboard/Dashboard.jsx";
+import Marketplace from "../views/Marketplace/Marketplace.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
-import TableList from "../views/TableList/TableList.jsx";
-import Typography from "../views/Typography/Typography.jsx";
-import Icons from "../views/Icons/Icons.jsx";
-import Maps from "../views/Maps/Maps.jsx";
-import NotificationsPage from "../views/Notifications/Notifications.jsx";
-import UpgradeToPro from "../views/UpgradeToPro/UpgradeToPro.jsx";
+import PublicProfile from "../views/PublicProfile/PublicProfile.jsx";
+
+
 
 const dashboardRoutes = [
   {
-    path: "/home",
-    sidebarName: "Home",
-    navbarName: "Home",
+    path: "/marketplace",
+    sidebarName: "Marketplace",
+    navbarName: "Marketplace",
     icon: Dashboard,
-    component: Home
+    component: Marketplace
   },
   {
     path: "/user",
-    sidebarName: "User Profile",
+    sidebarName: "Profile",
     navbarName: "Profile",
     icon: Person,
     component: UserProfile
   },
   {
-    path: "/table",
-    sidebarName: "Table List",
-    navbarName: "Table List",
-    icon: "content_paste",
-    component: TableList
+    path: "/account/:id",
+    sidebarName: "Public Profile",
+    navbarName: "Public Profile",
+    icon: Person, 
+    invisible: true,
+    component: PublicProfile
   },
-  {
-    path: "/typography",
-    sidebarName: "Typography",
-    navbarName: "Typography",
-    icon: LibraryBooks,
-    component: Typography
-  },
-  {
-    path: "/icons",
-    sidebarName: "Icons",
-    navbarName: "Icons",
-    icon: BubbleChart,
-    component: Icons
-  },
-  {
-    path: "/maps",
-    sidebarName: "Maps",
-    navbarName: "Map",
-    icon: LocationOn,
-    component: Maps
-  },
-  {
-    path: "/notifications",
-    sidebarName: "Notifications",
-    navbarName: "Notifications",
-    icon: Notifications,
-    component: NotificationsPage
-  },
-  {
-    path: "/upgrade-to-pro",
-    sidebarName: "Upgrade To PRO",
-    navbarName: "Upgrade To PRO",
-    icon: Unarchive,
-    component: UpgradeToPro
-  },
-  { redirect: true, path: "/", to: "/home", navbarName: "Redirect" }
-
+  { redirect: true, path: "/", to: "/marketplace", navbarName: "Redirect" }
 ];
 
 export default dashboardRoutes;

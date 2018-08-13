@@ -16,14 +16,15 @@ import dashboardRoutes from "../../routes/dashboard.jsx";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
-import image from "../../assets/img/sidebar-2.jpg";
+import image from "../../assets/img/sidebar.jpg";
 import logo from "../../assets/img/logo.png";
 
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
+      if (prop.redirect) 
         return <Redirect from={prop.path} to={prop.to} key={key} />;
+     
       return <Route path={prop.path} component={prop.component} key={key} />;
     })}
   </Switch>
@@ -79,13 +80,17 @@ class App extends React.Component {
           color="blue"
           {...rest}
         />
+
+        {/* This is the main content */}
         <div className={classes.mainPanel} ref="mainPanel">
+          {/* This is the header */}
           <Header
             routes={dashboardRoutes}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />
-          {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
+
+          {/* This is the body */}
           {this.getRoute() ? (
             <div className={classes.content}>
               <div className={classes.container}>{switchRoutes}</div>
@@ -93,6 +98,8 @@ class App extends React.Component {
           ) : (
             <div className={classes.map}>{switchRoutes}</div>
           )}
+
+          {/* This is the footer */}
           {this.getRoute() ? <Footer /> : null}
         </div>
       </div>

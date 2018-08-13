@@ -15,11 +15,13 @@ import { DrizzleProvider } from 'drizzle-react';
 // Routes
 import indexRoutes from "./routes/index.jsx";
 
-// Components
+// css
 import "./assets/css/material-dashboard-react.css";
-import registerServiceWorker from './registerServiceWorker';
-import UsersList from './components/UsersList';
-import AddUser from './components/AddUser';
+
+// components
+import registerServiceWorker from "./registerServiceWorker.js";
+import PublicProfile from "./views/PublicProfile/PublicProfile.jsx";
+
 
 // Initialize browser history
 const hist = createBrowserHistory();
@@ -34,7 +36,7 @@ if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !==
 // Setup Drizzle
 // const options = {
 //   contracts: [
-//     // <<Insert Smart Contract Names>>:w
+//     // <<Insert Smart Contract Names>>
 //   ],
 //   events: {}
 // }
@@ -63,6 +65,8 @@ class App extends Component {
   };
 
   render() {
+    // Routes for dashboard
+    // Routes for account
     return (
       <Router history={hist}>
         <Switch>
