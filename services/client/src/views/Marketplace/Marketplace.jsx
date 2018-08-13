@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 
-// import 
+// import data
+// TODO: Intead these hardcoded data, to get json response from server
+import MarketplaceData from "./MarketplaceData.json";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
@@ -21,7 +23,16 @@ class Marketplace extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <h1>Test</h1>
+      <div>
+        <ul>
+        {
+          MarketplaceData.map((data) => {
+            return <li>{data.id} - {data.name}</li>
+          })
+        }
+        </ul>
+      </div>
+      
     );
   }
 }
