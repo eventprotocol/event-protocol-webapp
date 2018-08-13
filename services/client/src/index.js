@@ -34,12 +34,12 @@ if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !==
 }
 
 // Setup Drizzle
-// const options = {
-//   contracts: [
-//     // <<Insert Smart Contract Names>>
-//   ],
-//   events: {}
-// }
+const options = {
+  contracts: [
+    // <<Insert Smart Contract Names>>
+  ],
+  events: {}
+}
 
 class App extends Component {
   constructor() {

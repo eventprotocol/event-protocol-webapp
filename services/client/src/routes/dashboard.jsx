@@ -25,6 +25,7 @@ const dashboardRoutes = [
     sidebarName: "Workspace",
     navbarName: "Workspace",
     icon: BusinessCenter,
+    loginRequired: true,
     component: Workspace
   },
   {
@@ -32,6 +33,7 @@ const dashboardRoutes = [
     sidebarName: "Profile",
     navbarName: "Profile",
     icon: Person,
+    loginRequired: true,
     component: UserProfile
   },
 

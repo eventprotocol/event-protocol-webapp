@@ -2,6 +2,10 @@ import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
+
+// @material-ui/icons
+import Cloud from "@material-ui/icons/Cloud";
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Drawer from "@material-ui/core/Drawer";
@@ -11,10 +15,19 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Icon from "@material-ui/core/Icon";
+
 // core components
 import HeaderLinks from "../../components/Header/HeaderLinks.jsx";
-
 import sidebarStyle from "../../assets/jss/material-dashboard-react/components/sidebarStyle.jsx";
+
+
+const connected = {
+  color: "#92B558"
+}
+
+const notConnected = {
+  color: "#DC4C46"
+}
 
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
@@ -29,25 +42,18 @@ const Sidebar = ({ ...props }) => {
         if (prop.redirect) return null;
         if (prop.invisible) return null;
 
-        var activePro = " ";
         var listItemClasses;
-        if (prop.path === "/upgrade-to-pro") {
-          activePro = classes.activePro + " ";
-          listItemClasses = classNames({
-            [" " + classes[color]]: true
-          });
-        } else {
-          listItemClasses = classNames({
-            [" " + classes[color]]: activeRoute(prop.path)
-          });
-        }
+        listItemClasses = classNames({
+          [" " + classes[color]]: activeRoute(prop.path)
+        });
+        
         const whiteFontClasses = classNames({
           [" " + classes.whiteFont]: activeRoute(prop.path)
         });
         return (
           <NavLink
             to={prop.path}
-            className={activePro + classes.item}
+            className={classes.item}
             activeClassName="active"
             key={key}
           >
@@ -68,6 +74,34 @@ const Sidebar = ({ ...props }) => {
           </NavLink>
         );
       })}
+
+      {/* TODO: PROGRAM LOGIC FOR THIS*/}
+      {/* Display Connection to Ethereum */}
+      {/* Connected to Rinkeby */}
+      <ListItem className={classes.bottomNavbar}>
+        <ListItemIcon className={classes.itemIcon} style={connected} >
+          <Cloud/>
+        </ListItemIcon>
+        <ListItemText
+          primary="Connected (Rinkeby)"
+          className={classes.itemText}
+          disableTypography={true}
+        />        
+      </ListItem>
+
+      {/* Not connected to Rinkeby */}
+      {/*
+      <ListItem className={classes.bottomNavbar}>
+        <ListItemIcon className={classes.itemIcon} style={notConnected} >
+          <Cloud/>
+        </ListItemIcon>
+        <ListItemText
+          primary="Disconnected"
+          className={classes.itemText}
+          disableTypography={true}
+        />        
+      </ListItem>
+      */}      
     </List>
   );
   // TODO chnage the a href if needed
