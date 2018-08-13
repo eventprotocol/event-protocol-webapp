@@ -53,10 +53,10 @@ const buttonStyle = {
     "& svg": {
       position: "relative",
       display: "inline-block",
-      top: "0",
-      width: "18px",
-      height: "18px",
-      marginRight: "4px",
+      top: "-2px",
+      width: "23px",
+      height: "23px",
+      marginRight: "1px",
       verticalAlign: "middle"
     },
     "&$justIcon": {

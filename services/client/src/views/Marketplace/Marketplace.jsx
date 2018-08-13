@@ -61,8 +61,8 @@ class Marketplace extends React.Component {
                     /> 
                   </CardImage>
                   <CardBody>
-                    <h3>{data.name}</h3>
-                    <h5><strong>Tags: </strong>
+                    <h4>{data.name}</h4>
+                    <h6><strong>Tags: </strong>
                     {
                       data.tags.map((datum) => {
                         return (
@@ -72,7 +72,7 @@ class Marketplace extends React.Component {
                         );
                       })
                     }
-                    </h5>
+                    </h6>
 
 
                   </CardBody>
