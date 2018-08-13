@@ -34,7 +34,7 @@ if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !==
 // Setup Drizzle
 // const options = {
 //   contracts: [
-//     // <<Insert Smart Contract Names>>:w
+//     // <<Insert Smart Contract Names>>
 //   ],
 //   events: {}
 // }
