@@ -8,7 +8,7 @@ const cardImageStyle = {
   cardImageProfile: {
     maxWidth: "415px",
     maxHeight: "301px",
-    margin: "-15px auto 0",
+    margin: "-24px auto 0",
     overflow: "hidden",
     borderRadius: "2%",
     padding: "0",

@@ -2,6 +2,7 @@ import React from "react";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputLabel from "@material-ui/core/InputLabel";
+
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
@@ -10,10 +11,15 @@ import Button from "../../components/CustomButtons/Button.jsx";
 import Card from "../../components/Card/Card.jsx";
 import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardAvatar from "../../components/Card/CardAvatar.jsx";
+import CardImage from "../../components/Card/CardImage.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
 
-import avatar from "../../assets/img/faces/marc.jpg";
+import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
+
+
+// import data
+import UserData from "../../data/UserData.json";
 
 const styles = {
   cardCategoryWhite: {
@@ -23,6 +29,7 @@ const styles = {
     marginTop: "0",
     marginBottom: "0"
   },
+
   cardTitleWhite: {
     color: "#FFFFFF",
     marginTop: "0px",
@@ -31,8 +38,32 @@ const styles = {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
+  },
+
+  button: {
+    width: "65%",
+    margin: "5px"
+  },
+
+  centerer1: {
+    display: "flex",
+    "align-items": "center",
+    "justify-content": "center"
+  },
+
+  centerer2: {
+    "max-width": "50%"
+  },
+
+  fullbutton: {
+    width: "100%"
   }
 };
+
+
+// TODO: Grab user data from server given ethereum address provided
+// Currently for demo take UserData as id 0
+const idx = 0;
 
 function UserProfile(props) {
   const { classes } = props;
@@ -40,147 +71,114 @@ function UserProfile(props) {
     <div>
       <GridContainer>
         <GridItem xs={12} sm={12} md={7}>
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-              <p className={classes.cardCategoryWhite}>Complete your profile</p>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  {/* Ethereum address to obtain from drizzle */}
-                  <CustomInput
-                    labeltext="Ethereum Address"
-                    id="ethereum-address"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      disabled: true
-                    }}
-                  />
-                  <CustomInput
-                    labelText="Company Name"
-                    id="company"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={3}>
-                  <CustomInput
-                    labelText="Name"
-                    id="name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Email Address"
-                    id="email-address"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="First Name"
-                    id="first-name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Last Name"
-                    id="last-name"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="City"
-                    id="city"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Country"
-                    id="country"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={4}>
-                  <CustomInput
-                    labelText="Postal Code"
-                    id="postal-code"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-              <GridContainer>
-                <GridItem xs={12} sm={12} md={12}>
-                  <InputLabel style={{ color: "#AAAAAA" }}>About me</InputLabel>
-                  <CustomInput
-                    labelText="Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo."
-                    id="about-me"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      multiline: true,
-                      rows: 5
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
-            </CardBody>
-            <CardFooter>
-              <Button color="primary">Update Profile</Button>
-            </CardFooter>
-          </Card>
+          <CustomTabs
+            headerColor="info"
+            tabs={[
+              {
+                tabName: "Seller Profile",
+                tabContent: (
+                  <h1>Test</h1>
+                )
+              },
+              {
+                tabName: "Buyer Profile",
+                tabContent: (
+                  <h1>Test</h1>
+                )
+              },
+              {
+                tabName: "Verification",
+                tabContent: (
+                  <h1>Test</h1>
+                )
+              }
+            ]}
+          />
+         
         </GridItem>
 
 
         <GridItem xs={12} sm={12} md={5}>
           <Card profile>
-            <CardAvatar profile>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={avatar} alt="..." />
-              </a>
-            </CardAvatar>
+            <CardImage profile>
+              <img src={UserData[idx].imgSrc} alt="..." />
+            </CardImage>
             <CardBody profile>
-              <h6 className={classes.cardCategory}>CEO / CO-FOUNDER</h6>
-              <h4 className={classes.cardTitle}>Alec Thompson</h4>
-              <p className={classes.description}>
-                Don't be scared of the truth because we need to restart the
-                human foundation in truth And I love you like Kanye loves Kanye
-                I love Rick Owens’ bed design but the back is...
-              </p>
-              <Button color="primary" round>
-                Follow
+              <Button color="info" style={styles.button}>
+                Change Photo
               </Button>
+
+              <a href={"/account/" + UserData[idx].id}>
+                <Button color="info" style={styles.button}>
+                  View Profile
+                </Button>                
+              </a>
+
+              <br/>
+
+              <CustomInput
+                labelText="Ethereum Address"
+                id="ethereum-address"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  disabled: true
+                }}
+                value={UserData[idx].ethereumAddress}
+              />
+
+              <CustomInput
+                labelText="Name"
+                id="name"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                value={UserData[idx].name}
+              />              
+
+              <CustomInput
+                labelText="Email"
+                id="email"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                value={UserData[idx].email}
+              />   
+
+              <CustomInput
+                labelText="Country/City"
+                id="country-city"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                value={UserData[idx].cityCountry}
+              />   
+
+              <CustomInput
+                labelText="About"
+                id="About"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                inputProps={{
+                  multiline: true,
+                  rows: 5,
+                }}
+                value={UserData[idx].about}
+              />
             </CardBody>
           </Card>
         </GridItem>
       </GridContainer>
+
+      <div className="container" style={styles.centerer1}>
+        <div className="container" style={styles.centerer2}>
+          <Button color="info" style={styles.fullbutton}>
+            Save
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

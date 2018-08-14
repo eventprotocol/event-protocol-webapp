@@ -17,7 +17,7 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 
 // import data
 // TODO: Intead these hardcoded data, to get json response from server
-import MarketplaceData from "./MarketplaceData.json";
+import UserData from "../../data/UserData.json";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
@@ -50,7 +50,7 @@ class Marketplace extends React.Component {
       <div>
         <GridContainer>
         {
-          MarketplaceData.map((data) => {
+          UserData.map((data) => {
             return(
               <GridItem xs={12} sm={6} md={4}>
                 <a href={"/account/" + data.id}>
