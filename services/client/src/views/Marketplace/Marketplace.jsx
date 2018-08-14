@@ -53,6 +53,7 @@ class Marketplace extends React.Component {
           MarketplaceData.map((data) => {
             return(
               <GridItem xs={12} sm={6} md={4}>
+                <a href={"/account/" + data.id}>
                 <Card>
                   <CardImage profile>
                     <img
@@ -77,6 +78,7 @@ class Marketplace extends React.Component {
 
                   </CardBody>
                 </Card>
+                </a>
               </GridItem>
             );
           })

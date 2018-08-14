@@ -39,7 +39,7 @@ function UserProfile(props) {
   return (
     <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={8}>
+        <GridItem xs={12} sm={12} md={7}>
           <Card>
             <CardHeader color="primary">
               <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
@@ -47,10 +47,11 @@ function UserProfile(props) {
             </CardHeader>
             <CardBody>
               <GridContainer>
-                <GridItem xs={12} sm={12} md={5}>
+                <GridItem xs={12} sm={12} md={4}>
+                  {/* Ethereum address to obtain from drizzle */}
                   <CustomInput
-                    labelText="Company (disabled)"
-                    id="company-disabled"
+                    labeltext="Ethereum Address"
+                    id="ethereum-address"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -58,11 +59,18 @@ function UserProfile(props) {
                       disabled: true
                     }}
                   />
+                  <CustomInput
+                    labelText="Company Name"
+                    id="company"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={3}>
                   <CustomInput
-                    labelText="Username"
-                    id="username"
+                    labelText="Name"
+                    id="name"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -70,7 +78,7 @@ function UserProfile(props) {
                 </GridItem>
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
-                    labelText="Email address"
+                    labelText="Email Address"
                     id="email-address"
                     formControlProps={{
                       fullWidth: true
@@ -149,7 +157,9 @@ function UserProfile(props) {
             </CardFooter>
           </Card>
         </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
+
+
+        <GridItem xs={12} sm={12} md={5}>
           <Card profile>
             <CardAvatar profile>
               <a href="#pablo" onClick={e => e.preventDefault()}>
