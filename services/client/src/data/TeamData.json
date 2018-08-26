@@ -1,12 +1,62 @@
 [
   {
-    "name": "Melissa Lou",
-    "cityCountry": "Singapore, SG",
-    "email": "contact@13gastrowine.com",
-    "tags": ["Bars & Clubs", "Alcohol"],
-    "imgSrc": "./media/0.jpg",
-    "url": "https://justdelegate.co/vendor/singapore/venue-bars-clubs/13-gastro-wine-aliwal",
-    "about": "Melissa oversees Partnerships and Operations at Delegate. Melissa started the company together with her Co-Founder Jacqueline after realizing the market gap and inefficiencies of the events 	industry in Asia. Prior to founding Delegate, Melissa ran Partner Relations and Account Management at a global luxury lifestyle group.",
+    "id": "0",
+    "name": "MELISSA LOU",
+    "designation": "CO-FOUNDER",
+    "tag": "Productivity equals positivity",
+    "email": "melissa@eventprotocol.com",
+    "imgSrc": "./media/melissa.jpg",
+    "about": "Melissa oversees Partnerships and Operations at Delegate. Melissa started the company together with her Co-Founder Jacqueline after realizing the market gap and inefficiencies of the events industry in Asia. Prior to founding Delegate, Melissa ran Partner Relations and Account Management at a global luxury lifestyle group. A graduate of Ecole Hoteliere de Lausanne, Melissa brings to Delegate a high level of insight to the hospitality and events industry while providing strong organisational frameworks."
   },
+
+  {
+    "id": "1",
+    "name": "JACQUELINE YE",
+    "designation": "CO-FOUNDER",
+    "tag": "What you practice, you become",
+    "email": "jacq@eventprotocol.com",
+    "imgSrc": "./media/jacq.jpg",
+    "about": "Jacqueline heads up User Acquisition and Community Building and is the main driver of Delegate’s strategy and growth. Under Jacqueline’s leadership, Delegate has managed to capture a significant userbase and market share since the launch of the platform in August 2015. Jacqueline met Co-Founder Melissa while running Business Development and Marketing for a luxury group. She read Finance at Australian National University."
+  },
+
+  {
+    "id": "2",
+    "name": "AMERSON LIN",
+    "designation": "TECHNICAL ADVISOR",
+    "tag": "Less is more",
+    "email": "amerson@eventprotocol.com",
+    "imgSrc": "./media/amerson.jpg",
+    "about": "Amerson is currently serving as the Technical Advisor of Delegate. After reading computer science at Massachusetts Institute of Technology (MIT), he went on to spend some time in the Singapore Air Force before returning to his roots in the software business. He built his foundations as a Software Engineer at Pivotal Labs, a San Francisco consultancy, before becoming a tech lead in Palantir Technologies’ Asia Business Development team."
+  },
+
+  {
+    "id": "3",
+    "name": "JOSHIA SEAM",
+    "designation": "BLOCKCHAIN ENGINEER",
+    "tag": "Need to ask him lol",
+    "email": "joshia@eventprotocol.com",
+    "imgSrc": "./media/joshia.jpg",
+    "about": "Joshia Seam is a software engineer studying at Singapore University of Technology and Design. Under a research collaboration between TNO and SUTD, he researched on blockchain security.  He is a finalist in Smackathon a music blockchain hackathon organized by Pitbull, Zeppelin, and eMerge Americas."
+  },
+
+  {
+    "id": "4",
+    "name": "KESHIGEYAN CHANDRASEGARAN",
+    "designation": "BLOCKCHAIN ENGINEER",
+    "tag": "Need to think",
+    "email": "keshik@eventprotocol.com",
+    "imgSrc": "./media/keshik.jpg",
+    "about": "Keshigeyan Chandrasegaran is a software developer and data science student studying in Singapore University of Technology and Design. He has experiences in building blockchain applications on the Ethereum blockchain and is currently part of a research project focusing on sentimental analysis of tweets related to popular cryptocurrencies."
+  },
+
+  {
+    "id": "5",
+    "name": "JEREMY SEOW",
+    "designation": "PARTNER AT CHAINROCK",
+    "tag": "Need to think",
+    "email": "jeremy@eventprotocol.com",
+    "imgSrc": "./media/jeremy.jpg",
+    "about": "Jeremy is a Partner at ChainRock, a global digital asset investment firm where he heads up business development from Singapore. He was a Senior Product Manager at Zendesk, where he built and shipped the Zendesk message product. Jeremy joined Zendesk as a result of the acquisition of the chat startup, Zopim where he was the Director of Sales and oversaw all of sales and marketing as the startup grew from 50,000 users to 200,000 users."
+  }
 
 ]
