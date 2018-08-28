@@ -34,7 +34,6 @@ class TeamComponent extends React.Component{
       isFlipped: false
     };
     this.handleClick = this.handleClick.bind(this);
-    console.log(this.props);
   }
 
   handleClick(e) {

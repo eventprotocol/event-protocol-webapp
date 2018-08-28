@@ -14,7 +14,6 @@ import PublicProfile from "../views/PublicProfile/PublicProfile.jsx";
 import Resources from "../views/Resources/Resources.jsx";
 import Team from "../views/Team/Team.jsx";
 
-
 const dashboardRoutes = [
   {
     path: "/marketplace",
@@ -56,13 +55,12 @@ const dashboardRoutes = [
     component: Team
   },
 
-
   // These are invisible sidebar items for routing purposes
   {
     path: "/account/:id",
     sidebarName: "Public Profile",
     navbarName: "Public Profile",
-    icon: Person, 
+    icon: Person,
     invisible: true,
     component: PublicProfile
   },

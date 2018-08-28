@@ -8,9 +8,9 @@ import { Router, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
 // import Web3 and Drizzle
-import Web3 from 'web3';
-import { Web3Provider } from 'react-web3';
 import { DrizzleProvider } from 'drizzle-react';
+import { Drizzle, generateStore } from 'drizzle'
+import {BrowserRouter} from 'react-router-dom';
 
 // Routes
 import indexRoutes from "./routes/index.jsx";
@@ -22,23 +22,30 @@ import "./assets/css/material-dashboard-react.css";
 import registerServiceWorker from "./registerServiceWorker.js";
 import PublicProfile from "./views/PublicProfile/PublicProfile.jsx";
 
+import EventToken from "./data/EventToken.json";
+import DrizzleContainer from "./DrizzleContainer.js"
 
 // Initialize browser history
 const hist = createBrowserHistory();
 
-// Initialize Web3
-let web3 = new Web3();
-
-if (typeof window.web3 !== 'undefined' && typeof window.web3.currentProvider !== 'undefined') {
-  web3.setProvider(window.web3.currentProvider);
-}
 
 // Setup Drizzle
 const options = {
+  web3: {
+    block: false,
+    fallback: {
+      type: 'ws',
+      url: 'wss://rinkeby.infura.io/ws'
+    }
+  },
   contracts: [
     // <<Insert Smart Contract Names>>
+    EventToken
   ],
-  events: {}
+  polls: {
+    accounts: 3000,
+  },
+  events: {},
 }
 
 class App extends Component {
@@ -79,8 +86,15 @@ class App extends Component {
   };
 }
 
-ReactDOM.render(  
-  <App />,
+
+ReactDOM.render(
+  <DrizzleProvider options={options}>
+    <DrizzleContainer>
+       <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </DrizzleContainer>
+  </DrizzleProvider>,
   document.getElementById('root'));
 
 registerServiceWorker();

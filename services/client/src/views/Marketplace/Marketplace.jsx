@@ -32,7 +32,7 @@ const styles = {
   };
 
 class Marketplace extends React.Component {
-  
+
   state = {
     value: 0,
   }
@@ -59,7 +59,7 @@ class Marketplace extends React.Component {
                     <img
                       src={data.imgSrc}
                       alt="{data.name} picture"
-                    /> 
+                    />
                   </CardImage>
                   <CardBody>
                     <h4>{data.name}</h4>
@@ -85,7 +85,7 @@ class Marketplace extends React.Component {
         }
         </GridContainer>
       </div>
-      
+
     );
   }
 }
