@@ -94,7 +94,7 @@ function UserProfile(props) {
               }
             ]}
           />
-         
+
         </GridItem>
 
 
@@ -111,7 +111,7 @@ function UserProfile(props) {
               <a href={"/account/" + UserData[idx].id}>
                 <Button color="info" style={styles.button}>
                   View Profile
-                </Button>                
+                </Button>
               </a>
 
               <br/>
@@ -135,7 +135,7 @@ function UserProfile(props) {
                   fullWidth: true
                 }}
                 value={UserData[idx].name}
-              />              
+              />
 
               <CustomInput
                 labelText="Email"
@@ -144,7 +144,7 @@ function UserProfile(props) {
                   fullWidth: true
                 }}
                 value={UserData[idx].email}
-              />   
+              />
 
               <CustomInput
                 labelText="Country/City"
@@ -153,7 +153,7 @@ function UserProfile(props) {
                   fullWidth: true
                 }}
                 value={UserData[idx].cityCountry}
-              />   
+              />
 
               <CustomInput
                 labelText="About"

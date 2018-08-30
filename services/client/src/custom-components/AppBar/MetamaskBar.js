@@ -18,23 +18,27 @@ const styles = theme => ({
   },
 });
 
-function LongTextSnackbar(props) {
-  const { classes } = props;
+class MetamaskBar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  return (
+  render() {
+    return(
     <div align="center">
       <br></br>
-      <img src={require('./assets/img/logo.png')} height="142" width="142"/>
+      <img src={require('../../assets/img/logo.png')} height="142" width="142"/>
       <br></br>
       <br></br>
       <br></br>
-      <SnackbarContent className={classes.snackbar} message="We cant find  Ethereum accounts! Please check and make sure Metamask or your browser are pointed at the correct network and your account is unlocked" action={action} />
+      <SnackbarContent message={this.props.data} action={action} />
     </div>
-  );
+    );
+  }
 }
 
-LongTextSnackbar.propTypes = {
+MetamaskBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LongTextSnackbar);
+export default withStyles(styles)(MetamaskBar);

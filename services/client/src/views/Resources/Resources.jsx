@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
 
-// import 
+// import
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
@@ -26,8 +26,8 @@ class Resources extends React.Component {
   }
 }
 
-Resources.PropTypes = {
-  classes: PropTypes.object.isRequired
+Resources.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(dashboardStyle)(Resources);

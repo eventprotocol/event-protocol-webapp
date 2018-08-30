@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import ReactCardFlip from 'react-card-flip';
 
 // @material-ui/core
@@ -146,8 +146,8 @@ class Team extends React.Component {
   }
 }
 
-Team.PropTypes = {
-  classes: PropTypes.object.isRequired
+Team.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(dashboardStyle)(Team);

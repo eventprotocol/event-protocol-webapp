@@ -11,6 +11,7 @@ import axios from 'axios';
 import { DrizzleProvider } from 'drizzle-react';
 import { Drizzle, generateStore } from 'drizzle'
 import {BrowserRouter} from 'react-router-dom';
+import Web3 from 'web3';
 
 // Routes
 import indexRoutes from "./routes/index.jsx";
@@ -23,30 +24,15 @@ import registerServiceWorker from "./registerServiceWorker.js";
 import PublicProfile from "./views/PublicProfile/PublicProfile.jsx";
 
 import EventToken from "./data/EventToken.json";
-import DrizzleContainer from "./DrizzleContainer.js"
+import DrizzleContainer from "./drizzle-components/drizzle-container.js"
+import DrizzleAccount from "./drizzle-components/drizzle-account.js"
+import options from "./drizzle-components/drizzle-options.js";
 
 // Initialize browser history
 const hist = createBrowserHistory();
 
-
-// Setup Drizzle
-const options = {
-  web3: {
-    block: false,
-    fallback: {
-      type: 'ws',
-      url: 'wss://rinkeby.infura.io/ws'
-    }
-  },
-  contracts: [
-    // <<Insert Smart Contract Names>>
-    EventToken
-  ],
-  polls: {
-    accounts: 3000,
-  },
-  events: {},
-}
+// Initialize Web3
+let web3 = new Web3();
 
 class App extends Component {
   constructor() {
@@ -74,6 +60,7 @@ class App extends Component {
   render() {
     // Routes for dashboard
     // Routes for account
+
     return (
       <Router history={hist}>
         <Switch>

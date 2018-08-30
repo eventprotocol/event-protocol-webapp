@@ -19,12 +19,14 @@ import dashboardStyle from "../../assets/jss/material-dashboard-react/layouts/da
 import image from "../../assets/img/sidebar.jpg";
 import logo from "../../assets/img/logo.png";
 
+import AccountBalanceAppBar from "../../custom-components/AppBar/AccountBalanceBar.js";
+
 const switchRoutes = (
   <Switch>
     {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect) 
+      if (prop.redirect)
         return <Redirect from={prop.path} to={prop.to} key={key} />;
-     
+
       return <Route path={prop.path} component={prop.component} key={key} />;
     })}
   </Switch>
@@ -81,8 +83,11 @@ class App extends React.Component {
           {...rest}
         />
 
+        <div className={classes.mainPanel} ref="mainPanel"><AccountBalanceAppBar></AccountBalanceAppBar></div>
+
         {/* This is the main content */}
         <div className={classes.mainPanel} ref="mainPanel">
+
           {/* This is the header */}
           <Header
             routes={dashboardRoutes}

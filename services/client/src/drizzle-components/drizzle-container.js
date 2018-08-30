@@ -1,16 +1,15 @@
 import { drizzleConnect } from 'drizzle-react'
 import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
-import MySnackBar from './MySnackBar.js'
-
+import MetamaskSnackBar from '../custom-components/AppBar/MetamaskBar.js'
 
 /*
  * Create component.
  */
 class DrizzleContainer extends Component {
   render() {
-    console.log(this.props.accounts);
-    console.log(this.props);
+    //console.log(this.props.accounts);
+    //console.log(this.props);
     if (this.props.web3.status === 'failed')
     {
       if (this.props.errorComp) {
@@ -36,7 +35,7 @@ class DrizzleContainer extends Component {
         <main className="container loading-screen">
           <div className="pure-g">
             <div className="pure-u-1-1">
-            <MySnackBar></MySnackBar>
+            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your accout is unlocked"></MetamaskSnackBar>>
             </div>
           </div>
         </main>
@@ -53,8 +52,7 @@ class DrizzleContainer extends Component {
       <main className="container loading-screen">
         <div className="pure-g">
           <div className="pure-u-1-1">
-            <h1>⚙️</h1>
-            <p>Loading dapp...</p>
+          <MetamaskSnackBar data="Metamask connected. Please connect to the Rinkeby Test Network"></MetamaskSnackBar>>
           </div>
         </div>
       </main>
@@ -64,6 +62,7 @@ class DrizzleContainer extends Component {
 DrizzleContainer.contextTypes = {
   drizzle: PropTypes.object
 }
+
 /*
  * Export connected component.
  */
@@ -72,9 +71,6 @@ const mapStateToProps = state => {
     accounts: state.accounts,
     drizzleStatus: state.drizzleStatus,
     web3: state.web3,
-    accounts: state.accounts,
-    accountBalances: state.accountBalances,
-    contracts: state.contracts
   }
 }
 export default drizzleConnect(DrizzleContainer, mapStateToProps)

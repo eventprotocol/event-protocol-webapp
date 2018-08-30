@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+import propTypes from "prop-types";
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -20,6 +20,11 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 import UserData from "../../data/UserData.json";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+
+// import Web3 and Drizzle
+import { DrizzleProvider } from 'drizzle-react';
+import DrizzleAccount from "../../drizzle-components/drizzle-account.js"
+import options from "../../drizzle-components/drizzle-options.js";
 
 const styles = {
     card: {
@@ -44,10 +49,11 @@ class Marketplace extends React.Component {
   }
   render() {
     const { classes } = this.props;
-    
+
     // To do search filtering
     return (
       <div>
+      <DrizzleProvider options={options}>
         <GridContainer>
         {
           UserData.map((data) => {
@@ -74,8 +80,6 @@ class Marketplace extends React.Component {
                       })
                     }
                     </h6>
-
-
                   </CardBody>
                 </Card>
                 </a>
@@ -84,14 +88,15 @@ class Marketplace extends React.Component {
           })
         }
         </GridContainer>
+        </DrizzleProvider>
       </div>
 
     );
   }
 }
 
-Marketplace.PropTypes = {
-  classes: PropTypes.object.isRequired
+Marketplace.propTypes = {
+  classes: propTypes.object.isRequired
 };
 
 export default withStyles(dashboardStyle)(Marketplace);
