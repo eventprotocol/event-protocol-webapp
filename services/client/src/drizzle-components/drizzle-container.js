@@ -10,6 +10,7 @@ class DrizzleContainer extends Component {
   render() {
     //console.log(this.props.accounts);
     //console.log(this.props);
+
     if (this.props.web3.status === 'failed')
     {
       if (this.props.errorComp) {
@@ -28,9 +29,11 @@ class DrizzleContainer extends Component {
       )
     }
 
+
+
     if (this.props.web3.status === 'initialized' && Object.keys(this.props.accounts).length === 0)
     {
-      console.log(this.props.drizzleStatus);
+      //console.log(this.props.drizzleStatus);
       return(
         <main className="container loading-screen">
           <div className="pure-g">

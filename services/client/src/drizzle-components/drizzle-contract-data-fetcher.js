@@ -2,9 +2,7 @@ import { drizzleConnect } from 'drizzle-react'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import NameCard from "../custom-components/Card/NameCard.jsx";
-import Group from "@material-ui/icons/Group";
-import EventTokenIcon from "@material-ui/icons/AttachMoney";
+
 /*
  * Create component.
  */
@@ -27,14 +25,14 @@ class ContractData extends Component {
     // Contract is not yet intialized.
     if(!this.props.contracts[this.props.contract].initialized) {
       return (
-        <NameCard primary = "Initalizing" secondary="ET" icon={EventTokenIcon}></NameCard>
+        <span>Initalizing</span>
       )
     }
 
     // If the cache key we received earlier isn't in the store yet; the initial value is still being fetched.
     if(!(this.dataKey in this.props.contracts[this.props.contract][this.props.method])) {
       return (
-        <NameCard primary = "Fetching" secondary="ET" icon={EventTokenIcon}></NameCard>
+        <span>Fetching</span>
       )
     }
 
@@ -101,7 +99,7 @@ class ContractData extends Component {
       var factor = Math.pow(10, 2);
       displayData = Math.round(a * factor) / factor
       return(
-        <NameCard primary = {displayData} secondary="ET" icon={EventTokenIcon}></NameCard>
+        <span>{displayData}</span>
       )
     }
 

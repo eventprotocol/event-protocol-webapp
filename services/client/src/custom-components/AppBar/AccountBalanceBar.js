@@ -17,11 +17,15 @@ const styles = {
   },
 };
 
+// Edit the blockchain update parameter
+var vals = options;
+vals.polls.accounts = 10000;
+
 function AccountBalanceBar(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <DrizzleProvider options={options}>
+      <DrizzleProvider options={vals}>
       <AppBar position="static" color="default">
             <DrizzleAccount></DrizzleAccount>
       </AppBar>

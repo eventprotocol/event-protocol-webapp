@@ -5,8 +5,12 @@ import propTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // import
+import SecurityDepositComponent from "../../drizzle-components/drizzle-security-deposit.js";
+import EventToken from "../../data/EventToken.json";
+import { drizzleConnect } from 'drizzle-react'
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+
 
 class Resources extends React.Component {
   state = {
@@ -21,7 +25,9 @@ class Resources extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <h1>This is the resources page</h1>
+      <div>
+      <SecurityDepositComponent/>
+      </div>
     );
   }
 }

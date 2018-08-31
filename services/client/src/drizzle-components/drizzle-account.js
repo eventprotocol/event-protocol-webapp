@@ -17,6 +17,8 @@ import Grid from '@material-ui/core/Grid'
 import NameCard from '../custom-components/Card/NameCard.jsx'
 import EthereumIcon from "@material-ui/icons/AccountBalanceWalletTwoTone";
 import EventTokenIcon from "@material-ui/icons/AttachMoney";
+
+import Loading from "@material-ui/icons/CloudUpload"
 /*
  * Create component.
  */
@@ -54,12 +56,13 @@ class DrizzleAccount extends Component {
 
 
     if (this.props.drizzleStatus.initialized == true && this.context.drizzle.contracts.EventToken != undefined){
+      const myComponent = <BalanceComponent contract="EventToken" method="balanceOf" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]}/>
       return(
       <div>
         <Grid container alignItems="stretch" justify="">
         <Grid item xs={8}><NameCard primary = {address} secondary="Account" icon = {Group}></NameCard></Grid>
         <Grid item xs={2}><NameCard primary = {eth_balance} secondary={this.props.units} icon = {EthereumIcon}></NameCard></Grid>
-        <Grid item xs={2}><BalanceComponent contract="EventToken" method="balanceOf" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]} /></Grid>
+        <Grid item xs={2}><NameCard primary = {myComponent} secondary = "ET" icon = {EventTokenIcon}/></Grid>
         </Grid>
       </div>
       )

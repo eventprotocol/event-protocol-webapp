@@ -11,7 +11,7 @@ import Marketplace from "../views/Marketplace/Marketplace.jsx";
 import Workspace from "../views/Workspace/Workspace.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
 import PublicProfile from "../views/PublicProfile/PublicProfile.jsx";
-import Resources from "../views/Resources/Resources.jsx";
+import Wallet from "../views/Wallet/Wallet.jsx";
 import Team from "../views/Team/Team.jsx";
 
 const dashboardRoutes = [
@@ -39,12 +39,12 @@ const dashboardRoutes = [
     component: UserProfile
   },
   {
-    path: "/resources",
-    sidebarName: "Resources",
-    navbarName: "Resources",
+    path: "/wallet",
+    sidebarName: "Wallet",
+    navbarName: "Wallet",
     icon: Book,
     loginRequired: false,
-    component: Resources
+    component: Wallet
   },
   {
     path: "/team",

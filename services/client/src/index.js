@@ -15,7 +15,6 @@ import Web3 from 'web3';
 
 // Routes
 import indexRoutes from "./routes/index.jsx";
-
 // css
 import "./assets/css/material-dashboard-react.css";
 
@@ -72,7 +71,6 @@ class App extends Component {
     );
   };
 }
-
 
 ReactDOM.render(
   <DrizzleProvider options={options}>
