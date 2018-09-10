@@ -16,66 +16,10 @@ import EventTokenIcon from "@material-ui/icons/AttachMoney";
 
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import Popup from 'react-popup';
+import Popup from "reactjs-popup";
 /*
  * Create component.
  */
-
- /** The prompt content component */
- class Prompt extends React.Component {
-     constructor(props) {
-         super(props);
-
-         this.state = {
-             value: this.props.defaultValue
-         };
-
-         this.onChange = (e) => this._onChange(e);
-     }
-
-     componentDidUpdate(prevProps, prevState) {
-         if (prevState.value !== this.state.value) {
-             this.props.onChange(this.state.value);
-         }
-     }
-
-     _onChange(e) {
-         let value = e.target.value;
-
-         this.setState({value: value});
-     }
-
-     render() {
-         return <input type="text" placeholder={this.props.placeholder} className="mm-popup__input" value={this.state.value} onChange={this.onChange} />;
-     }
- }
-
- /** Prompt plugin */
- Popup.registerPlugin('prompt', function (defaultValue, placeholder, callback) {
-     let promptValue = null;
-     let promptChange = function (value) {
-         promptValue = value;
-     };
-
-     this.create({
-         title: 'What\'s your name?',
-         content: <Prompt onChange={promptChange} placeholder={placeholder} value={defaultValue} />,
-         buttons: {
-             left: ['cancel'],
-             right: [{
-                 text: 'Save',
-                 key: '⌘+s',
-                 className: 'success',
-                 action: function () {
-                     callback(promptValue);
-                     Popup.close();
-                 }
-             }]
-         }
-     });
- });
-
-
 
 class SecurityDepositAccount extends Component {
   constructor(props, context) {
@@ -102,7 +46,9 @@ class SecurityDepositAccount extends Component {
     // No accounts found.
     if(Object.keys(this.props.accounts).length === 0) {
       return (
-        <span>Initializing...</span>
+        <div>
+          <NameCard primary = "Initializing" secondary="ET" icon={EventTokenIcon}></NameCard>
+        </div>
       )
     }
 
@@ -122,7 +68,6 @@ class SecurityDepositAccount extends Component {
         <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClick}>
           <AddIcon />
         </Button>
-
       </div>
       )
     }
