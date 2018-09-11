@@ -3,20 +3,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SecurityDepositComponent from "../drizzle-components/drizzle-contract-data-fetcher.js";
 import EventToken from "../data/EventToken.json";
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Group from "@material-ui/icons/Group";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import Grid from '@material-ui/core/Grid'
 import NameCard from '../custom-components/Card/NameCard.jsx'
-import EthereumIcon from "@material-ui/icons/AccountBalanceWalletTwoTone";
 import EventTokenIcon from "@material-ui/icons/AttachMoney";
-
-
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import Popup from "reactjs-popup";
+import SecurityIcon from "@material-ui/icons/SecurityTwoTone";
+
 /*
  * Create component.
  */
@@ -37,17 +33,12 @@ class SecurityDepositAccount extends Component {
     return number/(Math.pow(10, 18));
   }
 
-  handleClick(e){
-    /** Call the plugin */
-    console.log("Clicked me");
-  }
-
   render() {
     // No accounts found.
     if(Object.keys(this.props.accounts).length === 0) {
       return (
         <div>
-          <NameCard primary = "Initializing" secondary="ET" icon={EventTokenIcon}></NameCard>
+          <NameCard primary = "Initializing" secondary="ET" icon={SecurityIcon}></NameCard>
         </div>
       )
     }
@@ -64,17 +55,14 @@ class SecurityDepositAccount extends Component {
       var myComponent = <SecurityDepositComponent contract="EventToken" method="allowance" methodArgs={[this.props.accounts[0], "0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8", {from: this.props.accounts[0]}]} />
       return(
       <div>
-        <NameCard primary = {myComponent} secondary = "Security Deposit" icon = {EventTokenIcon}></NameCard>
-        <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleClick}>
-          <AddIcon />
-        </Button>
+        <NameCard primary = {myComponent} secondary = "Security Deposit" icon = {SecurityIcon}></NameCard>
       </div>
       )
     }
     else{
       return(
       <div>
-        <NameCard primary = "Fetching" secondary="ET" icon={EventTokenIcon}></NameCard>
+        <NameCard primary = "Fetching" secondary="ET" icon={SecurityIcon}></NameCard>
       </div>
       )
     }
