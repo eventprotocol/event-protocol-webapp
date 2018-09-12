@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
+
 /*
  * Create component.
  */
@@ -39,13 +40,15 @@ class ContractForm extends Component {
   }
 
   handleSubmit() {
-    this.state._value = this.state._value*Math.pow(10,18);
+    let newState = Object.assign({}, this.state);;
+    newState._value = newState._value*Math.pow(10, 18)
+    this.state._value = "";
     if (this.props.sendArgs) {
-      return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(this.state), this.props.sendArgs);
+      return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
     }
 
-    this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(this.state));
-    this.state._value = "";
+    this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState));
+
   }
 
   handleInputChange(event) {
@@ -91,7 +94,7 @@ class ContractForm extends Component {
               />
             )
         })}
-        <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}>  <AddIcon/></Button>
+        <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button>
       </form>
     )
   }
@@ -107,7 +110,7 @@ ContractForm.contextTypes = {
 
 const mapStateToProps = state => {
   return {
-    contracts: state.contracts
+    contracts: state.contracts,
   }
 }
 

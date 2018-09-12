@@ -6,11 +6,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // import
 import SecurityDepositComponent from "../../drizzle-components/drizzle-security-deposit.js";
-import InceraseSecurityDepComponent from "../../drizzle-components/drizzle-increase-deposit.js";
+import IncreaseSecurityDepComponent from "../../drizzle-components/drizzle-increase-deposit.js";
 import EventToken from "../../data/EventToken.json";
 import { drizzleConnect } from 'drizzle-react'
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import { DrizzleProvider } from 'drizzle-react';
+import options from "../../drizzle-components/drizzle-options.js";
 
 
 class Resources extends React.Component {
@@ -27,8 +29,12 @@ class Resources extends React.Component {
     const { classes } = this.props;
     return (
       <div>
-      <SecurityDepositComponent/>
-      <InceraseSecurityDepComponent/>
+          <DrizzleProvider options = {options}>
+            <div>
+            <SecurityDepositComponent/>
+            <IncreaseSecurityDepComponent/>
+            </div>
+          </DrizzleProvider>
       </div>
     );
   }
