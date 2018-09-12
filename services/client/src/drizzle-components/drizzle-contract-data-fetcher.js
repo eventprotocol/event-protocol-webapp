@@ -93,8 +93,18 @@ class ContractData extends Component {
       )
     }
 
-    // This is to remove the decimels
+    // This is to remove the decimels for balanceOf
     if (this.props.method == "balanceOf"){
+      var a = parseInt(displayData)/Math.pow(10, 18);
+      var factor = Math.pow(10, 2);
+      displayData = Math.round(a * factor) / factor
+      return(
+        <span>{displayData}</span>
+      )
+    }
+
+    // This is to remove the decimels for allowance
+    if (this.props.method == "allowance"){
       var a = parseInt(displayData)/Math.pow(10, 18);
       var factor = Math.pow(10, 2);
       displayData = Math.round(a * factor) / factor
