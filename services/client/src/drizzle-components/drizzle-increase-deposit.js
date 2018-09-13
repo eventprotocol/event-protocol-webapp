@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
 import SecurityDepForm from "../drizzle-components/drizzle-increase-security-deposit-form.js"
+import Loading from "@material-ui/icons/CloudUpload"
 
 
 class IncreaseSecurityDeposit extends Component{
@@ -26,7 +27,11 @@ class IncreaseSecurityDeposit extends Component{
     else{
       return(
       <div>
-        <h1>Hello World</h1>
+        <form className="pure-form pure-form-stacked">
+            <input placeholder="Loading"
+            />
+          <Button variant="fab" color="primary" aria-label="Add"><Loading/></Button>
+        </form>
       </div>
       )
     }
@@ -47,7 +52,6 @@ const mapStateToProps = state => {
     drizzleStatus: state.drizzleStatus,
     web3: state.web3,
     contracts: state.contracts,
-    units: "ETH"
   }
 }
 

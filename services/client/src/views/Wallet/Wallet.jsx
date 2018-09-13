@@ -7,6 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import
 import SecurityDepositComponent from "../../drizzle-components/drizzle-security-deposit.js";
 import IncreaseSecurityDepComponent from "../../drizzle-components/drizzle-increase-deposit.js";
+import GetAllowanceComponent from "../../drizzle-components/drizzle-get-allowance-component.js"
 import EventToken from "../../data/EventToken.json";
 import { drizzleConnect } from 'drizzle-react'
 
@@ -33,6 +34,7 @@ class Resources extends React.Component {
             <div>
             <SecurityDepositComponent/>
             <IncreaseSecurityDepComponent/>
+            <GetAllowanceComponent/>
             </div>
           </DrizzleProvider>
       </div>

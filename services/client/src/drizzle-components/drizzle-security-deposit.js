@@ -3,12 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import SecurityDepositComponent from "../drizzle-components/drizzle-contract-data-fetcher.js";
 import EventToken from "../data/EventToken.json";
-import Group from "@material-ui/icons/Group";
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import Grid from '@material-ui/core/Grid'
 import NameCard from '../custom-components/Card/NameCard.jsx'
-import EventTokenIcon from "@material-ui/icons/AttachMoney";
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import SecurityIcon from "@material-ui/icons/SecurityTwoTone";
