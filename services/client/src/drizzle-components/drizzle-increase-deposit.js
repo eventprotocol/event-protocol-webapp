@@ -19,14 +19,14 @@ class IncreaseSecurityDeposit extends Component{
   render(){
     if (this.props.drizzleStatus.initialized == true && this.props.web3.status == "initialized"){
       return(
-      <div>
+      <div align = "center">
         <SecurityDepForm contract="EventToken" method="approve" labels={[" Security Account", " Add Deposit (ET)"]} sendArgs={{from: this.props.accounts[0]}}/>
       </div>
       )
     }
     else{
       return(
-      <div>
+      <div align="center">
         <form className="pure-form pure-form-stacked">
             <input placeholder="Loading"
             />

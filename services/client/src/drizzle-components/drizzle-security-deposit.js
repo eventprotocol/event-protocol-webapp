@@ -32,7 +32,7 @@ class SecurityDepositAccount extends Component {
     // No accounts found.
     if(Object.keys(this.props.accounts).length === 0) {
       return (
-        <div>
+        <div align="center">
           <NameCard primary = "Initializing" secondary="Security Deposit" icon={SecurityIcon}></NameCard>
         </div>
       )
@@ -56,7 +56,7 @@ class SecurityDepositAccount extends Component {
     }
     else{
       return(
-      <div>
+      <div align = "center">
         <NameCard primary = "Fetching" secondary="Security Deposit" icon={SecurityIcon}></NameCard>
       </div>
       )

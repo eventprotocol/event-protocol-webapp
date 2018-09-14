@@ -10,10 +10,12 @@ class CustomCard extends Component{
 
   render() {
     return(
+      <div>
       <ListItem>
             <this.props.icon />
           <ListItemText primary={this.props.primary} secondary= {this.props.secondary} />
       </ListItem>
+      </div>
     )
   }
 }

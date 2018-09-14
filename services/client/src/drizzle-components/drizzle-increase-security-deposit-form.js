@@ -73,7 +73,8 @@ class ContractForm extends Component {
 
   render() {
     return (
-      <form className="pure-form pure-form-stacked">
+      <div align="center">
+      <form className ="pure-form pure-form-stacked">
         {this.inputs.map((input, index) => {
             var inputType = this.translateType(input.type)
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
@@ -94,8 +95,11 @@ class ContractForm extends Component {
               />
             )
         })}
-        <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button>
+        <br></br>
+        <br></br>
+        <div align="center"><Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button></div>
       </form>
+      </div>
     )
   }
 }
