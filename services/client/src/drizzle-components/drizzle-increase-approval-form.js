@@ -43,6 +43,7 @@ class ContractForm extends Component {
     let newState = Object.assign({}, this.state);;
     newState._value = newState._value*Math.pow(10, 18)
     this.state._value = "";
+    this.state._spender = "";
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
     }
@@ -52,6 +53,7 @@ class ContractForm extends Component {
   }
 
   handleInputChange(event) {
+    console.log(this.state);
     this.setState({ [event.target.name]: event.target.value });
   }
 
@@ -79,13 +81,9 @@ class ContractForm extends Component {
             var inputType = this.translateType(input.type)
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
-            // Hardcode the security account address and dont show this field
-            if (input.name == "_spender"){
-              inputType = "hidden";
-              this.state[input.name] = "0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8"
-            }
             // check if input type is struct and if so loop out struct fields as well
             return (
+              <div>
               <input key={input.name}
               type={inputType}
               name={input.name}
@@ -93,9 +91,10 @@ class ContractForm extends Component {
               placeholder={inputLabel}
               onChange={this.handleInputChange}
               />
+              <h1></h1>
+              </div>
             )
         })}
-        <br></br>
         <br></br>
         <div align="center"><Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button></div>
       </form>

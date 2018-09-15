@@ -7,7 +7,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // import
 import SecurityDepositComponent from "../../drizzle-components/drizzle-security-deposit.js";
 import IncreaseSecurityDepComponent from "../../drizzle-components/drizzle-increase-deposit.js";
-import GetAllowanceComponent from "../../drizzle-components/drizzle-get-allowance-component.js"
+import GetAllowanceComponent from "../../drizzle-components/drizzle-get-allowance-component.js";
+import IncreaseApprovalComponent from "../../drizzle-components/drizzle-increase-approval.js"
 import EventToken from "../../data/EventToken.json";
 import { drizzleConnect } from 'drizzle-react'
 
@@ -33,11 +34,13 @@ class Resources extends React.Component {
     var primaryComponent_1 = <SecurityDepositComponent/>
     var secondaryComponent_1 = <IncreaseSecurityDepComponent/>
     var primaryComponent_2 = <GetAllowanceComponent/>
+
+    var primaryComponent_3 = <IncreaseApprovalComponent/>
     return (
       <div>
           <DrizzleProvider options = {options}>
             <div>
-            
+
             <GridList cellHeight={400} className={classes.gridList} cols={3}>
               <GridListTile>
               <WalletCard primary = {primaryComponent_1} secondary = {secondaryComponent_1} title="Increase Deposit"/>
@@ -46,6 +49,11 @@ class Resources extends React.Component {
               <GridListTile>
               <WalletCard primary = {primaryComponent_2} secondary = "" title = "Check Approval"/>
               </GridListTile>
+
+              <GridListTile>
+              <WalletCard primary = {primaryComponent_3} secondary = "" title = "Increase Approval"/>
+              </GridListTile>
+
             </GridList>
 
             </div>

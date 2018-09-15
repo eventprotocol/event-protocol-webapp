@@ -36,7 +36,8 @@ class GetAllowanceComponent extends Component {
     super(props);
     this.state = {
       spender: null,
-      val: "Enter the address above"
+      val: "",
+      btColor: "primary"
     };
     this.precisionRound = this.precisionRound.bind(this);
     this.convertToEther = this.convertToEther.bind(this);
@@ -55,7 +56,6 @@ class GetAllowanceComponent extends Component {
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value });
-    this.state.val = 0;
   }
 
   handleSubmit() {
@@ -65,7 +65,6 @@ class GetAllowanceComponent extends Component {
     }
 
     var myComponent = <SecurityDepositComponent contract="EventToken" method="allowance" methodArgs={[this.props.accounts[0], this.state.spender, {from: this.props.accounts[0]}]} />
-    console.log(myComponent);
     this.state.val = myComponent;
 
   }
@@ -87,7 +86,7 @@ class GetAllowanceComponent extends Component {
                 <br></br>
                 <br></br>
                 <div align="center">
-          <Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><SendIcon/></Button></div>
+          <Button variant="fab" color={this.state.btColor} aria-label="Add" onClick={this.handleSubmit}><SendIcon/></Button></div>
         </form>
         <br/>
 
@@ -108,7 +107,7 @@ class GetAllowanceComponent extends Component {
                   type="text"
                   name="spender"
                   value = {this.state.spender}
-                  placeholder= "spender"
+                  placeholder= "Ethereum Address"
                   onChange={this.handleInputChange}
                   />
                   <br></br>
