@@ -1,8 +1,5 @@
 # base image
-FROM risingstack/alpine:3.7-v8.10.0-4.8.0
-
-# add bash
-RUN apk add --no-cache bash
+FROM node:10
 
 # set working directory
 WORKDIR /app
@@ -17,8 +14,7 @@ ADD . /app
 ENV PATH /app/node_modules/.bin:$PATH
 
 # install and cache app dependencies
-RUN npm install
-RUN npm install react-scripts@1.1.4 -g
+RUN yarn install && yarn cache clean
 
 # start app
-CMD ["npm", "start"]
+CMD ["yarn", "start"]

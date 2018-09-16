@@ -1,8 +1,5 @@
 # build environment
-FROM risingstack/alpine:3.7-v8.10.0-4.8.0 as builder
-
-# Update and add bash
-RUN apk add --no-cache bash
+FROM node:10 as builder
 
 # make directory
 RUN mkdir /app
@@ -25,14 +22,13 @@ ENV REACT_APP_USERS_SERVICE_URL $REACT_APP_USERS_SERVICE_URL
 COPY package.json /app/package.json
 
 # install node packages
-RUN npm install
-RUN npm install react-scripts@1.1.4 -g
+RUN yarn install
 
 # COPY folder
 COPY . /app
 
 # run build
-RUN npm run build
+RUN yarn run build
 
 # production  environment
 FROM  nginx:1.15
