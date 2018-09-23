@@ -38,7 +38,7 @@ class DrizzleContainer extends Component {
         <main className="container loading-screen">
           <div className="pure-g">
             <div className="pure-u-1-1">
-            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your accout is unlocked"></MetamaskSnackBar>>
+            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"></MetamaskSnackBar>>
             </div>
           </div>
         </main>
