@@ -35,25 +35,45 @@ def add_user():
     """
     Add user in to database
     """
+    # Get json post request
     post_data = request.get_json()
     response_object = {
         'status': 'fail',
         'message': 'Invalid payload.'
     }
 
+    # if post data is None, return error
     if not post_data:
         return jsonify(response_object), 400
 
+    # get eth_address and sanitize
     eth_address = post_data.get('eth_address')
-
     eth_address = eth_address.strip()
 
+    # TODO
+    # get signed message
+    # f("You agree to sign up for Event Protocol Services", private key)
+    # To obtain "You agree to sign up for Event Protocol Services" upon
+    # decryption with public key
+    sign_message = post_data.get('sign_message')
+    sign_message = sign_message.strip()
+
+    # decrypt sign message with eth address
+    decrypt_message = "You agree to sign up for Event Protocol Services"
+
+    # If the message do not match
+    if decrypt_message != "You agree to sign up for Event Protocol Services":
+        return jsonify(response_object), 400
+
+    # if eth address is an empty string return error
     if eth_address == '':
         return jsonify(response_object), 400
 
+    # add eth address to database
     try:
         user = User.query.filter_by(eth_address=eth_address).first()
 
+        # if eth address does not exist we add the entry
         if not user:
             db.session.add(User(eth_address=eth_address))
             db.session.commit()
@@ -61,11 +81,13 @@ def add_user():
             response_object['message'] = f'{eth_address} was added!'
             return jsonify(response_object), 201
 
+        # if the eth address exists we throw an error
         else:
             response_object['message'] = \
                 'Sorry. That eth address already exists.'
             return jsonify(response_object), 400
 
+    # Throw integrityError if this does not work
     except exc.IntegrityError as e:
         db.session.rollback()
         return jsonify(response_object), 400

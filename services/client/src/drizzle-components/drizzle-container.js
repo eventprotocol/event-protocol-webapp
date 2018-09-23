@@ -46,6 +46,7 @@ class DrizzleContainer extends Component {
     }
     if (this.props.drizzleStatus.initialized)
     {
+      // TODO: Send signed message to flask endpoint. 
       return Children.only(this.props.children)
     }
     if (this.props.loadingComp) {
