@@ -1,20 +1,25 @@
 # base image
 FROM node:10
 
+# Make directory
+RUN mkdir -p /app
+
+# Copy package.json and yarn.lock file first and build 
+COPY yarn.lock /app/yarn.lock
+COPY package.json /app/package.json
+
 # set working directory
 WORKDIR /app
 
-# Make directory
-RUN mkdir -p /app
+# install and cache app dependencies
+# RUN yarn install --pure-lockfile && yarn cache clean
+RUN yarn install --pure-lockfile
 
 # add folder
 ADD . /app
 
 # add */node_modules/.bin to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
-
-# install and cache app dependencies
-RUN yarn install && yarn cache clean
 
 # start app
 CMD ["yarn", "start"]

@@ -3,13 +3,22 @@ import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
 import MetamaskSnackBar from '../custom-components/AppBar/MetamaskBar.js'
 
+// axios for server access
+import axios from 'axios';
+
+
 /*
  * Create component.
  */
 class DrizzleContainer extends Component {
+  constructor(props, context) {
+    super(props);
+  }
+
+
   render() {
-    //console.log(this.props.accounts);
-    //console.log(this.props);
+    // console.log(this.props.accounts);
+    // console.log(this.props);
 
     if (this.props.web3.status === 'failed')
     {
@@ -38,15 +47,36 @@ class DrizzleContainer extends Component {
         <main className="container loading-screen">
           <div className="pure-g">
             <div className="pure-u-1-1">
-            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"></MetamaskSnackBar>>
+            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"></MetamaskSnackBar>
             </div>
           </div>
         </main>
       )
     }
     if (this.props.drizzleStatus.initialized)
-    {
-      // TODO: Send signed message to flask endpoint. 
+    {     
+
+      var web3Instance = this.context.drizzle.web3;
+      var userAccount = this.props.accounts[0];
+
+      // To prevent repetitive request to sign message we request from server
+      axios.get('/users/' + userAccount)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => { 
+        console.log(err); 
+      });
+
+      // use web3.js to sign message     
+      // console.log(web3Instance);
+
+      var hashedMsg =  web3Instance.utils.sha3("EventProtocol");
+      var userAccount = this.props.accounts[0];
+
+      // var signedMsg = web3Instance.eth.sign(hashedMsg, userAccount);
+      // console.log(signedMsg);
+
       return Children.only(this.props.children)
     }
     if (this.props.loadingComp) {
@@ -56,13 +86,14 @@ class DrizzleContainer extends Component {
       <main className="container loading-screen">
         <div className="pure-g">
           <div className="pure-u-1-1">
-          <MetamaskSnackBar data="Metamask connected. Please connect to the Rinkeby Test Network"></MetamaskSnackBar>>
+          <MetamaskSnackBar data="Metamask connected. Please connect to the Rinkeby Test Network"></MetamaskSnackBar>
           </div>
         </div>
       </main>
     )
   }
 }
+
 DrizzleContainer.contextTypes = {
   drizzle: PropTypes.object
 }
@@ -74,6 +105,7 @@ const mapStateToProps = state => {
   return {
     accounts: state.accounts,
     drizzleStatus: state.drizzleStatus,
+    // Note that this only exposes the state of web3 and not the actual web3 instance itself
     web3: state.web3,
   }
 }

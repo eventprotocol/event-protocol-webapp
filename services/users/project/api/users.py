@@ -50,20 +50,22 @@ def add_user():
     eth_address = post_data.get('eth_address')
     eth_address = eth_address.strip()
 
-    # TODO
+    # TODO to evaluatate whether ethereum address is a sufficient proof of identity
     # get signed message
     # f("You agree to sign up for Event Protocol Services", private key)
     # To obtain "You agree to sign up for Event Protocol Services" upon
     # decryption with public key
-    sign_message = post_data.get('sign_message')
-    sign_message = sign_message.strip()
+
+    # sign_message = post_data.get('sign_message')
+    # sign_message = sign_message.strip()
 
     # decrypt sign message with eth address
-    decrypt_message = "You agree to sign up for Event Protocol Services"
+    # decrypt_message = "EventProtocol"
 
     # If the message do not match
-    if decrypt_message != "You agree to sign up for Event Protocol Services":
-        return jsonify(response_object), 400
+
+    # if decrypt_message != "EventProtocol":
+    #    return jsonify(response_object), 400
 
     # if eth address is an empty string return error
     if eth_address == '':
@@ -81,7 +83,7 @@ def add_user():
             response_object['message'] = f'{eth_address} was added!'
             return jsonify(response_object), 201
 
-        # if the eth address exists we throw an error
+        # if the eth address exists login
         else:
             response_object['message'] = \
                 'Sorry. That eth address already exists.'
@@ -93,8 +95,8 @@ def add_user():
         return jsonify(response_object), 400
 
 
-@users_blueprint.route('/users/<user_id>', methods=['GET'])
-def get_single_user(user_id):
+@users_blueprint.route('/users/id/<user_id>', methods=['GET'])
+def get_single_user_by_id(user_id):
     """
     Get single user details
     """
@@ -127,6 +129,40 @@ def get_single_user(user_id):
     except exc.DataError:
         return jsonify(response_object), 404
 
+
+@users_blueprint.route('/users/eth_address/<eth_address>', methods=['GET'])
+def get_single_user_by_eth_address(eth_address):
+    """
+    Get single user details
+    """
+    response_object = {
+        'status': 'fail',
+        'message': 'User does not exist'
+    }
+
+    try:
+        user = User.query.filter_by(eth_address=eth_address).first()
+
+        if not user:
+            return jsonify(response_object), 404
+
+        else:
+            response_object = {
+                'status': 'success',
+                'data': {
+                    'id': user.id,
+                    'eth_address': user.eth_address,
+                    'active': user.active
+                }
+            }
+
+            return jsonify(response_object), 200
+
+    except ValueError:
+        return jsonify(response_object), 404
+
+    except exc.DataError:
+        return jsonify(response_object), 404
 
 @users_blueprint.route('/users', methods=['GET'])
 def get_all_users():

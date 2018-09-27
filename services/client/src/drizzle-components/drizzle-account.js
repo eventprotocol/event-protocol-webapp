@@ -55,7 +55,7 @@ class DrizzleAccount extends Component {
     eth_balance = this.precisionRound(eth_balance, 2);
 
 
-    if (this.props.drizzleStatus.initialized == true && this.context.drizzle.contracts.EventToken != undefined){
+    if (this.props.drizzleStatus.initialized === true && this.context.drizzle.contracts.EventToken !== undefined){
       const myComponent = <BalanceComponent contract="EventToken" method="balanceOf" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]}/>
       return(
       <div>
