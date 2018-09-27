@@ -16,7 +16,7 @@ WORKDIR /app
 RUN yarn install --pure-lockfile
 
 # add folder
-ADD . /app
+COPY . /app
 
 # add */node_modules/.bin to $PATH
 ENV PATH /app/node_modules/.bin:$PATH

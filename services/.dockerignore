@@ -2,8 +2,8 @@ env
 .dockerignore
 Dockerfile-dev
 Dockerfile-prod
-htmlcov/
-node_modules/
+htmlcov
+node_modules
 coverage
-build/
+build
 *.md

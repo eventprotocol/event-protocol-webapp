@@ -13,6 +13,9 @@ import axios from 'axios';
 class DrizzleContainer extends Component {
   constructor(props, context) {
     super(props);
+    this.state = {
+      signRequest: false,
+    }
   }
 
 
@@ -62,42 +65,50 @@ class DrizzleContainer extends Component {
       // To prevent repetitive request to sign message we request from server
       axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
-        // console.log("success")
-        // console.log(res);
+        // console.log("success");
+        // console.log(res.data);
 
-        if(res.data.message === "User account not found") {
+        if(res.data.data.message === "User account not found") {
           // If the user account does not exist we register the ethereum address
           var hashedMsg =  web3Instance.utils.sha3("EventProtocol");
-          var signedMsg = web3Instance.eth.sign(hashedMsg, userAccount);
 
+          if(!this.state.signRequest) {
+            this.state.signRequest = true;
 
+            // TODO: NOTE THAT THIS MAY BE DEPRECATED IN FUTURE 
+            web3Instance.eth.sign(hashedMsg, userAccount)
+            .then((signedMsg) => {
+              console.log("SignedMessage");
+              console.log(signedMsg);
 
-          axios.post('/users', {
-            eth_address: userAccount,
-            signed_message: signedMsg,
+              axios.post('/users', {
+                eth_address: userAccount,
+                signed_message: signedMsg,
 
-          })
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
+              })
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });          
 
-
+            })
+            .catch((err) => {
+              this.state.signRequest = false;
+              console.log(err);
+            });
+          }
         } 
 
         // request for session token 
 
-
       })
       .catch((err) => { 
-        // console.log("fail")
+        console.log("fail")
         console.log(err); 
       });
 
-
-      // console.log(signedMsg);
 
       return Children.only(this.props.children)
     }
@@ -117,7 +128,7 @@ class DrizzleContainer extends Component {
 }
 
 DrizzleContainer.contextTypes = {
-  drizzle: PropTypes.object
+  drizzle: PropTypes.object,
 }
 
 /*

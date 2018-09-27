@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
+import web3
 
 from project.api.models import User
 from project import db
@@ -51,16 +52,20 @@ def add_user():
     eth_address = eth_address.strip()
 
     # get signed message
-    sign_message = post_data.get('signed_message')
-    sign_message = sign_message.strip()
+    signed_message = post_data.get('signed_message')
+    signed_message = signed_message.strip()
 
-    # decrypt sign message with eth address
-    # decrypt_message = "EventProtocol"
+    # verify signed messag
+    acc = web3.eth.Account()
 
-    # If the message do not match
+    # sha3('EventProtocol') = '0x10dc127b5f076691f4dcf6b485d12179195cbe70e226dce5c333254592dca71e'
+    message_hash = '0x10dc127b5f076691f4dcf6b485d12179195cbe70e226dce5c333254592dca71e'
 
-    # if decrypt_message != "EventProtocol":
-    #    return jsonify(response_object), 400
+    sign_eth_addr = acc.recoverHash(message_hash, signature=signed_message)
+
+    # check if addresses match, otherwise send error
+    if sign_eth_addr != eth_address:
+        return jsonify(response_object), 400
 
     # if eth address is an empty string return error
     if eth_address == '':
@@ -78,6 +83,7 @@ def add_user():
             response_object['message'] = f'{eth_address} was added!'
 
             # send a jwt token for authentication 
+
             return jsonify(response_object), 201
 
         # If the eth address exists login
