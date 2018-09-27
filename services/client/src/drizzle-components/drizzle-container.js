@@ -60,21 +60,43 @@ class DrizzleContainer extends Component {
       var userAccount = this.props.accounts[0];
 
       // To prevent repetitive request to sign message we request from server
-      axios.get('/users/' + userAccount)
+      axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
-        console.log(res);
+        // console.log("success")
+        // console.log(res);
+
+        if(res.data.message === "User account not found") {
+          // If the user account does not exist we register the ethereum address
+          var hashedMsg =  web3Instance.utils.sha3("EventProtocol");
+          var signedMsg = web3Instance.eth.sign(hashedMsg, userAccount);
+
+
+
+          axios.post('/users', {
+            eth_address: userAccount,
+            signed_message: signedMsg,
+
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+
+
+        } 
+
+        // request for session token 
+
+
       })
       .catch((err) => { 
+        // console.log("fail")
         console.log(err); 
       });
 
-      // use web3.js to sign message     
-      // console.log(web3Instance);
 
-      var hashedMsg =  web3Instance.utils.sha3("EventProtocol");
-      var userAccount = this.props.accounts[0];
-
-      // var signedMsg = web3Instance.eth.sign(hashedMsg, userAccount);
       // console.log(signedMsg);
 
       return Children.only(this.props.children)

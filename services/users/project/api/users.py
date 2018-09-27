@@ -50,14 +50,9 @@ def add_user():
     eth_address = post_data.get('eth_address')
     eth_address = eth_address.strip()
 
-    # TODO to evaluatate whether ethereum address is a sufficient proof of identity
     # get signed message
-    # f("You agree to sign up for Event Protocol Services", private key)
-    # To obtain "You agree to sign up for Event Protocol Services" upon
-    # decryption with public key
-
-    # sign_message = post_data.get('sign_message')
-    # sign_message = sign_message.strip()
+    sign_message = post_data.get('signed_message')
+    sign_message = sign_message.strip()
 
     # decrypt sign message with eth address
     # decrypt_message = "EventProtocol"
@@ -81,13 +76,25 @@ def add_user():
             db.session.commit()
             response_object['status'] = 'success'
             response_object['message'] = f'{eth_address} was added!'
+
+            # send a jwt token for authentication 
             return jsonify(response_object), 201
 
-        # if the eth address exists login
+        # If the eth address exists login
         else:
-            response_object['message'] = \
-                'Sorry. That eth address already exists.'
-            return jsonify(response_object), 400
+            response_object = {
+                'status': 'success',
+                'data': {
+                    'id': user.id,
+                    'eth_address': user.eth_address,
+                    'active': user.active,
+                    'message': 'Welcome back'
+                }
+            }
+
+            # sent a jwt token for authentication
+
+            return jsonify(response_object), 200
 
     # Throw integrityError if this does not work
     except exc.IntegrityError as e:
@@ -102,14 +109,20 @@ def get_single_user_by_id(user_id):
     """
     response_object = {
         'status': 'fail',
-        'message': 'User does not exist'
+        'message': 'Error'
     }
 
     try:
         user = User.query.filter_by(id=user_id).first()
 
         if not user:
-            return jsonify(response_object), 404
+            response_object = {
+                'status': 'success',
+                'data': {
+                    'message': 'User account not found'
+                }
+            }            
+            return jsonify(response_object), 200
 
         else:
             response_object = {
@@ -124,9 +137,13 @@ def get_single_user_by_id(user_id):
             return jsonify(response_object), 200
 
     except ValueError:
+        response_object['message'] = \
+            'ValueError'
         return jsonify(response_object), 404
 
     except exc.DataError:
+        response_object['message'] = \
+            'DataError'        
         return jsonify(response_object), 404
 
 
@@ -144,7 +161,13 @@ def get_single_user_by_eth_address(eth_address):
         user = User.query.filter_by(eth_address=eth_address).first()
 
         if not user:
-            return jsonify(response_object), 404
+            response_object = {
+                'status': 'success',
+                'data': {
+                    'message': 'User account not found'
+                }
+            }            
+            return jsonify(response_object), 200
 
         else:
             response_object = {
@@ -159,10 +182,15 @@ def get_single_user_by_eth_address(eth_address):
             return jsonify(response_object), 200
 
     except ValueError:
+        response_object['message'] = \
+            'ValueError'
         return jsonify(response_object), 404
 
     except exc.DataError:
+        response_object['message'] = \
+            'DataError'        
         return jsonify(response_object), 404
+
 
 @users_blueprint.route('/users', methods=['GET'])
 def get_all_users():
