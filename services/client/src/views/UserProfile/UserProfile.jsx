@@ -14,7 +14,6 @@ import CardAvatar from "../../components/Card/CardAvatar.jsx";
 import CardImage from "../../components/Card/CardImage.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
-
 import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
 
 
@@ -142,9 +141,7 @@ function UserProfile(props) {
                   View Profile
                 </Button>
               </a>
-
-              <br/>
-
+            
               <CustomInput
                 labelText="Ethereum Address"
                 id="ethereum-address"
