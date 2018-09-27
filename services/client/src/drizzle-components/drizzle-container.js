@@ -95,6 +95,7 @@ class DrizzleContainer extends Component {
 
             })
             .catch((err) => {
+              // reset sign request
               this.state.signRequest = false;
               console.log(err);
             });

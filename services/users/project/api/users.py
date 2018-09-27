@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
 import web3
+import jwt
 
 from project.api.models import User
 from project import db
@@ -34,7 +35,10 @@ def ping_pong():
 @users_blueprint.route('/users', methods=['POST'])
 def add_user():
     """
-    Add user in to database
+    Checks if signature is valid then
+    Add user into database.
+    OR
+    Logins if user is already in database
     """
     # Get json post request
     post_data = request.get_json()
@@ -49,10 +53,18 @@ def add_user():
 
     # get eth_address and sanitize
     eth_address = post_data.get('eth_address')
+    if eth_address == '' or eth_address == None:
+        response_object['message'] = "Eth address error"
+        return jsonify(response_object), 400
+
     eth_address = eth_address.strip()
 
     # get signed message
     signed_message = post_data.get('signed_message')
+    if signed_message == '' or signed_message == None:
+        response_object['message'] = "Signed message error"
+        return jsonify(response_object), 400
+
     signed_message = signed_message.strip()
 
     # verify signed messag
@@ -65,11 +77,11 @@ def add_user():
 
     # check if addresses match, otherwise send error
     if sign_eth_addr != eth_address:
+        response_object['message'] = "Invalid signature"
         return jsonify(response_object), 400
 
     # if eth address is an empty string return error
-    if eth_address == '':
-        return jsonify(response_object), 400
+
 
     # add eth address to database
     try:
