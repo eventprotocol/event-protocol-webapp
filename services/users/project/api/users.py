@@ -60,6 +60,8 @@ def add_user():
     eth_address = eth_address.strip()
 
     # get signed message
+    # TODO to add a nonce, this is vulnerable to replay attacks
+    # to check implementation of recoverHash
     signed_message = post_data.get('signed_message')
     if signed_message == '' or signed_message == None:
         response_object['message'] = "Signed message error"
@@ -89,10 +91,18 @@ def add_user():
 
         # if eth address does not exist we add the entry
         if not user:
-            db.session.add(User(eth_address=eth_address))
+            user = User(eth_address=eth_address)
+
+            # insert user
+            db.session.add(user)
             db.session.commit()
+
+            # generate auth token
+            auth_token = user.encode_auth_token(user.id)
+
             response_object['status'] = 'success'
             response_object['message'] = f'{eth_address} was added!'
+            response_object['auth_token'] = auth_token.decode()
 
             # send a jwt token for authentication 
 
@@ -100,6 +110,7 @@ def add_user():
 
         # If the eth address exists login
         else:
+            auth_token = user.encode_auth_token(user.id)
             response_object = {
                 'status': 'success',
                 'data': {
@@ -107,7 +118,8 @@ def add_user():
                     'eth_address': user.eth_address,
                     'active': user.active,
                     'message': 'Welcome back'
-                }
+                },
+                'auth_token': auth_token.decode()
             }
 
             # sent a jwt token for authentication

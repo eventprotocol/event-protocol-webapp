@@ -234,6 +234,24 @@ class TestUserService(BaseTestCase):
                 response.data
             )
 
+    def test_encode_auth_token(self):
+        """
+        Ensure that we can encode auth token
+        """
+        user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        auth_token = user.encode_auth_token(user.id)
+        print(auth_token)
+        self.assertTrue(isinstance(auth_token, bytes))
+
+    def test_decode_auth_token(self):
+        """
+        Ensure that we can decode auth token
+        """
+        user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        auth_token = user.encode_auth_token(user.id)
+        self.assertTrue(isinstance(auth_token, bytes))
+        self.assertEqual(User.decode_auth_token(auth_token), user.id)
+
 
 if __name__ == '__main__':
     unittest.main()
