@@ -71,13 +71,14 @@ function UserProfile(props) {
     <div>
       <GridContainer>
         <GridItem xs={12} sm={12} md={7}>
+          {/*
           <CustomTabs
             headerColor="info"
             tabs={[
               {
                 tabName: "Seller Profile",
                 tabContent: (
-                  <h1>Test</h1>
+                  <h1></h1>
                 )
               },
               {
@@ -94,7 +95,35 @@ function UserProfile(props) {
               }
             ]}
           />
+        */}
+          <CustomTabs
+            headerColor="info"
+            tabs={[
+              {
+                tabName: "Verification",
+                tabContent: (
+                  <div>
+                  <h1>Verification</h1>
+                  <Button color="info" style={styles.button}>
+                    Authenticate With Facebook
+                  </Button>
 
+                  <Button color="info" style={styles.button}>
+                    Authenticate With Google+
+                  </Button>
+
+                  <Button color="info" style={styles.button}>
+                    Authenticate With Twitter
+                  </Button>
+
+                  <Button color="info" style={styles.button}>
+                    Authenticate With LinkedIn
+                  </Button>
+                  </div>
+                )
+              }
+            ]}
+          />
         </GridItem>
 
 
