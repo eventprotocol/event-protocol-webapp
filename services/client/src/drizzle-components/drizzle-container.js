@@ -73,31 +73,36 @@ class DrizzleContainer extends Component {
         if(!this.state.signRequest) {
           this.state.signRequest = true;
 
-          // TODO: NOTE THAT THIS MAY BE DEPRECATED IN FUTURE 
-          web3Instance.eth.sign(hashedMsg, userAccount)
-          .then((signedMsg) => {
-            console.log("SignedMessage");
-            console.log(signedMsg);
+          if(!window.localStorage.authToken) {
+            
+            // TODO: NOTE THAT THIS MAY BE DEPRECATED IN FUTURE 
+            web3Instance.eth.sign(hashedMsg, userAccount)
+            .then((signedMsg) => {
+              console.log("SignedMessage");
+              console.log(signedMsg);
 
-            axios.post('/users', {
-              eth_address: userAccount,
-              signed_message: signedMsg,
+              axios.post('/users', {
+                eth_address: userAccount,
+                signed_message: signedMsg,
 
-            })
-            .then((res) => {
-              console.log(res);
-              window.localStorage.setItem('authToken', res.data.auth_token);
+              })
+              .then((res) => {
+                console.log(res);
+                window.localStorage.setItem('authToken', res.data.auth_token);
+              })
+              .catch((err) => {
+                console.log(err);
+              });          
+
             })
             .catch((err) => {
+              // reset sign request
+              this.state.signRequest = false;
               console.log(err);
-            });          
+            });            
 
-          })
-          .catch((err) => {
-            // reset sign request
-            this.state.signRequest = false;
-            console.log(err);
-          });
+          }
+
         }
 
       })
