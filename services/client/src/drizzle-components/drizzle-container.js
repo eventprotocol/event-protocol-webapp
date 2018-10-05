@@ -59,10 +59,14 @@ class DrizzleContainer extends Component {
     if (this.props.drizzleStatus.initialized)
     {     
 
+      /*
+       * To establish reliable connection with the server side
+       */
       var web3Instance = this.context.drizzle.web3;
       var userAccount = this.props.accounts[0];
 
       // To prevent repetitive request to sign message we request from server
+      // the eth address of user. 
       axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
         // console.log("success");
@@ -76,11 +80,17 @@ class DrizzleContainer extends Component {
           if(!window.localStorage.authToken) {
             
             // TODO: NOTE THAT THIS MAY BE DEPRECATED IN FUTURE 
+            // Send signed message to server
             web3Instance.eth.sign(hashedMsg, userAccount)
             .then((signedMsg) => {
               console.log("SignedMessage");
               console.log(signedMsg);
 
+              // Post to the /users to let it handle the registration and login
+              // Case 1: Account does not exist 
+              //           THEN register the account and send a authToken to client
+              // Case 2: Account exists
+              //            THEN send new authToken
               axios.post('/users', {
                 eth_address: userAccount,
                 signed_message: signedMsg,
