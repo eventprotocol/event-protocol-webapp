@@ -1,4 +1,5 @@
 import json
+import unittest
 
 from project import db
 from project.api.models import User
@@ -13,21 +14,22 @@ class TestAuthBlueprint(BaseTestCase):
         """
         Checks if we can properly register a user
         """
-        response = self.client.post(
-            'auth/register',
-            data=json.dumps({
-                'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
-                'signed_message': signature
-            }),
-            content_type='application/json'
-        )
-
-        data = json.loads(response.data.decode())
-        self.assertTrue(data['status'] == 'success')
-        self.assertTrue(data['message'] == 'Registration Success')
-        self.assertTrue(data['auth_token'])
-        self.assertTrue(response.content_type == "application/json")
-        self.assertEqual(response.status_code, 201)
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+            
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(data['message'] == 'Registration Success')
+            self.assertTrue(data['auth_token'])
+            self.assertTrue(response.content_type == "application/json")
+            self.assertEqual(response.status_code, 201)
 
     def test_duplicate_registration(self):
         """
@@ -35,68 +37,69 @@ class TestAuthBlueprint(BaseTestCase):
         """
         add_user("0x0d604c28a2a7c199c7705859c3f88a71cce2acb7")
 
-        response = self.client.post(
-            'auth/register',
-            data=json.dumps({
-                'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
-                'signed_message': signature
-            }),
-            content_type='application/json'
-        )
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
 
-        data = json.loads(response.data.decode())
-        self.assertTrue(response.status_code == 400)
-        self.assertIn('User already exists', data['message'])
-        self.assertIn('fail', data['status'])
+            data = json.loads(response.data.decode())
+            self.assertTrue(response.status_code == 400)
+            self.assertIn('User already exists', data['message'])
+            self.assertIn('fail', data['status'])
 
     def test_invalid_json_empty(self):
         """
         Checks if failure is thrown if a invalid json is given
         """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({}),
+                content_type='application/json'
+            )
 
-        response = self.client.post(
-            'auth/register',
-            data=json.dumps({}),
-            content_type='application/json'
-        )
-
-        data = json.loads(response.data.decode())
-        self.assertTrue(response.status_code == 400)
-        self.assertIn('Invalid payload', data['message'])
-        self.assertIn('fail', data['status'])
+            data = json.loads(response.data.decode())
+            self.assertTrue(response.status_code == 400)
+            self.assertIn('Invalid payload', data['message'])
+            self.assertIn('fail', data['status'])
 
     def test_invalid_json_no_eth_address(self):
         """
         Checks if failure is thrown if eth_address is not given
         """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
 
-        response = self.client.post(
-            'auth/register',
-            data=json.dumps({
-                'signed_message': signature
-            }),
-            content_type='application/json'
-        )
-
-        data = json.loads(response.data.decode())
-        self.assertTrue(response.status_code == 400)
-        self.assertIn('Invalid payload', data['message'])
-        self.assertIn('fail', data['status'])
+            data = json.loads(response.data.decode())
+            self.assertTrue(response.status_code == 400)
+            self.assertIn('Eth address error', data['message'])
+            self.assertIn('fail', data['status'])
 
     def test_invalid_json_no_signature(self):
         """
         Checks if failure is thrown if no signature is provided 
         """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                }),
+                content_type='application/json'
+            )
 
-        response = self.client.post(
-            'auth/register',
-            data=json.dumps({
-                'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
-            }),
-            content_type='application/json'
-        )
-
-        data = json.loads(response.data.decode())
-        self.assertTrue(response.status_code == 400)
-        self.assertIn('Invalid payload', data['message'])
-        self.assertIn('fail', data['status'])
+            data = json.loads(response.data.decode())
+            self.assertTrue(response.status_code == 400)
+            self.assertIn('Signed message error', data['message'])
+            self.assertIn('fail', data['status'])

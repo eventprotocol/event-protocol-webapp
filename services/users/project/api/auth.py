@@ -1,12 +1,25 @@
 from flask import Blueprint, jsonify, request
 from sqlalchemy import exc, or_
+import web3
+import jwt
 
 from project.api.models import User
-from project import db, bcrypt
+from project import db
 
 auth_blueprint = Blueprint('auth', __name__)
 
-@user_blueprint.route('/users/register', methods=['POST']):
+@auth_blueprint.route('/users/auth/ping', methods=['GET'])
+def ping_pong():
+    """
+    For sanity checking purposes
+    """
+    return jsonify({
+        'status': 'success',
+        'message': 'pong!'
+    })
+
+
+@auth_blueprint.route('/users/auth/register', methods=['POST'])
 def register():
     """
     Add user to the database
@@ -25,13 +38,13 @@ def register():
     }
 
     if not post_data:
-        return jsonify(reponse_object), 400
+        return jsonify(response_object), 400
 
     # Get eth address and sanitize
     eth_address = post_data.get('eth_address')
 
-    if eth_address == '' or eth_address = None:
-        reponse_object['message'] = "Eth address error" 
+    if eth_address == '' or eth_address == None:
+        response_object['message'] = "Eth address error" 
         return jsonify(response_object), 400
 
     eth_address = eth_address.strip()
@@ -46,12 +59,14 @@ def register():
 
     # recover contents of message hash
     # sha3('EventProtocol') = '0x10dc127b5f076691f4dcf6b485d12179195cbe70e226dce5c333254592dca71e'
+    acc = web3.eth.Account()
+
     message_hash = '0x10dc127b5f076691f4dcf6b485d12179195cbe70e226dce5c333254592dca71e'
 
     sign_eth_addr = acc.recoverHash(message_hash, signature=signed_message)
 
     # check if addresses match, otherwise send error
-    if sign_eth_addr != eth_address:
+    if sign_eth_addr.lower() != eth_address.lower():
         response_object['message'] = "Invalid signature"
         return jsonify(response_object), 400
 
@@ -70,7 +85,7 @@ def register():
             auth_token = user.encode_auth_token(user.id)
 
             response_object['status'] = 'success'
-            response_object['message'] = f'{eth_address} was added!'
+            response_object['message'] = 'Registration Success'
             response_object['auth_token'] = auth_token.decode()
 
             # send a jwt token for authentication error message
@@ -79,13 +94,8 @@ def register():
 
         # If the eth address exists sends and
         else:
-            auth_token = user.encode_auth_token(user.id)
-            response_object = {
-                'status': 'success',
-                'message': 'User already exists'
-            }
-
-            return jsonify(response_object), 200
+            response_object['message'] = 'User already exists'
+            return jsonify(response_object), 400
 
     # Throw integrityError if this does not work
     except exc.IntegrityError as e:
@@ -93,10 +103,10 @@ def register():
         return jsonify(response_object), 400
 
 
-@users_blueprint.route('users/auth', methods=['POST'])
-def authenticate():
+@auth_blueprint.route('/users/auth/login', methods=['POST'])
+def login():
     """
-    Authenticate user and sends jwt token upon valid signed message
+    login user and sends jwt token upon valid signed message
 
     {
         "eth_address":
@@ -110,13 +120,13 @@ def authenticate():
     }
 
     if not post_data:
-        return jsonify(reponse_object), 400
+        return jsonify(response_object), 400
 
     # Get eth address and sanitize
     eth_address = post_data.get('eth_address')
 
-    if eth_address == '' or eth_address = None:
-        reponse_object['message'] = "Eth address error" 
+    if eth_address == '' or eth_address == None:
+        response_object['message'] = "Eth address error" 
         return jsonify(response_object), 400
 
     eth_address = eth_address.strip()
@@ -131,12 +141,14 @@ def authenticate():
 
     # recover contents of message hash
     # sha3('EventProtocol') = '0x10dc127b5f076691f4dcf6b485d12179195cbe70e226dce5c333254592dca71e'
+    acc = web3.Account()
+
     message_hash = '0x10dc127b5f076691f4dcf6b485d12179195cbe70e226dce5c333254592dca71e'
 
     sign_eth_addr = acc.recoverHash(message_hash, signature=signed_message)
 
     # check if addresses match, otherwise send error
-    if sign_eth_addr != eth_address:
+    if sign_eth_addr.lower() != eth_address.lower():
         response_object['message'] = "Invalid signature"
         return jsonify(response_object), 400
 
@@ -170,11 +182,26 @@ def authenticate():
 
             return jsonify(response_object), 200
 
+    # Throw integrityError if this does not work
+    except exc.IntegrityError as e:
+        response_object['message'] = "Try again"
+        return jsonify(response_object), 500
 
-@users_blueprint.route('/users/login', methods=['POST'])
-def login():
+
+@auth_blueprint.route('/users/auth/logout', methods=['GET'])
+def logout():
     """
-    Login user
+    REQUIRES LOGIN
+    Logout from current session
+    """
+    pass
+
+
+@auth_blueprint.route('/users/auth/status', methods=['GET'])
+def status():
+    """
+    REQUIRES LOGIN 
+    Get status for the current user
 
     receives payload 
     {
@@ -185,3 +212,5 @@ def login():
     If jwt token is invalid or does not exist return failure 
     """
     pass
+
+
