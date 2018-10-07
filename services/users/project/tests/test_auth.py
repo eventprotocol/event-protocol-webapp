@@ -10,7 +10,7 @@ signature = '0xca55365c9c00cd84edeaf6e716f6b37672df2872e48f5b7d5977551742c8c9de3
 
 
 class TestAuthBlueprint(BaseTestCase):
-    def test_user_registration(self):
+    def test_registration_normal(self):
         """
         Checks if we can properly register a user
         """
@@ -31,7 +31,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(response.content_type == "application/json")
             self.assertEqual(response.status_code, 201)
 
-    def test_duplicate_registration(self):
+    def test_registration_duplicate_registration(self):
         """
         Checks if failure is thrown if a duplicate user is added
         """
@@ -52,7 +52,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertIn('User already exists', data['message'])
             self.assertIn('fail', data['status'])
 
-    def test_invalid_json_empty(self):
+    def test_registration_invalid_json_empty(self):
         """
         Checks if failure is thrown if a invalid json is given
         """
@@ -68,7 +68,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertIn('Invalid payload', data['message'])
             self.assertIn('fail', data['status'])
 
-    def test_invalid_json_no_eth_address(self):
+    def test_registration_invalid_json_no_eth_address(self):
         """
         Checks if failure is thrown if eth_address is not given
         """
@@ -86,7 +86,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertIn('Eth address error', data['message'])
             self.assertIn('fail', data['status'])
 
-    def test_invalid_json_no_signature(self):
+    def test_registration_invalid_json_no_signature(self):
         """
         Checks if failure is thrown if no signature is provided 
         """
@@ -103,3 +103,18 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(response.status_code == 400)
             self.assertIn('Signed message error', data['message'])
             self.assertIn('fail', data['status'])
+
+    def test_login_normal(self):
+        """
+        Test if we can login normally
+        """
+        with self.client:
+            add_user("0x0d604c28a2a7c199c7705859c3f88a71cce2acb7")
+            response = self.client.post(
+                '/users/auth/login',
+                data=json.dumps({
+                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
