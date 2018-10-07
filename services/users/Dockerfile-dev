@@ -5,13 +5,16 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends netcat &
 
 # set working directory
 RUN mkdir -p /app
+
+# add requirements file first so we can use cached
+COPY requirements.txt ./app/requirements.txt
+
 WORKDIR /app
 
-# add folder
-ADD . /app
-
-# install requirements
 RUN pip install -r requirements.txt
+
+# add folder
+COPY . /app
 
 # entry point
 RUN chmod 777 ./entrypoint.sh

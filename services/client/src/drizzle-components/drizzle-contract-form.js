@@ -67,7 +67,7 @@ class ContractForm extends Component {
   }
 
   render() {
-    console.log(this.inputs);
+    // console.log(this.inputs);
     return (
       <form className="pure-form pure-form-stacked">
         {this.inputs.map((input, index) => {

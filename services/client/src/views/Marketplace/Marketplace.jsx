@@ -8,11 +8,11 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Card from "../../components/Card/Card.jsx";
-import CardHeader from "../../components/Card/CardHeader.jsx";
+// import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardImage from "../../components/Card/CardImage.jsx";
-import CardIcon from "../../components/Card/CardIcon.jsx";
+// import CardIcon from "../../components/Card/CardIcon.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-import CardFooter from "../../components/Card/CardFooter.jsx";
+// import CardFooter from "../../components/Card/CardFooter.jsx";
 
 
 // import data

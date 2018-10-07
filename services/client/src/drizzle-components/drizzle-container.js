@@ -3,13 +3,25 @@ import React, { Children, Component } from 'react'
 import PropTypes from 'prop-types'
 import MetamaskSnackBar from '../custom-components/AppBar/MetamaskBar.js'
 
+// axios for server access
+import axios from 'axios';
+
+
 /*
  * Create component.
  */
 class DrizzleContainer extends Component {
+  constructor(props, context) {
+    super(props);
+    this.state = {
+      signRequest: false,
+    }
+  }
+
+
   render() {
-    //console.log(this.props.accounts);
-    //console.log(this.props);
+    // console.log(this.props.accounts);
+    // console.log(this.props);
 
     if (this.props.web3.status === 'failed')
     {
@@ -38,14 +50,68 @@ class DrizzleContainer extends Component {
         <main className="container loading-screen">
           <div className="pure-g">
             <div className="pure-u-1-1">
-            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your accout is unlocked"></MetamaskSnackBar>>
+            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"></MetamaskSnackBar>
             </div>
           </div>
         </main>
       )
     }
     if (this.props.drizzleStatus.initialized)
-    {
+    {     
+
+      var web3Instance = this.context.drizzle.web3;
+      var userAccount = this.props.accounts[0];
+
+      // To prevent repetitive request to sign message we request from server
+      axios.get('/users/eth_address/' + userAccount)
+      .then((res) => {
+        // console.log("success");
+        // console.log(res.data);
+
+        var hashedMsg =  web3Instance.utils.sha3("EventProtocol");
+
+        if(!this.state.signRequest) {
+          this.state.signRequest = true;
+
+          if(!window.localStorage.authToken) {
+            
+            // TODO: NOTE THAT THIS MAY BE DEPRECATED IN FUTURE 
+            web3Instance.eth.sign(hashedMsg, userAccount)
+            .then((signedMsg) => {
+              console.log("SignedMessage");
+              console.log(signedMsg);
+
+              axios.post('/users', {
+                eth_address: userAccount,
+                signed_message: signedMsg,
+
+              })
+              .then((res) => {
+                console.log(res);
+                window.localStorage.setItem('authToken', res.data.auth_token);
+              })
+              .catch((err) => {
+                console.log(err);
+              });          
+
+            })
+            .catch((err) => {
+              // reset sign request
+              this.state.signRequest = false;
+              console.log(err);
+            });            
+
+          }
+
+        }
+
+      })
+      .catch((err) => { 
+        console.log("fail")
+        console.log(err); 
+      });
+
+
       return Children.only(this.props.children)
     }
     if (this.props.loadingComp) {
@@ -55,15 +121,16 @@ class DrizzleContainer extends Component {
       <main className="container loading-screen">
         <div className="pure-g">
           <div className="pure-u-1-1">
-          <MetamaskSnackBar data="Metamask connected. Please connect to the Rinkeby Test Network"></MetamaskSnackBar>>
+          <MetamaskSnackBar data="Metamask connected. Please connect to the Rinkeby Test Network"></MetamaskSnackBar>
           </div>
         </div>
       </main>
     )
   }
 }
+
 DrizzleContainer.contextTypes = {
-  drizzle: PropTypes.object
+  drizzle: PropTypes.object,
 }
 
 /*
@@ -73,6 +140,7 @@ const mapStateToProps = state => {
   return {
     accounts: state.accounts,
     drizzleStatus: state.drizzleStatus,
+    // Note that this only exposes the state of web3 and not the actual web3 instance itself
     web3: state.web3,
   }
 }

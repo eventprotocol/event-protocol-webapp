@@ -71,7 +71,7 @@ class GetAllowanceComponent extends Component {
 
   render() {
     // No accounts found.
-    if (this.props.drizzleStatus.initialized == true && this.context.drizzle.contracts.EventToken != undefined){
+    if (this.props.drizzleStatus.initialized === true && this.context.drizzle.contracts.EventToken !== undefined){
       return (
         <div align="center">
 

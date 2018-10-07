@@ -6,3 +6,4 @@ htmlcov
 node_modules
 coverage
 build
+*.md

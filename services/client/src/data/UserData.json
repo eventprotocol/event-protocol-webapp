@@ -5,7 +5,7 @@
     "cityCountry": "Singapore, SG",
     "email": "contact@13gastrowine.com",
     "tags": ["Bars & Clubs", "Alcohol"],
-    "imgSrc": "./media/0.jpg",
+    "imgSrc": "/media/0.jpg",
     "url": "https://justdelegate.co/vendor/singapore/venue-bars-clubs/13-gastro-wine-aliwal",
     "about": "13% Gastro Wine is the brainchild of wine connoisseur Bruno Vaillant and award-winning chef Geoffrey Weckx, who share the common vision of creating a unique place for wine lovers who enjoy gourmet food in a comfortable environment. After 25 years of experience in wine and gastronomy, Bruno and Geoffrey met in Singapore and decided to open a wine bar with curated wines from their favorite vineyards, together with a simple menu of imported cheeses and comfort food made from fresh quality produce.",
     "ethereumAddress": "0xdeadbeefae3c697b9BE9f9037270943Db7303A8F"
@@ -15,7 +15,7 @@
     "name": "Atipico",
     "cityCountry": "Singapore, SG",
     "tags": ["Buffets", "Canapes"],
-    "imgSrc": "./media/1.jpg",
+    "imgSrc": "/media/1.jpg",
     "url": "https://justdelegate.co/vendor/singapore/food-beverage-caterers/atipico"
   },
   {
@@ -23,7 +23,7 @@
     "name": "39Artisan",
     "cityCountry": "Singapore, SG",
     "tags": ["Photographer"],
-    "imgSrc": "./media/2.jpg",
+    "imgSrc": "/media/2.jpg",
     "url": "https://justdelegate.co/vendor/singapore/photography-videography-photographers/39artisan"
   },
   {
@@ -31,7 +31,7 @@
     "name": "1011 Production",
     "cityCountry": "Singapore, SG",
     "tags": ["Event Stylists"],
-    "imgSrc": "./media/3.jpg",
+    "imgSrc": "/media/3.jpg",
     "url": "https://justdelegate.co/vendor/singapore/event-management-event-stylists/1011-production"
   },
   {
@@ -39,7 +39,7 @@
     "name": "Metropolitan YMCA Cassia Room",
     "cityCountry": "Singapore, SG",
     "tags": ["Meeting Spaces"],
-    "imgSrc": "./media/4.jpg",
+    "imgSrc": "/media/4.jpg",
     "url": "https://justdelegate.co/vendor/singapore/venue-meeting-rooms/metropolitan-ymca-cassia-room"
   },
   {
@@ -47,7 +47,7 @@
     "name": "A Group Of People",
     "cityCountry": "Singapore, SG",
     "tags": ["Event Stylists"],
-    "imgSrc": "./media/5.jpg",
+    "imgSrc": "/media/5.jpg",
     "url": "https://justdelegate.co/vendor/singapore/entertainment-musicians-bands/a-group-of-people"
   }  
 

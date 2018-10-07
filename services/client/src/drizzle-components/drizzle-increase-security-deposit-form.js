@@ -80,7 +80,7 @@ class ContractForm extends Component {
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
             // Hardcode the security account address and dont show this field
-            if (input.name == "_spender"){
+            if (input.name === "_spender"){
               inputType = "hidden";
               this.state[input.name] = "0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8"
             }
