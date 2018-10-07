@@ -30,7 +30,7 @@ class TestUserService(BaseTestCase):
         """
         Ensure that get single user behaves correctly.
         """
-        user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        user = add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
         db.session.add(user)
         db.session.commit()
 
@@ -38,7 +38,7 @@ class TestUserService(BaseTestCase):
             response = self.client.get(f'/users/id/{user.id}')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
-            self.assertIn('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC',
+            self.assertIn('0x0e35462535dae6fd521f0eea67dc4e9485c714dc',
                           data['data']['eth_address'])
             self.assertIn('success', data['status'])
 
@@ -64,12 +64,43 @@ class TestUserService(BaseTestCase):
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
 
+    def test_single_user_eth_address_nonexist(self):
+        """
+        Ensure error is thrown if the id does not exist
+        """
+        with self.client:
+            response = self.client.get('/users/eth_address/1337')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 404)
+            self.assertIn('User does not exist', data['message'])
+            self.assertIn('fail', data['status'])
+
+    def test_single_user_eth_address_exist(self):
+        """
+        Ensure error is thrown if the id does not exist
+        """
+        user = add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+        db.session.add(user)
+        db.session.commit()
+
+        with self.client:
+            response = self.client.get(
+                '/users/eth_address/'
+                + '0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                '0x0e35462535dae6fd521f0eea67dc4e9485c714dc',
+                data['data']['eth_address']
+            )
+            self.assertIn('success', data['status'])
+
     def test_all_users(self):
         """
         Ensure that all users behave correctly.
         """
-        add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
-        add_user('0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8')
+        add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+        add_user('0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8')
 
         with self.client:
             response = self.client.get('/users')
@@ -77,11 +108,11 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(len(data['data']['users']), 2)
             self.assertIn(
-                '0x0E35462535daE6fd521f0Eea67dc4e9485C714dC',
+                '0x0e35462535dae6fd521f0eea67dc4e9485c714dc',
                 data['data']['users'][0]['eth_address']
             )
             self.assertIn(
-                '0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8',
+                '0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8',
                 data['data']['users'][1]['eth_address']
             )
 
@@ -100,8 +131,8 @@ class TestUserService(BaseTestCase):
         """
         Ensure we get the desired reponse if there are users
         """
-        add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
-        add_user('0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8')
+        add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+        add_user('0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8')
 
         with self.client:
             response = self.client.get('/')
@@ -109,11 +140,11 @@ class TestUserService(BaseTestCase):
             self.assertIn(b'<h1>All Users</h1>', response.data)
             self.assertNotIn(b'<p>No users!</p>', response.data)
             self.assertIn(
-                b'0x0E35462535daE6fd521f0Eea67dc4e9485C714dC',
+                b'0x0e35462535dae6fd521f0eea67dc4e9485c714dc',
                 response.data
             )
             self.assertIn(
-                b'0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8',
+                b'0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8',
                 response.data
             )
 
@@ -121,7 +152,7 @@ class TestUserService(BaseTestCase):
         """
         Ensure that we can encode auth token
         """
-        user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        user = add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
         auth_token = user.encode_auth_token(user.id)
         print(auth_token)
         self.assertTrue(isinstance(auth_token, bytes))
@@ -130,7 +161,7 @@ class TestUserService(BaseTestCase):
         """
         Ensure that we can decode auth token
         """
-        user = add_user('0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
+        user = add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
         auth_token = user.encode_auth_token(user.id)
         self.assertTrue(isinstance(auth_token, bytes))
         self.assertEqual(User.decode_auth_token(auth_token), user.id)

@@ -110,15 +110,15 @@ $ export  REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
 
 # Database Management
 ## Migrations
-1. Initialize migration with this command 
+1. Initialize migration with this command (OPTIONAL)
 ```
-$ docker-compose -f docker-compose-<enter stage eg. dev, prod>.yml run users db init
+$ docker-compose -f docker-compose-<enter stage eg. dev, prod>.yml exec users db init
 ```
 
 2. If the migrations has already been initialize run the following commands whenever you need to migrate the database
 ```
-$ docker-compose -f docker-compose-<enter stage eg. dev, prod>.yml run users db migrate
-$ docker-compose -f docker-compose-<enter stage eg. dev, prod>.yml run users db upgrade
+$ docker-compose -f docker-compose-<enter stage eg. dev, prod>.yml exec users db migrate
+$ docker-compose -f docker-compose-<enter stage eg. dev, prod>.yml exec users db upgrade
 ```
 
 ## Reset the database (**ONLY FOR DEVELOPMENT PURPOSES**)

@@ -84,10 +84,10 @@ def get_single_user_by_eth_address(eth_address):
     }
 
     try:
-        response_object['message'] = 'User does not exist'
         user = User.query.filter_by(eth_address=eth_address).first()
 
         if not user:
+            response_object['message'] = 'User does not exist'
             return jsonify(response_object), 404
 
         else:

@@ -173,27 +173,19 @@ def login():
             auth_token = user.encode_auth_token(user.id)
 
             response_object['status'] = 'success'
+            response_object['message'] = 'Successfully logged in'
             response_object['auth_token'] = auth_token.decode()
 
             # send a jwt token for authentication error message
-
             return jsonify(response_object), 200
 
-        # If the eth address exists sends and
         else:
-            auth_token = user.encode_auth_token(user.id)
-            response_object = {
-                'status': 'success',
-                'data': {
-                    'message': 'User does not exist'
-                },
-                'auth_token': auth_token.decode()
-            }
-
-            return jsonify(response_object), 200
+            response_object['message'] = 'User does not exist'
+            return jsonify(response_object), 404
 
     # Throw integrityError if this does not work
-    except exc.IntegrityError as e:
+    except Exception as e:
+        print(e)
         response_object['message'] = "Try again"
         return jsonify(response_object), 500
 
