@@ -1,7 +1,5 @@
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
-import web3
-import jwt
 
 from project.api.models import User
 from project import db
@@ -71,7 +69,7 @@ def get_single_user_by_id(user_id):
 
     except exc.DataError:
         response_object['message'] = \
-            'DataError'        
+            'DataError'
         return jsonify(response_object), 404
 
 
@@ -111,7 +109,7 @@ def get_single_user_by_eth_address(eth_address):
 
     except exc.DataError:
         response_object['message'] = \
-            'DataError'        
+            'DataError'
         return jsonify(response_object), 404
 
 

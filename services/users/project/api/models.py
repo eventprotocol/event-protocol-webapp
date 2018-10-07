@@ -4,11 +4,12 @@ import jwt
 
 import datetime
 
+
 class User(db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    eth_address = db.Column(db.String(128), nullable=False)
-    username = db.Column(db.String(128), nullable=True)
+    eth_address = db.Column(db.String(128), unique=True, nullable=False)
+    username = db.Column(db.String(128), unique=True, nullable=True)
     email = db.Column(db.String(128), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
 
@@ -37,8 +38,9 @@ class User(db.Model):
         try:
             payload = {
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(
-                    days=current_app.config.get('TOKEN_EXPIRATION_DAYS'), 
-                    seconds=current_app.config.get('TOKEN_EXPIRATION_SECONDS')),
+                    days=current_app.config.get('TOKEN_EXPIRATION_DAYS'),
+                    seconds=current_app.config.get(
+                        'TOKEN_EXPIRATION_SECONDS')),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id
             }

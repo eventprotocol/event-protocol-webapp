@@ -1,12 +1,12 @@
 import json
 import unittest
 
-from project import db
-from project.api.models import User
 from project.tests.base import BaseTestCase
 from project.tests.utils import add_user
 
-signature = '0xca55365c9c00cd84edeaf6e716f6b37672df2872e48f5b7d5977551742c8c9de3f71d5c28f016a0752d54d53e0bb0a8b995ab4478aff3bcfcb24324248396e461c'
+signature = '0xca55365c9c00cd84edeaf6e716f6b37672d' \
+    + 'f2872e48f5b7d5977551742c8c9de3f71d5c28f016a0' \
+    + '752d54d53e0bb0a8b995ab4478aff3bcfcb24324248396e461c'
 
 
 class TestAuthBlueprint(BaseTestCase):
@@ -18,12 +18,13 @@ class TestAuthBlueprint(BaseTestCase):
             response = self.client.post(
                 '/users/auth/register',
                 data=json.dumps({
-                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
                 content_type='application/json'
             )
-            
+
             data = json.loads(response.data.decode())
             self.assertTrue(data['status'] == 'success')
             self.assertTrue(data['message'] == 'Registration Success')
@@ -41,7 +42,8 @@ class TestAuthBlueprint(BaseTestCase):
             response = self.client.post(
                 '/users/auth/register',
                 data=json.dumps({
-                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
                 content_type='application/json'
@@ -88,13 +90,14 @@ class TestAuthBlueprint(BaseTestCase):
 
     def test_registration_invalid_json_no_signature(self):
         """
-        Checks if failure is thrown if no signature is provided 
+        Checks if failure is thrown if no signature is provided
         """
         with self.client:
             response = self.client.post(
                 '/users/auth/register',
                 data=json.dumps({
-                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                 }),
                 content_type='application/json'
             )
@@ -113,8 +116,16 @@ class TestAuthBlueprint(BaseTestCase):
             response = self.client.post(
                 '/users/auth/login',
                 data=json.dumps({
-                    'eth_address': '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
                 content_type='application/json'
             )
+            data = json.loads(response.data.decode())
+            self.assertTrue(response.status_code == 200)
+            self.assertIn('success', data['status'])
+
+
+if __name__ == '__main__':
+    unittest.main()

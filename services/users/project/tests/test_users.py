@@ -6,7 +6,10 @@ from project import db
 from project.api.models import User
 from project.tests.utils import add_user
 
-signature = '0xca55365c9c00cd84edeaf6e716f6b37672df2872e48f5b7d5977551742c8c9de3f71d5c28f016a0752d54d53e0bb0a8b995ab4478aff3bcfcb24324248396e461c'
+signature = '0xca55365c9c00cd84edeaf6e716f6b37672d' \
+    + 'f2872e48f5b7d5977551742c8c9de3f71d5c28f016a0' \
+    + '752d54d53e0bb0a8b995ab4478aff3bcfcb24324248396e461c'
+
 
 class TestUserService(BaseTestCase):
     """

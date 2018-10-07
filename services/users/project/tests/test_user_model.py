@@ -6,6 +6,7 @@ from project import db
 from project.api.models import User
 from project.tests.base import BaseTestCase
 
+
 class TestUserModel(BaseTestCase):
     def test_userdb_add_user(self):
         """
@@ -17,7 +18,9 @@ class TestUserModel(BaseTestCase):
         db.session.add(user)
         db.session.commit()
         self.assertTrue(user.id)
-        self.assertEqual(user.eth_address, "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC")
+        self.assertEqual(
+            user.eth_address,
+            "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC")
         self.assertTrue(user.active)
 
     def test_userdb_add_user_duplicate_eth_address(self):
@@ -47,6 +50,7 @@ class TestUserModel(BaseTestCase):
         db.session.add(user)
         db.session.commit()
         self.assertTrue(isinstance(user.to_json(), dict))
+
 
 if __name__ == '__main__':
     unittest.main()

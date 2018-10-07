@@ -12,7 +12,7 @@ from project.api.models import User
 
 # Code coverage
 COV = coverage.Coverage(
-    branch = True,
+    branch=True,
     include='project/*',
     omit=[
         'project/tests/*',
@@ -32,7 +32,7 @@ def cov():
     Runs the unit tests with coverage
     """
     tests = unittest.TestLoader().discover('project/tests')
-    result = unittest.TextTestRunner(verbosity = 2).run(tests)
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
     if result.wasSuccessful():
         COV.stop()
         COV.save()
@@ -46,6 +46,7 @@ def cov():
         return 0
 
     return -1
+
 
 @cli.command()
 def recreate_db():
@@ -70,13 +71,14 @@ def test():
     else:
         return -1
 
+
 @cli.command()
 def seed_db():
     """
     Seeds the database with some initial data
     """
-    user0 = User(eth_address='0x0E35462535daE6fd521f0Eea67dc4e9485C714dC')
-    user1 = User(eth_address='0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8')
+    user0 = User(eth_address='0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+    user1 = User(eth_address='0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8')
 
     db.session.add(user0)
     db.session.add(user1)
@@ -84,7 +86,5 @@ def seed_db():
     db.session.commit()
 
 
-
 if __name__ == '__main__':
     cli()
-

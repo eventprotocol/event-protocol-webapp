@@ -13,6 +13,7 @@ migrate = Migrate()
 
 MIGRATION_DIR = os.path.join("migrations")
 
+
 def create_app(script_info=None):
     # instantiate app
     app = Flask(__name__)
@@ -32,7 +33,6 @@ def create_app(script_info=None):
     migrate.init_app(app, db, directory=MIGRATION_DIR)
 
     # register blueprints
-    
     # USER
     from project.api.users import users_blueprint
     app.register_blueprint(users_blueprint)
@@ -40,7 +40,6 @@ def create_app(script_info=None):
     # AUTH
     from project.api.auth import auth_blueprint
     app.register_blueprint(auth_blueprint)
-
 
     # shell context for flask cli
     @app.shell_context_processor
