@@ -1,13 +1,12 @@
 import { drizzleConnect } from 'drizzle-react'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import SecurityDepositComponent from "../drizzle-components/drizzle-contract-data-fetcher.js";
-import EventToken from "../data/EventToken.json";
-import NameCard from '../custom-components/Card/NameCard.jsx'
+import EventToken from "../../../data/EventToken.json";
+import NameCard from '../../../custom-components/Card/NameCard.jsx'
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-import SecurityDepForm from "../drizzle-components/drizzle-increase-security-deposit-form.js"
+import ApprovalForm from "./increase-approval-form.js"
 import Loading from "@material-ui/icons/CloudUpload"
 
 
@@ -17,11 +16,10 @@ class IncreaseSecurityDeposit extends Component{
   }
 
   render(){
-    console.log(this.props.contracts.EventToken);
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventToken != undefined){
       return(
       <div align = "center">
-        <SecurityDepForm contract="EventToken" method="approve" labels={[" Security Account", " Add Deposit (ET)"]} sendArgs={{from: this.props.accounts[0]}}/>
+        <ApprovalForm contract="EventToken" method="approve" labels={[" Recipient Address", " Approval Amount (ET)"]} sendArgs={{from: this.props.accounts[0]}}/>
       </div>
       )
     }

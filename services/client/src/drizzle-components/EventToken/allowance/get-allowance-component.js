@@ -1,13 +1,13 @@
 import { drizzleConnect } from 'drizzle-react'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import SecurityDepositComponent from "../drizzle-components/drizzle-contract-data-fetcher.js";
-import EventToken from "../data/EventToken.json";
-import NameCard from '../custom-components/Card/NameCard.jsx'
+import SecurityDepositComponent from "../../../drizzle-components/drizzle-contract-data-fetcher.js";
+import EventToken from "../../../data/EventToken.json";
+import NameCard from '../../../custom-components/Card/NameCard.jsx'
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import SecurityIcon from "@material-ui/icons/SecurityTwoTone";
-import ProgressBar from '../custom-components/Progress-components/CircularBar.js'
+import ProgressBar from '../../../custom-components/Progress-components/CircularBar.js'
 import SendIcon from '@material-ui/icons/Send';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';

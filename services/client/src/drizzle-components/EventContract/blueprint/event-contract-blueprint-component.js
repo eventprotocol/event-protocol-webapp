@@ -1,12 +1,12 @@
 import { drizzleConnect } from 'drizzle-react'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import EventContract from "../data/EventContract.json";
-import NameCard from '../custom-components/Card/NameCard.jsx'
+import EventContract from "../../../data/EventContract.json";
+import NameCard from '../../../custom-components/Card/NameCard.jsx'
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-import ApprovalForm from "../drizzle-components/drizzle-event-contract-deploy-form.js"
+import ApprovalForm from "./event-contract-form.js"
 import Loading from "@material-ui/icons/CloudUpload"
 
 
@@ -20,7 +20,7 @@ class EventContractConstructor extends Component{
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventContract != undefined){
       return(
       <div align = "center">
-        <ApprovalForm contract="EventContract" method="isContributor" sendArgs={{from: this.props.accounts[0]}}/>
+        <ApprovalForm contract="EventContract" method="" sendArgs={{from: this.props.accounts[0]}}/>
       </div>
       )
     }
