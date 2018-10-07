@@ -89,7 +89,7 @@ class GetAllowanceComponent extends Component {
           <Button variant="fab" color={this.state.btColor} aria-label="Add" onClick={this.handleSubmit}><SendIcon/></Button></div>
         </form>
         <br/>
-
+        
         <Paper> <Typography variant="headline" component="h3">
           {this.state.val}
         </Typography>

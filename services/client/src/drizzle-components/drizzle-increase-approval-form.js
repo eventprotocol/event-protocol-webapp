@@ -96,6 +96,7 @@ class ContractForm extends Component {
             )
         })}
         <br></br>
+        <br></br>
         <div align="center"><Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button></div>
       </form>
       </div>
