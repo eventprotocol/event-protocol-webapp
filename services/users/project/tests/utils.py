@@ -9,4 +9,5 @@ def add_user(eth_address):
     user = User(eth_address=eth_address)
     db.session.add(user)
     db.session.commit()
+
     return user

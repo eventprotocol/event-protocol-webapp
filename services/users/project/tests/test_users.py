@@ -154,7 +154,6 @@ class TestUserService(BaseTestCase):
         """
         user = add_user('0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
         auth_token = user.encode_auth_token(user.id)
-        print(auth_token)
         self.assertTrue(isinstance(auth_token, bytes))
 
     def test_decode_auth_token(self):

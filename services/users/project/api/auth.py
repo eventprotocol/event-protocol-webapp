@@ -89,6 +89,9 @@ def register():
 
             # generate auth token
             auth_token = user.encode_auth_token(user.id)
+            # print()
+            # print('DEBUG: Registration')
+            # print("user id = ", user.id)
 
             response_object['status'] = 'success'
             response_object['message'] = 'Registration Success'
@@ -165,10 +168,9 @@ def login():
     try:
         user = User.query.filter_by(eth_address=eth_address).first()
 
+
         # if eth address does not exist we add the entry
         if user:
-            user = User(eth_address=eth_address)
-
             # generate auth token
             auth_token = user.encode_auth_token(user.id)
 
@@ -196,7 +198,39 @@ def logout():
     REQUIRES LOGIN
     Logout from current session
     """
-    pass
+    # default fail message
+    response_object = {
+        'status': 'fail',
+        'message': 'Please provide a valid auth token'
+    }
+
+    # get auth token
+    auth_header = request.headers.get('Authorization')
+
+    # if we get auth token
+    if auth_header:
+        auth_token = auth_header.split(' ')[1]
+        resp = User.decode_auth_token(auth_token)
+
+        print()
+        print("DEBUG: Logout")
+        print("resp = ", resp)
+
+        if not isinstance(resp, str):
+            response_object['status'] = 'success'
+            response_object['message'] = 'Successfully logged out'
+
+            # to delete tokens client side
+            return jsonify(response_object), 200
+
+        else:
+            response_object['message'] = resp
+            return jsonify(response_object), 401
+
+    else:
+        return jsonify(response_object), 403
+
+
 
 
 @auth_blueprint.route('/users/auth/status', methods=['GET'])
@@ -213,4 +247,41 @@ def status():
 
     If jwt token is invalid or does not exist return failure
     """
-    pass
+    # get auth tokne 
+
+    # default fail message
+    response_object = {
+        'status': 'fail',
+        'message': 'Please provide a valid auth token'
+    }
+
+    # get auth token
+    auth_header = request.headers.get('Authorization')
+
+    # if we get auth token
+    if auth_header:
+        auth_token = auth_header.split(' ')[1]
+
+
+        resp = User.decode_auth_token(auth_token)
+
+        print()
+        print("DEBUG")
+        print(resp)
+
+
+        if not isinstance(resp, str):
+            # if ok get data from db
+            user = User.query.filter_by(id=resp).first()
+            response_object['status'] = 'success'
+            response_object['message'] = 'success'
+            response_object['data'] = user.to_json()
+
+            return jsonify(response_object), 200
+
+        else:
+            response_object['message'] = resp
+            return jsonify(response_object), 401
+
+    else:
+        return jsonify(response_object), 401
