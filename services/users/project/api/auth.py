@@ -168,7 +168,6 @@ def login():
     try:
         user = User.query.filter_by(eth_address=eth_address).first()
 
-
         # if eth address does not exist we add the entry
         if user:
             # generate auth token
@@ -231,8 +230,6 @@ def logout():
         return jsonify(response_object), 403
 
 
-
-
 @auth_blueprint.route('/users/auth/status', methods=['GET'])
 def status():
     """
@@ -247,7 +244,7 @@ def status():
 
     If jwt token is invalid or does not exist return failure
     """
-    # get auth tokne 
+    # get auth token
 
     # default fail message
     response_object = {
@@ -262,13 +259,7 @@ def status():
     if auth_header:
         auth_token = auth_header.split(' ')[1]
 
-
         resp = User.decode_auth_token(auth_token)
-
-        print()
-        print("DEBUG")
-        print(resp)
-
 
         if not isinstance(resp, str):
             # if ok get data from db
@@ -276,7 +267,6 @@ def status():
             response_object['status'] = 'success'
             response_object['message'] = 'success'
             response_object['data'] = user.to_json()
-
             return jsonify(response_object), 200
 
         else:

@@ -223,7 +223,7 @@ class TestAuthBlueprint(BaseTestCase):
             test_login = self.client.post(
                 '/users/auth/login',
                 data=json.dumps({
-                    'eth_address': 
+                    'eth_address':
                         '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
@@ -256,7 +256,7 @@ class TestAuthBlueprint(BaseTestCase):
             test_login = self.client.post(
                 '/users/auth/login',
                 data=json.dumps({
-                    'eth_address': 
+                    'eth_address':
                         '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
@@ -290,7 +290,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(
                 data['message'] == 'Invalid token please reauthenticate')
-            self.assertEqual(response.status_code, 401) 
+            self.assertEqual(response.status_code, 401)
 
     def test_status_normal(self):
         """
@@ -300,12 +300,12 @@ class TestAuthBlueprint(BaseTestCase):
 
         with self.client:
             add_user('0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
-            
+
             # user login
             test_login = self.client.post(
                 '/users/auth/login',
                 data=json.dumps({
-                    'eth_address': 
+                    'eth_address':
                         '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
@@ -323,8 +323,8 @@ class TestAuthBlueprint(BaseTestCase):
 
             self.assertTrue(data['status'] == 'success')
             self.assertTrue(data['data'] is not None)
-            self.assertTrue(data['data']['eth_address'] == \
-                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
+            self.assertTrue(data['data']['eth_address'] ==
+                            '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
             self.assertTrue(data['data']['active'] is True)
             self.assertEqual(response.status_code, 200)
 
@@ -342,7 +342,7 @@ class TestAuthBlueprint(BaseTestCase):
             test_login = self.client.post(
                 '/users/auth/login',
                 data=json.dumps({
-                    'eth_address': 
+                    'eth_address':
                         '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'signed_message': signature
                 }),
@@ -376,10 +376,7 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(
                 data['message'] == 'Invalid token please reauthenticate')
-            self.assertEqual(response.status_code, 401) 
-
-
-
+            self.assertEqual(response.status_code, 401)
 
 
 if __name__ == '__main__':
