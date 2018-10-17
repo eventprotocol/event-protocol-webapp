@@ -16,6 +16,9 @@ RUN pip install -r requirements.txt
 # add folder
 COPY . /app
 
+# Change permissions /app folder
+RUN chmod 777 /app
+
 # entry point
 RUN chmod 777 ./entrypoint.sh
 

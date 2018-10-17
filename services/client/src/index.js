@@ -10,7 +10,7 @@ import axios from 'axios';
 // import Web3 and Drizzle
 import { DrizzleProvider } from 'drizzle-react';
 import { Drizzle, generateStore } from 'drizzle'
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import Web3 from 'web3';
 
 // Routes
