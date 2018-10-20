@@ -1,13 +1,13 @@
 import { drizzleConnect } from 'drizzle-react'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import SecurityDepositComponent from "../drizzle-components/drizzle-contract-data-fetcher.js";
-import EventToken from "../data/EventToken.json";
-import NameCard from '../custom-components/Card/NameCard.jsx'
+import SecurityDepositComponent from "../../../drizzle-components/drizzle-contract-data-fetcher.js";
+import EventToken from "../../../data/EventToken.json";
+import NameCard from '../../../custom-components/Card/NameCard.jsx'
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import SecurityIcon from "@material-ui/icons/SecurityTwoTone";
-import ProgressBar from '../custom-components/Progress-components/CircularBar.js'
+import ProgressBar from '../../../custom-components/Progress-components/CircularBar.js'
 import SendIcon from '@material-ui/icons/Send';
 import { withStyles } from '@material-ui/core/styles';
 import Input from '@material-ui/core/Input';
@@ -90,10 +90,11 @@ class GetAllowanceComponent extends Component {
         </form>
         <br/>
 
-        <Paper> <Typography variant="headline" component="h3">
+        <Typography variant="headline" component="h3">
           {this.state.val}
         </Typography>
-        </Paper>
+        <br/>
+        <br/>
         <br/>
         </div>
 
@@ -116,6 +117,8 @@ class GetAllowanceComponent extends Component {
             <Button><CircularProgress style={{ color: green[500] }} thickness={10} /></Button></div>
           </form>
           <LinearProgress variant="query" value = "1"/>
+          <br/>
+          <br/>
           <br/>
           <br/>
           <br/>

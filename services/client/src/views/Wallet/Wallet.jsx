@@ -5,10 +5,10 @@ import propTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // import
-import SecurityDepositComponent from "../../drizzle-components/drizzle-security-deposit.js";
-import IncreaseSecurityDepComponent from "../../drizzle-components/drizzle-increase-deposit.js";
-import GetAllowanceComponent from "../../drizzle-components/drizzle-get-allowance-component.js";
-import IncreaseApprovalComponent from "../../drizzle-components/drizzle-increase-approval.js"
+import SecurityDepositComponent from "../../drizzle-components/EventToken/securityDeposit/security-deposit.js";
+import IncreaseSecurityDepComponent from "../../drizzle-components/EventToken/securityDeposit/increase-deposit-component.js";
+import GetAllowanceComponent from "../../drizzle-components/EventToken/allowance/get-allowance-component.js";
+import IncreaseApprovalComponent from "../../drizzle-components/EventToken/approval/increase-approval.js"
 import EventToken from "../../data/EventToken.json";
 import { drizzleConnect } from 'drizzle-react'
 
