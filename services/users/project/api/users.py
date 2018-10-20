@@ -84,6 +84,9 @@ def get_single_user_by_eth_address(eth_address):
     }
 
     try:
+        # sanitize eth_address
+        eth_address = eth_address.strip()
+        eth_address = eth_address.lower()
         user = User.query.filter_by(eth_address=eth_address).first()
 
         if not user:

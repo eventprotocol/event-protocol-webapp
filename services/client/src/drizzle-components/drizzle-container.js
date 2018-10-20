@@ -56,7 +56,7 @@ class DrizzleContainer extends Component {
         </main>
       )
     }
-    if (this.props.drizzleStatus.initialized) {     
+    if (this.props.drizzleStatus.initialized) {
 
       /*
        * To establish reliable connection with the server side
@@ -66,7 +66,7 @@ class DrizzleContainer extends Component {
 
       var userAccount = this.props.accounts[0];
 
-      // Check if user is already registered 
+      // Check if user is already registered
       axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
         // If user account is found start login
@@ -77,11 +77,11 @@ class DrizzleContainer extends Component {
         // User account not found, start registration
         var hashedMsg = web3Instance.utils.sha3("EventProtocol");
 
-        // TODO look into web3Instance.eth.personal.sign as it offers 
+        // TODO look into web3Instance.eth.personal.sign as it offers
         // human readable message
         if(!this.state.signRequest) {
           // set signRequest flag to true as we are trying to sign something
-          this.status.signRequest = true;
+          this.state.signRequest = true;
 
           web3Instance.eth.sign(hashedMsg, userAccount)
           .then((signedMsg) => {
@@ -98,7 +98,7 @@ class DrizzleContainer extends Component {
 
               // store the authToken in local store
               window.localStorage.setItem('authToken', res.data.auth_token);
-            });
+            })
             .catch((err) => {
               console.log(err);
             });
@@ -109,13 +109,13 @@ class DrizzleContainer extends Component {
 
             // set signRequest flag to false as we couldn't sign properly
             this.status.signRequest = false;
-          })     
+          })
         }
       });
 
       return Children.only(this.props.children);
     }
-    
+
     if (this.props.loadingComp) {
       return this.props.loadingComp
     }
