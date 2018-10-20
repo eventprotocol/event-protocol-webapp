@@ -1,6 +1,7 @@
 import { DrizzleProvider } from 'drizzle-react';
 import { Drizzle, generateStore } from 'drizzle';
 import EventToken from "../data/EventToken.json";
+import EventContract from "../data/EventContract.json";
 
 const options = {
   web3: {
@@ -12,7 +13,8 @@ const options = {
   },
   contracts: [
     // <<Insert Smart Contract Names>>
-    EventToken
+    EventToken,
+    EventContract
   ],
   polls: {
     accounts: 3000,
