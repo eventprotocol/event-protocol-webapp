@@ -14,11 +14,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 import EventContract from '../../../data/EventContract.json'
 
-
 var Web3 = require('web3');
 var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/JRIhcMSUX50sCH9PKk6b'));
-
 var myContract = new web3.eth.Contract(EventContract.abi);
+var BigNumber = require('bignumber.js');
+let scalar = new BigNumber(10).pow(18);
+console.log(scalar.toNumber());
 
 const styles = theme => ({
   container: {
@@ -56,7 +57,6 @@ const currencies = [
 class NewContract extends Component{
   constructor(props, context){
     super(props);
-
   }
 
   state = {
@@ -82,19 +82,65 @@ class NewContract extends Component{
     });
   };
 
-  handleSubmit(event){
-    console.log("Trying to instantiate contract");
+  onSubmit = e => {
+    e.preventDefault();
 
-  }
+    var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
+    console.log(eventDate_epoch);
+    console.log(this.state);
+
+    myContract.deploy({
+      data: EventContract.bytecode,
+      arguments: [this.state.eventName,
+      this.state.eventLocation,
+      new BigNumber(eventDate_epoch).toNumber(),
+      this.state.buyer,
+      this.state.postponements,
+      new BigNumber(this.state.buyerEscrow).times(scalar).toNumber(),
+      new BigNumber(this.state.sellerEscrow).times(scalar).toNumber(),
+      new BigNumber(this.state.sellerAdvance).times(scalar).toNumber(),
+      new BigNumber(this.state.sellerCancellation).times(scalar).toNumber(),
+      new BigNumber(this.state.buyerContributionPool).times(scalar).toNumber(),
+      new BigNumber(this.state.sellerContributionPool).times(scalar).toNumber(),
+      new BigNumber(this.state.eventPayment).times(scalar).toNumber(),
+      this.state.etAddress,
+      this.state.etTokenAddress]
+      })
+      .send({
+          from: this.props.accounts[0],
+          //gas: 15000000,
+          //gasPrice: '300000000000'
+      })
+      .then(function(newContractInstance){
+          console.log(newContractInstance.options.address) // instance with the new contract address
+      });
+
+      this.setState({
+        eventName: '',
+        eventLocation: '',
+        eventDate: '',
+        buyer: '',
+        postponements: '',
+        buyerEscrow: '',
+        sellerEscrow: '',
+        sellerAdvance: '',
+        sellerCancellation: '',
+        buyerContributionPool: '',
+        sellerContributionPool: '',
+        eventPayment: '',
+      });
+
+    };
 
   render(){
 
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventContract != undefined){
-      console.log(Web3.version)
-      console.log(myContract);
+      web3.currentProvider = web3.givenProvider
+
+      console.log(window.web3);
       return(
       <div align = "center">
-        <form Validate autoComplete="on" onSubmit={this.handleSubmit}>
+        <form Validate autoComplete="on">
           <TextField
             required
             fullWidth
@@ -127,6 +173,27 @@ class NewContract extends Component{
               shrink: true,
             }}
             helperText="Location of the event. i.e. SUTD, Singapore"
+          />
+
+          <br/>
+          <br/>
+          <br/>
+
+          <TextField
+            required
+            fullWidth
+            type="datetime-local"
+            id="outlined-full-width"
+            label="Event Date and Time"
+            value={this.state.eventDate}
+            onChange={this.handleChange('eventDate')}
+            defaultValue="2017-05-24T10:30"
+            variant="outlined"
+            style={{ margin: 8 }}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            helperText="Date and Time of event"
           />
 
           <br/>
@@ -359,7 +426,7 @@ class NewContract extends Component{
           <br/>
           <br/>
 
-          <Button type="submit" variant="outlined" color="primary">
+          <Button onClick={e => this.onSubmit(e)} variant="outlined" color="primary">
             Generate Contract
           </Button>
 

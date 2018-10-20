@@ -9,8 +9,9 @@ import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dash
 
 // import contract form
 import NewContract from "../../drizzle-components/EventContract/newContract/newContract-component.js"
+import WalletCard from '../../custom-components/Card/WalletCard.jsx'
 
-class PublicProfile extends React.Component {
+class Contracts extends React.Component {
   state = {
     value: 0,
   }
@@ -22,16 +23,17 @@ class PublicProfile extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    var component = <NewContract/>
     return (
       <div>
-        <NewContract/>
+        <WalletCard primary = {component} secondary = "" title = "Deploy New Contract"/>
       </div>
     );
   }
 }
 
-PublicProfile.propTypes = {
+Contracts.propTypes = {
   classes: propTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(PublicProfile);
+export default withStyles(dashboardStyle)(Contracts);
