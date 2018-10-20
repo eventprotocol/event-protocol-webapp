@@ -2,6 +2,8 @@ import json
 import unittest
 
 from flask import current_app
+from project import db
+from project.api.models import User
 from project.tests.base import BaseTestCase
 from project.tests.utils import add_user
 
@@ -292,6 +294,42 @@ class TestAuthBlueprint(BaseTestCase):
                 data['message'] == 'Invalid token please reauthenticate')
             self.assertEqual(response.status_code, 401)
 
+    def test_logout_invalid_inactive(self):
+        """
+        Checks if logout fails due to inactive
+        """
+        with self.client:
+            add_user('0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
+
+            # set user activity to false
+            user = User.query.filter_by(
+                eth_address='0x0d604c28a2a7c199c7705859c3f88a71cce2acb7'
+                   ).first()
+            user.active = False
+            db.session.commit()
+
+            test_login = self.client.post(
+                '/users/auth/login',
+                data=json.dumps({
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            token = json.loads(test_login.data.decode())['auth_token']
+            response = self.client.get(
+                '/users/auth/logout',
+                headers={'Authorization': f'Bearer {token}'}
+            )
+
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'fail')
+            self.assertTrue(
+                data['message'] == 'Please provide a valid auth token')
+            self.assertEqual(response.status_code, 401)
+
     def test_status_normal(self):
         """
         Checks if we can see status normally
@@ -376,6 +414,42 @@ class TestAuthBlueprint(BaseTestCase):
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(
                 data['message'] == 'Invalid token please reauthenticate')
+            self.assertEqual(response.status_code, 401)
+
+    def test_status_invalid_inactive(self):
+        """
+        Checks for failure if we check for status when the user
+        is inactive
+        """
+        with self.client:
+            add_user('0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
+
+            user = User.query.filter_by(
+                eth_address='0x0d604c28a2a7c199c7705859c3f88a71cce2acb7'
+                ).first()
+            user.active = False
+            db.session.commit()
+
+            test_login = self.client.post(
+                '/users/auth/login',
+                data=json.dumps({
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            token = json.loads(test_login.data.decode())['auth_token']
+
+            response = self.client.get(
+                '/users/auth/status',
+                headers={'Authorization': f'Bearer {token}'}
+            )
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'fail')
+            self.assertTrue(
+                data['message'] == 'Please provide a valid auth token')
             self.assertEqual(response.status_code, 401)
 
 

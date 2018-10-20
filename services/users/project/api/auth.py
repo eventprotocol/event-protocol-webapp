@@ -4,6 +4,7 @@ from sqlalchemy import exc
 import web3
 
 from project.api.models import User
+from project.api.utils import authenticate
 from project import db
 
 auth_blueprint = Blueprint('auth', __name__)
@@ -192,48 +193,26 @@ def login():
 
 
 @auth_blueprint.route('/users/auth/logout', methods=['GET'])
-def logout():
+@authenticate
+def logout(resp):
     """
-    REQUIRES LOGIN
+    REQUIRES AUTH
     Logout from current session
     """
     # default fail message
     response_object = {
-        'status': 'fail',
-        'message': 'Please provide a valid auth token'
+        'status': 'success',
+        'message': 'Successfully logged out'
     }
 
-    # get auth token
-    auth_header = request.headers.get('Authorization')
-
-    # if we get auth token
-    if auth_header:
-        auth_token = auth_header.split(' ')[1]
-        resp = User.decode_auth_token(auth_token)
-
-        print()
-        print("DEBUG: Logout")
-        print("resp = ", resp)
-
-        if not isinstance(resp, str):
-            response_object['status'] = 'success'
-            response_object['message'] = 'Successfully logged out'
-
-            # to delete tokens client side
-            return jsonify(response_object), 200
-
-        else:
-            response_object['message'] = resp
-            return jsonify(response_object), 401
-
-    else:
-        return jsonify(response_object), 403
+    return jsonify(response_object), 200
 
 
 @auth_blueprint.route('/users/auth/status', methods=['GET'])
-def status():
+@authenticate
+def status(resp):
     """
-    REQUIRES LOGIN
+    REQUIRES AUTH
     Get status for the current user
 
     receives payload
@@ -244,34 +223,10 @@ def status():
 
     If jwt token is invalid or does not exist return failure
     """
-    # get auth token
-
-    # default fail message
+    user = User.query.filter_by(id=resp).first()
     response_object = {
-        'status': 'fail',
-        'message': 'Please provide a valid auth token'
+        'status': 'success',
+        'message': 'success',
+        'data': user.to_json()
     }
-
-    # get auth token
-    auth_header = request.headers.get('Authorization')
-
-    # if we get auth token
-    if auth_header:
-        auth_token = auth_header.split(' ')[1]
-
-        resp = User.decode_auth_token(auth_token)
-
-        if not isinstance(resp, str):
-            # if ok get data from db
-            user = User.query.filter_by(id=resp).first()
-            response_object['status'] = 'success'
-            response_object['message'] = 'success'
-            response_object['data'] = user.to_json()
-            return jsonify(response_object), 200
-
-        else:
-            response_object['message'] = resp
-            return jsonify(response_object), 401
-
-    else:
-        return jsonify(response_object), 401
+    return jsonify(response_object), 200
