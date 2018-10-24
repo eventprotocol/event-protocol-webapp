@@ -17,12 +17,24 @@ def authenticate(f):
         }
 
         # get auth token
-        auth_header = request.headers.get('Authorization')
+        post_data = request.get_json()
+        auth_header = post_data.get('auth_token')
+        eth_address = post_data.get('eth_address')
+
+        # print()
+        # print("=================================")
+        # print("auth_header: ", auth_header)
+        # print("eth_address: ", eth_address)
 
         if not auth_header:
             return jsonify(response_object), 403
 
-        auth_token = auth_header.split(" ")[1]
+        if not eth_address:
+            response_object = 'Please provide eth address'
+            return jsonify(response_object), 401
+
+        auth_token = auth_header.split(" ")[0]
+        eth_address = eth_address.split(" ")[0]
 
         resp = User.decode_auth_token(auth_token)
 
@@ -33,6 +45,9 @@ def authenticate(f):
         user = User.query.filter_by(id=resp).first()
 
         if not user or not user.active:
+            return jsonify(response_object), 401
+
+        if user.eth_address != eth_address.strip().lower():
             return jsonify(response_object), 401
 
         return f(resp, *args, **kwargs)

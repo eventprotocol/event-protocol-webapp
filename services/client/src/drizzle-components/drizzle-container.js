@@ -18,6 +18,73 @@ class DrizzleContainer extends Component {
     }
   }
 
+  register(web3Instance, userAccount, hashedMsg) {
+    // TODO look into web3Instance.eth.personal.sign as it offers
+    // human readable message
+    if(!this.state.signRequest) {
+      // set signRequest flag to true as we are trying to sign something
+      this.state.signRequest = true;
+
+      web3Instance.eth.sign(hashedMsg, userAccount)
+      .then((signedMsg) => {
+        // console.log("Signed Message");
+        // console.log(signedMsg);
+
+        // send post request for registration
+        axios.post("/users/auth/register", {
+          eth_address: userAccount,
+          signed_message: signedMsg
+        })
+        .then((res) => {
+          console.log(res);
+
+          // store the authToken in local store
+          window.localStorage.setItem('authToken', res.data.auth_token);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      })
+      .catch((err) => {
+        console.log(err);
+
+        // set signRequest flag to false as we couldn't sign properly
+        this.state.signRequest = false;
+      })
+    }
+  }
+
+  login(web3Instance, userAccount, hashedMsg) {
+    if(!this.state.signRequest) {
+      this.state.signRequest = true;
+
+      web3Instance.eth.sign(hashedMsg, userAccount)
+      .then((signedMsg) => {
+        axios.post('/users/auth/login', {
+          eth_address: userAccount,
+          signed_message: signedMsg
+        })
+        .then((res) => {
+          console.log(res);
+
+          window.localStorage.setItem('authToken', res.data.auth_token);
+        })
+        .catch((err) => {
+          console.log(err);
+          this.state.signReqeust = false;
+
+        });
+
+      })
+      .catch((err) => {
+        console.log(err);
+        this.state.signRequest = false;
+      })
+
+    }
+
+  }
 
   render() {
     // console.log(this.props.accounts);
@@ -63,6 +130,7 @@ class DrizzleContainer extends Component {
        */
       var web3Instance = this.context.drizzle.web3;
       // console.log(web3Instance)
+      var hashedMsg = web3Instance.utils.sha3("EventProtocol");
 
       var userAccount = this.props.accounts[0];
 
@@ -70,47 +138,49 @@ class DrizzleContainer extends Component {
       axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
         // If user account is found start login
+
+        // Check for existing signature
+        // auth token not found
+        var authToken = window.localStorage.authToken;
+
+        if(!authToken) {
+          // if authToken not found means we haven't logged in
+          this.login(web3Instance, userAccount, hashedMsg);
+
+        } else {
+          // authToken found verify with /users/auth/status endpoint
+          console.log(authToken);
+          axios.get('/users/auth/status', {
+            headers: {
+              'Content-Type': 'application/json',
+              auth_token: authToken,
+              eth_address: userAccount
+            }
+          })
+          .then((res) => {
+            console.log(res);
+            var userActive = res.data.active;
+
+            if(!userActive) {
+              // If user is not active login again
+              this.login(web3Instance, userAccount, hashedMsg);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+
+            // If error we might have token problems login again
+            window.localStorage.removeItem(authToken);
+            this.login(web3Instance, userAccount, hashedMsg);
+          })
+        }
       })
       .catch((err) => {
         console.log(err);
 
         // User account not found, start registration
-        var hashedMsg = web3Instance.utils.sha3("EventProtocol");
+        this.register(web3Instance, userAccount, hashedMsg);
 
-        // TODO look into web3Instance.eth.personal.sign as it offers
-        // human readable message
-        if(!this.state.signRequest) {
-          // set signRequest flag to true as we are trying to sign something
-          this.state.signRequest = true;
-
-          web3Instance.eth.sign(hashedMsg, userAccount)
-          .then((signedMsg) => {
-            // console.log("Signed Message");
-            // console.log(signedMsg);
-
-            // send post request for registration
-            axios.post("/users/auth/register", {
-              eth_address: userAccount,
-              signed_message: signedMsg
-            })
-            .then((res) => {
-              console.log(res);
-
-              // store the authToken in local store
-              window.localStorage.setItem('authToken', res.data.auth_token);
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-
-          })
-          .catch((err) => {
-            console.log(err);
-
-            // set signRequest flag to false as we couldn't sign properly
-            this.status.signRequest = false;
-          })
-        }
       });
 
       return Children.only(this.props.children);
@@ -119,6 +189,7 @@ class DrizzleContainer extends Component {
     if (this.props.loadingComp) {
       return this.props.loadingComp
     }
+
     return(
       <main className="container loading-screen">
         <div className="pure-g">
