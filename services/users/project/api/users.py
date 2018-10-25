@@ -124,6 +124,42 @@ def get_all_users():
 
     return jsonify(response_object), 200
 
+@users_blueprint.route('/users/page/filter_by_id/<number>', methods=['GET'])
+def get_users_page_by_id(number):
+    """
+    Get user to display on page
+    Limit to 6 users per page
+    """
+    response_object = {
+        'status': 'fail',
+        'message': 'Error'
+    }
+
+    try:
+        number = int(number)
+        response_object = {
+            'status': 'success',
+            'data': {
+                'users': [User.query.get(x).to_json()
+                    for x in range(1 + (number-1)*6, number*6 + 1) ]
+            }
+        }
+        return jsonify(response_object), 200
+
+    except ValueError:
+        response_object['message'] = \
+            'ValueError'
+        return jsonify(response_object), 404
+
+    except exc.DataError:
+        response_object['message'] = \
+            'DataError'
+        return jsonify(response_object), 404
+
+    except:
+        return jsonify(response_object), 404
+
+
 @users_blueprint.route('/users/edit', methods=['POST'])
 @authenticate
 def modify_user_string_fields(resp, post_data):
