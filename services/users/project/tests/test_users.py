@@ -165,6 +165,63 @@ class TestUserService(BaseTestCase):
         self.assertTrue(isinstance(auth_token, bytes))
         self.assertEqual(User.decode_auth_token(auth_token), user.id)
 
+    def test_modify_user_string_fields(self):
+        """
+        Check if we can modify user data after registration
+        """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+
+            auth_token = data['auth_token']
+
+            response = self.client.post(
+                '/users/edit',
+                data=json.dumps({
+                    'auth_token': f'{token}',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'username': 'test',
+                    'email': 'test@test.com',
+                    'city_country': 'test',
+                    'tags': 'test1, test2',
+                    'about': 'test'
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(
+                data['message'] == 'Details modified')
+
+            self.assertEqual(response.status_code, 401)
+
+            # retrieve information about user
+            response = self.client.get(f'/users/id/{user.id}')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                data['data']['eth_address']
+            )
+            assertIn('test', data['data']['username'])
+            assertIn('test@test.com', data['data']['email'])
+            assertIn('test', data['data']['city_country'])
+            assertIn(['test1', 'test2'], data['data']['tags'])
+            assertIn('test', data['data']['about'])
+            self.assertIn('success', data['status'])
+
+
 
 if __name__ == '__main__':
     unittest.main()

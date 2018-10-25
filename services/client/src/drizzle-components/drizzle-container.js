@@ -24,6 +24,7 @@ class DrizzleContainer extends Component {
     if(!this.state.signRequest) {
       // set signRequest flag to true as we are trying to sign something
       this.state.signRequest = true;
+      console.log("Sign Register")
 
       web3Instance.eth.sign(hashedMsg, userAccount)
       .then((signedMsg) => {
@@ -59,6 +60,8 @@ class DrizzleContainer extends Component {
     if(!this.state.signRequest) {
       this.state.signRequest = true;
 
+      console.log("Sign Login")
+
       web3Instance.eth.sign(hashedMsg, userAccount)
       .then((signedMsg) => {
         axios.post('/users/auth/login', {
@@ -72,7 +75,6 @@ class DrizzleContainer extends Component {
         })
         .catch((err) => {
           console.log(err);
-          this.state.signReqeust = false;
 
         });
 
@@ -124,23 +126,14 @@ class DrizzleContainer extends Component {
       )
     }
     if (this.props.drizzleStatus.initialized) {
-
-      /*
-       * To establish reliable connection with the server side
-       */
       var web3Instance = this.context.drizzle.web3;
-      // console.log(web3Instance)
       var hashedMsg = web3Instance.utils.sha3("EventProtocol");
-
       var userAccount = this.props.accounts[0];
 
       // Check if user is already registered
       axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
         // If user account is found start login
-
-        // Check for existing signature
-        // auth token not found
         var authToken = window.localStorage.authToken;
 
         if(!authToken) {
@@ -149,17 +142,12 @@ class DrizzleContainer extends Component {
 
         } else {
           // authToken found verify with /users/auth/status endpoint
-          console.log(authToken);
-          axios.get('/users/auth/status', {
-            headers: {
-              'Content-Type': 'application/json',
-              auth_token: authToken,
-              eth_address: userAccount
-            }
+          axios.post('/users/auth/status', {
+            auth_token: authToken,
+            eth_address: userAccount,
           })
           .then((res) => {
-            console.log(res);
-            var userActive = res.data.active;
+            var userActive = res.data.data.active;
 
             if(!userActive) {
               // If user is not active login again

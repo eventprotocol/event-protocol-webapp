@@ -194,7 +194,7 @@ def login():
 
 @auth_blueprint.route('/users/auth/logout', methods=['POST'])
 @authenticate
-def logout(resp):
+def logout(resp, post_data):
     """
     REQUIRES AUTH
     Logout from current session
@@ -217,7 +217,7 @@ def logout(resp):
 
 @auth_blueprint.route('/users/auth/status', methods=['POST'])
 @authenticate
-def status(resp):
+def status(resp, post_data):
     """
     REQUIRES AUTH
     Get status for the current user

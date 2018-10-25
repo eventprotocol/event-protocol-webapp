@@ -99,10 +99,106 @@ function UserProfile(props) {
             headerColor="info"
             tabs={[
               {
+                tabName: "General",
+                tabContent: (
+                  <div>
+                    <h3>General</h3>
+                    <CustomInput
+                      labelText="Name"
+                      id="name"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].name}
+                    />
+
+                    <CustomInput
+                      labelText="Email"
+                      id="email"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].email}
+                    />
+
+                    <CustomInput
+                      labelText="Country/City"
+                      id="country-city"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].cityCountry}
+                    />
+
+                    <CustomInput
+                      labelText="About"
+                      id="About"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
+                )
+              },
+              {
+                tabName: "Seller Profile",
+                tabContent: (
+                  <div>
+                    <h3>Seller Profile</h3>
+                    <CustomInput
+                      labelText="Seller Details"
+                      id="About"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                    <CustomInput
+                      labelText="Tags (Separate with commas eg: Restaurant, Bar)"
+                      id="country-city"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].cityCountry}
+                    />
+                  </div>
+                )
+              },
+              {
+                tabName: "Buyer Profile",
+                tabContent: (
+                  <div>
+                    <h3>Buyer Profile</h3>
+                    <CustomInput
+                      labelText="Buyer Details"
+                      id="About"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
+                )
+              },
+        {/* To add proper oauth with social accounts
+              {
                 tabName: "Verification",
                 tabContent: (
                   <div>
-                  <h1>Verification</h1>
+                  <h3>Verification</h3>
                   <Button color="info" style={styles.button}>
                     Authenticate With Facebook
                   </Button>
@@ -121,6 +217,7 @@ function UserProfile(props) {
                   </div>
                 )
               }
+        */}
             ]}
           />
         </GridItem>
@@ -141,7 +238,7 @@ function UserProfile(props) {
                   View Profile
                 </Button>
               </a>
-            
+
               <CustomInput
                 labelText="Ethereum Address"
                 id="ethereum-address"
@@ -154,45 +251,6 @@ function UserProfile(props) {
                 value={UserData[idx].ethereumAddress}
               />
 
-              <CustomInput
-                labelText="Name"
-                id="name"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].name}
-              />
-
-              <CustomInput
-                labelText="Email"
-                id="email"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].email}
-              />
-
-              <CustomInput
-                labelText="Country/City"
-                id="country-city"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].cityCountry}
-              />
-
-              <CustomInput
-                labelText="About"
-                id="About"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  multiline: true,
-                  rows: 5,
-                }}
-                value={UserData[idx].about}
-              />
             </CardBody>
           </Card>
         </GridItem>

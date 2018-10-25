@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
 
 from project.api.models import User
+from project.api.utils import authenticate
 from project import db
 
 
@@ -53,11 +54,7 @@ def get_single_user_by_id(user_id):
         else:
             response_object = {
                 'status': 'success',
-                'data': {
-                    'id': user.id,
-                    'eth_address': user.eth_address,
-                    'active': user.active
-                }
+                'data': user.to_json(),
             }
 
             return jsonify(response_object), 200
@@ -96,11 +93,7 @@ def get_single_user_by_eth_address(eth_address):
         else:
             response_object = {
                 'status': 'success',
-                'data': {
-                    'id': user.id,
-                    'eth_address': user.eth_address,
-                    'active': user.active
-                }
+                'data': user.to_json(),
             }
 
             return jsonify(response_object), 200
@@ -129,4 +122,55 @@ def get_all_users():
         }
     }
 
+    return jsonify(response_object), 200
+
+@users_blueprint.route('/users/edit', methods=['POST'])
+@authenticate
+def modify_user_string_fields(resp, post_data):
+    """
+    Modify user details
+    Receives payload
+    {
+        "auth_token":
+        "eth_address":
+        'username':
+        'email':
+        'city_country':
+        'tags':
+        'about':
+    }
+
+    we omit img_src as this will be handled separately
+    """
+    user = User.query.filter_by(id=resp).first()
+
+    try:
+        user.username = post_data.get("username").strip()
+    except:
+        pass
+
+    try:
+        email = post_data.get("email").strip()
+    except:
+        pass
+
+    try:
+        user.city_country = post_data.get("city_country").strip()
+    except:
+        pass
+
+    try:
+        user.tags = post_data.get("tags").strip()
+    except:
+        pass
+
+    try:
+        user.about = post_data.get("about").strip()
+    except:
+        pass
+
+    response_object = {
+        'status': 'success',
+        'message': 'Details modified'
+    }
     return jsonify(response_object), 200

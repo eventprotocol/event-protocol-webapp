@@ -36,9 +36,7 @@ class HeaderLinks extends React.Component {
     this.setState({ open: false });
   };
 
-  /* TODO: To handle push notifications on backend if this
-   *       product were to be completed.
-   */
+
   render() {
     const { classes } = this.props;
     const { open } = this.state;
@@ -57,11 +55,13 @@ class HeaderLinks extends React.Component {
             }}
           />
           <Button color="white" aria-label="edit" justIcon round>
+            {/* TODO: To implement search on backend */}
             <Search />
           </Button>
         </div>
 
 
+      {/* To omit until a proper push notification system is created
         <div className={classes.manager}>
           <Button
             buttonRef={node => {
@@ -138,6 +138,7 @@ class HeaderLinks extends React.Component {
             )}
           </Poppers>
         </div>
+      */}
       </div>
     );
   }

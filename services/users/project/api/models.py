@@ -11,7 +11,13 @@ class User(db.Model):
     eth_address = db.Column(db.String(128), unique=True, nullable=False)
     username = db.Column(db.String(128), unique=True, nullable=True)
     email = db.Column(db.String(128), nullable=True)
+    city_country = db.Column(db.String(128), nullable=True)
+    _tags = db.Column(db.String(128), nullable=True)
+    img_src = db.Column(db.String(256), nullable=True)
+    about = db.Column(db.String(500), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
+
+
 
     def __init__(self, eth_address):
         """
@@ -28,8 +34,26 @@ class User(db.Model):
             'eth_address': self.eth_address,
             'username': self.username,
             'email': self.email,
-            'active': self.active,
+            'city_country': self.city_country,
+            'tags': self.tags,
+            'img_src': self.img_src,
+            'about': self.about,
+            'active': self.active
         }
+
+    @property
+    def tags(self):
+        try:
+            return [x.strip() for x in self._tags.split(',')]
+        except AttributeError as e:
+            return []
+
+    @tags.setter
+    def tags(self, value):
+        if value is None or value == "":
+            self._tags = ''
+        else:
+            self._tags = f'{value}'
 
     def encode_auth_token(self, user_id):
         """

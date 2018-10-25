@@ -36,25 +36,11 @@ let web3 = new Web3();
 class App extends Component {
   constructor() {
     super();
-
-    this.state = {
-      users: [],
-      eth_address: '',
-      username: '',
-      email: '',
-      isRegistered: '',
-    };
   };
 
   componentDidMount() {
-    // this.getUsers();
   };
 
-  getUsers() {
-    axios.get(`${process.env.REACT_APP_USERS_SERVICE_URL}/users`)
-    .then((res) => { this.setState({ users: res.data.data.users }); })
-    .catch((err) => { console.log(err); });
-  };
 
   render() {
     // Routes for dashboard

@@ -8,6 +8,12 @@ from project.api.models import User
 def authenticate(f):
     """
     Checks if the user is authenticated
+    Function should be POST
+    requires
+    {
+        "auth_token":
+        "eth_address":
+    }
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -50,5 +56,5 @@ def authenticate(f):
         if user.eth_address != eth_address.strip().lower():
             return jsonify(response_object), 401
 
-        return f(resp, *args, **kwargs)
+        return f(resp, post_data, *args, **kwargs)
     return decorated_function

@@ -75,69 +75,131 @@ class PublicProfile extends React.Component {
   render() {
     const { classes } = this.props;
     var idx = this.props.match.params.id;
-    console.log(idx);
     return (
       <div>
       <GridContainer>
-        <GridItem xs={12} sm={12} md={7}>
-          {/*
+        <GridItem xs={12} sm={12} md={8}>
           <CustomTabs
             headerColor="info"
             tabs={[
               {
+                tabName: "General",
+                tabContent: (
+                  <div>
+                    <h3>General</h3>
+                    <CustomInput
+                      labelText="Name"
+                      id="name"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].name}
+                    />
+
+                    <CustomInput
+                      labelText="Email"
+                      id="email"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].email}
+                    />
+
+                    <CustomInput
+                      labelText="Country/City"
+                      id="country-city"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].cityCountry}
+                    />
+
+                    <CustomInput
+                      labelText="About"
+                      id="About"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
+                )
+              },
+              {
                 tabName: "Seller Profile",
                 tabContent: (
-                  <h1></h1>
+                  <div>
+                    <h3>Seller Profile</h3>
+                    <CustomInput
+                      labelText="Seller Details"
+                      id="About"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
                 )
               },
               {
                 tabName: "Buyer Profile",
                 tabContent: (
-                  <h1>Test</h1>
+                  <div>
+                    <h3>Buyer Profile</h3>
+                    <CustomInput
+                      labelText="Buyer Details"
+                      id="About"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
                 )
               },
+        {/* To add proper oauth with social accounts
               {
                 tabName: "Verification",
                 tabContent: (
-                  <h1>Test</h1>
+                  <div>
+                  <h3>Verification</h3>
+                  <Button color="info" style={styles.button}>
+                    Authenticate With Facebook
+                  </Button>
+
+                  <Button color="info" style={styles.button}>
+                    Authenticate With Google+
+                  </Button>
+
+                  <Button color="info" style={styles.button}>
+                    Authenticate With Twitter
+                  </Button>
+
+                  <Button color="info" style={styles.button}>
+                    Authenticate With LinkedIn
+                  </Button>
+                  </div>
                 )
               }
-            ]}
-          />
         */}
-          <CustomTabs
-            headerColor="info"
-            tabs={[
-              {
-                tabName: "Buyer Profile",
-                tabContent: (
-                  <div>
-                  <h1>Buyer Profile</h1>
-                  <p>We are looking for graphic designers</p>
-                  <Button color="info" style={styles.button}>
-                    Message
-                  </Button>
-                  </div>
-                )
-              },
-               {
-                tabName: "Seller Profile",
-                tabContent: (
-                  <div>
-                  <h1>Seller Profile</h1>
-                  <p>We offer event services</p>
-                  <Button color="info" style={styles.button}>
-                    Message
-                  </Button>
-                  </div>
-                )
-              }
             ]}
           />
         </GridItem>
 
 
-        <GridItem xs={12} sm={12} md={5}>
+        <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardImage profile>
               <img src={UserData[idx].imgSrc} alt="..." />
@@ -155,46 +217,6 @@ class PublicProfile extends React.Component {
                   disabled: true
                 }}
                 value={UserData[idx].ethereumAddress}
-              />
-
-              <CustomInput
-                labelText="Name"
-                id="name"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].name}
-              />
-
-              <CustomInput
-                labelText="Email"
-                id="email"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].email}
-              />
-
-              <CustomInput
-                labelText="Country/City"
-                id="country-city"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].cityCountry}
-              />
-
-              <CustomInput
-                labelText="About"
-                id="About"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  multiline: true,
-                  rows: 5,
-                }}
-                value={UserData[idx].about}
               />
             </CardBody>
           </Card>
