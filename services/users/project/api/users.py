@@ -150,7 +150,7 @@ def modify_user_string_fields(resp, post_data):
         pass
 
     try:
-        email = post_data.get("email").strip()
+        user.email = post_data.get("email").strip()
     except:
         pass
 

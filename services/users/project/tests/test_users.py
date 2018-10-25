@@ -187,7 +187,7 @@ class TestUserService(BaseTestCase):
             response = self.client.post(
                 '/users/edit',
                 data=json.dumps({
-                    'auth_token': f'{token}',
+                    'auth_token': f'{auth_token}',
                     'eth_address':
                         '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                     'username': 'test',
@@ -204,21 +204,21 @@ class TestUserService(BaseTestCase):
             self.assertTrue(
                 data['message'] == 'Details modified')
 
-            self.assertEqual(response.status_code, 401)
+            self.assertEqual(response.status_code, 200)
 
             # retrieve information about user
-            response = self.client.get(f'/users/id/{user.id}')
+            response = self.client.get(f'/users/id/1')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertIn(
                 '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
                 data['data']['eth_address']
             )
-            assertIn('test', data['data']['username'])
-            assertIn('test@test.com', data['data']['email'])
-            assertIn('test', data['data']['city_country'])
-            assertIn(['test1', 'test2'], data['data']['tags'])
-            assertIn('test', data['data']['about'])
+            self.assertIn('test', data['data']['username'])
+            self.assertIn('test@test.com', data['data']['email'])
+            self.assertIn('test', data['data']['city_country'])
+            self.assertEqual(['test1', 'test2'], data['data']['tags'])
+            self.assertIn('test', data['data']['about'])
             self.assertIn('success', data['status'])
 
 
