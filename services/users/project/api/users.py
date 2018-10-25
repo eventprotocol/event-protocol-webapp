@@ -138,6 +138,8 @@ def modify_user_string_fields(resp, post_data):
         'city_country':
         'tags':
         'about':
+        'seller_detail':
+        'buyer_detail':
     }
 
     we omit img_src as this will be handled separately
@@ -166,6 +168,16 @@ def modify_user_string_fields(resp, post_data):
 
     try:
         user.about = post_data.get("about").strip()
+    except:
+        pass
+
+    try:
+        user.seller_detail = post_data.get("seller_detail").strip()
+    except:
+        pass
+
+    try:
+        user.buyer_detail = post_data.get("buyer_detail").strip()
     except:
         pass
 

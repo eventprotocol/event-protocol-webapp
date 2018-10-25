@@ -15,6 +15,8 @@ class User(db.Model):
     _tags = db.Column(db.String(128), nullable=True)
     img_src = db.Column(db.String(256), nullable=True)
     about = db.Column(db.String(500), nullable=True)
+    seller_detail = db.Column(db.String(500), nullable=True)
+    buyer_detail = db.Column(db.String(500), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
 
 
@@ -38,6 +40,8 @@ class User(db.Model):
             'tags': self.tags,
             'img_src': self.img_src,
             'about': self.about,
+            'seller_detail': self.seller_detail,
+            'buyer_detail': self.buyer_detail,
             'active': self.active
         }
 

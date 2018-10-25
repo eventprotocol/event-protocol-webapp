@@ -194,7 +194,9 @@ class TestUserService(BaseTestCase):
                     'email': 'test@test.com',
                     'city_country': 'test',
                     'tags': 'test1, test2',
-                    'about': 'test'
+                    'about': 'test',
+                    'seller_detail': 'test',
+                    'buyer_detail': 'test'
                 }),
                 content_type='application/json'
             )
@@ -219,6 +221,8 @@ class TestUserService(BaseTestCase):
             self.assertIn('test', data['data']['city_country'])
             self.assertEqual(['test1', 'test2'], data['data']['tags'])
             self.assertIn('test', data['data']['about'])
+            self.assertIn('test', data['data']['seller_detail'])
+            self.assertIn('test', data['data']['buyer_detail'])
             self.assertIn('success', data['status'])
 
 
