@@ -64,6 +64,10 @@ const styles = {
 // Currently for demo take UserData as id 0
 const idx = 0;
 
+function uploadPhoto() {
+
+}
+
 function UserProfile(props) {
   const { classes } = props;
   return (
@@ -193,7 +197,7 @@ function UserProfile(props) {
                   </div>
                 )
               },
-        {/* To add proper oauth with social accounts
+        {/* To add proper oauth with social accounts when available
               {
                 tabName: "Verification",
                 tabContent: (
@@ -229,8 +233,8 @@ function UserProfile(props) {
               <img src={UserData[idx].imgSrc} alt="..." />
             </CardImage>
             <CardBody profile>
-              <Button color="info" style={styles.button}>
-                Change Photo
+              <Button color="info" style={styles.button} onclick={this.uploadPhoto()}>
+                Upload Photo
               </Button>
 
               <a href={"/account/" + UserData[idx].id}>
