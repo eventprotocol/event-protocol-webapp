@@ -60,7 +60,6 @@ class TestUserModel(BaseTestCase):
     about = db.Column(db.String(256), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
 
-
     def test_userdb_add_user_duplicate_eth_address(self):
         """
         Test if the database raises error if duplicate eth addresses exist

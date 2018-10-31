@@ -148,6 +148,66 @@ class TestUserService(BaseTestCase):
                 response.data
             )
 
+    def test_page(self):
+        """
+        Ensure we get the desired reponse if there are users
+        """
+        eth_address_list = ['0x0e35462535dae6fd521f0eea67dc4e9485c714dc',
+                            '0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8',
+                            '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                            '0x50e9002d238d9a2a29c3047971e8006663a9d799',
+                            '0xf4675187bd8b058ccf87f7116b54970fc3f81b52',
+                            '0x6ea57f562ef39f1776eb66d91c54a961fa6ddada',
+                            '0x04ee2da68b909684d586a852970e424981f30928']
+
+        add_user(eth_address_list[0])
+        add_user(eth_address_list[1])
+        add_user(eth_address_list[2])
+        add_user(eth_address_list[3])
+        add_user(eth_address_list[4])
+        add_user(eth_address_list[5])
+        add_user(eth_address_list[6])
+
+        with self.client:
+            # page 2
+            response = self.client.get('/users/page/filter_by_id/2')
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
+
+            self.assertIn('success', data['status'])
+            self.assertEqual(data['data']['page_total'], 2)
+            self.assertTrue(data['data']['users'][0]['about'] is None)
+            self.assertTrue(data['data']['users'][0]['buyer_detail'] is None)
+            self.assertTrue(data['data']['users'][0]['city_country'] is None)
+            self.assertTrue(data['data']['users'][0]['email'] is None)
+            self.assertTrue(data['data']['users'][0]['eth_address'] ==
+                            eth_address_list[6])
+            self.assertTrue(data['data']['users'][0]['id'] == 7)
+            self.assertTrue(data['data']['users'][0]['seller_detail'] is None)
+            self.assertTrue(data['data']['users'][0]['username'] is None)
+
+            # page 1
+            response = self.client.get('/users/page/filter_by_id/1')
+            self.assertEqual(response.status_code, 200)
+            data = json.loads(response.data.decode())
+
+            self.assertIn('success', data['status'])
+            for i in range(len(data['data']['users'])):
+
+                self.assertEqual(data['data']['page_total'], 2)
+                self.assertTrue(data['data']['users'][i]['about'] is None)
+                self.assertTrue(
+                    data['data']['users'][i]['buyer_detail'] is None)
+                self.assertTrue(
+                    data['data']['users'][i]['city_country'] is None)
+                self.assertTrue(data['data']['users'][i]['email'] is None)
+                self.assertTrue(data['data']['users'][i]['eth_address'] ==
+                                eth_address_list[i])
+                self.assertTrue(data['data']['users'][i]['id'] == i+1)
+                self.assertTrue(
+                    data['data']['users'][i]['seller_detail'] is None)
+                self.assertTrue(data['data']['users'][i]['username'] is None)
+
     def test_encode_auth_token(self):
         """
         Ensure that we can encode auth token
@@ -225,6 +285,125 @@ class TestUserService(BaseTestCase):
             self.assertIn('test', data['data']['buyer_detail'])
             self.assertIn('success', data['status'])
 
+    def test_modify_user_string_fields_empty_fields(self):
+        """
+        Check if we can modify user data after registration
+        """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+
+            auth_token = data['auth_token']
+
+            response = self.client.post(
+                '/users/edit',
+                data=json.dumps({
+                    'auth_token': f'{auth_token}',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'username': '',
+                    'email': '',
+                    'city_country': '',
+                    'tags': '',
+                    'about': '',
+                    'seller_detail': '',
+                    'buyer_detail': ''
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(
+                data['message'] == 'Details modified')
+
+            self.assertEqual(response.status_code, 200)
+
+            # retrieve information about user
+            response = self.client.get(f'/users/id/1')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                data['data']['eth_address']
+            )
+            self.assertIn('', data['data']['username'])
+            self.assertIn('', data['data']['email'])
+            self.assertIn('', data['data']['city_country'])
+            self.assertEqual([''], data['data']['tags'])
+            self.assertIn('', data['data']['about'])
+            self.assertIn('', data['data']['seller_detail'])
+            self.assertIn('', data['data']['buyer_detail'])
+            self.assertIn('success', data['status'])
+
+    def test_modify_user_string_fields_none_field(self):
+        """
+        Check if we can modify user data after registration
+        """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+
+            auth_token = data['auth_token']
+
+            response = self.client.post(
+                '/users/edit',
+                data=json.dumps({
+                    'auth_token': f'{auth_token}',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'username': None,
+                    'email': None,
+                    'city_country': None,
+                    'tags': None,
+                    'about': None,
+                    'seller_detail': None,
+                    'buyer_detail': None
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(
+                data['message'] == 'Details modified')
+
+            self.assertEqual(response.status_code, 200)
+
+            # retrieve information about user
+            response = self.client.get(f'/users/id/1')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                data['data']['eth_address']
+            )
+            self.assertIn('', data['data']['username'])
+            self.assertIn('', data['data']['email'])
+            self.assertIn('', data['data']['city_country'])
+            self.assertEqual([''], data['data']['tags'])
+            self.assertIn('', data['data']['about'])
+            self.assertIn('', data['data']['seller_detail'])
+            self.assertIn('', data['data']['buyer_detail'])
+            self.assertIn('success', data['status'])
 
 
 if __name__ == '__main__':

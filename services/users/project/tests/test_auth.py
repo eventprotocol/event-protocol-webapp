@@ -345,7 +345,6 @@ class TestAuthBlueprint(BaseTestCase):
                 content_type='application/json'
             )
 
-
             data = json.loads(response.data.decode())
             self.assertTrue(data['status'] == 'fail')
             self.assertTrue(
@@ -478,7 +477,11 @@ class TestAuthBlueprint(BaseTestCase):
                 content_type='application/json'
             )
 
-            token = json.loads(test_login.data.decode())['auth_token']
+            test_login_data = json.loads(test_login.data.decode())
+            self.assertTrue(test_login_data['status'] == 'success')
+            self.assertTrue(test_login_data['message'] ==
+                            'Successfully logged in')
+            self.assertEqual(test_login.status_code, 200)
 
             response = self.client.post(
                 '/users/auth/status',
@@ -491,7 +494,6 @@ class TestAuthBlueprint(BaseTestCase):
             )
             data = json.loads(response.data.decode())
 
-            print(data)
             self.assertTrue(data['status'] == 'fail')
             # self.assertTrue(
             #     data['message'] == 'Please provide a valid auth token')
