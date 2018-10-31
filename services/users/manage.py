@@ -114,9 +114,11 @@ def seed_db():
     user4.email = "info@pleasantphoto.com"
     user4.city_country = "Singapore, SG"
     user4.tags = "Photography"
-    user4.about = ('We are a group of photographers specialized in wedding photography. '
-                    'We have won numerous awards for our photos. We will capture your '
-                    'memories in ways you cannot imagine.')
+    user4.about = ('We are a group of photographers specialized in wedding'
+                   'photography. '
+                   'We have won numerous awards for our photos. '
+                   'We will capture your '
+                   'memories in ways you cannot imagine.')
     user4.seller_detail = '''We sell photos'''
     user4.buyer_detail = '''We are not buying'''
 
@@ -126,10 +128,10 @@ def seed_db():
     user5.email = "epic@alcoholtothemax.com"
     user5.city_country = "Singapore, SG"
     user5.tags = "Bar, Restaurant"
-    user5.about = ('Award winnning winebar with the best selection of alcohol. '
-                    'We serve delicious international cuisine, with fusion'
-                    'dishes inspired from our travels. We are always ready for'
-                    'your craziest events.')
+    user5.about = ('Award winnning winebar with the best selection of alcohol.'
+                   'We serve delicious international cuisine, with fusion'
+                   'dishes inspired from our travels. We are always ready for'
+                   'your craziest events.')
     user5.seller_detail = '''We sell wine '''
     user5.buyer_detail = '''We are not buying '''
 
@@ -140,7 +142,7 @@ def seed_db():
     user6.city_country = "Singapore, SG"
     user6.tags = "Performer"
     user6.about = ('Dancers who dance are people who like to dance alot.'
-                    'Give us music and we will dance for you.')
+                   'Give us music and we will dance for you.')
     user6.seller_detail = '''We sell dance '''
     user6.buyer_detail = '''We are not buying '''
 

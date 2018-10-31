@@ -19,8 +19,6 @@ class User(db.Model):
     buyer_detail = db.Column(db.String(500), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
 
-
-
     def __init__(self, eth_address):
         """
         Initialize user model with eth_address obtained from web3

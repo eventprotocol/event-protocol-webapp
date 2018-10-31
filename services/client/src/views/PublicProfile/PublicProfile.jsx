@@ -88,15 +88,6 @@ class PublicProfile extends React.Component {
                   <div>
                     <h3>General</h3>
                     <CustomInput
-                      labelText="Name"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      value={UserData[idx].name}
-                    />
-
-                    <CustomInput
                       labelText="Email"
                       id="email"
                       formControlProps={{
@@ -207,6 +198,8 @@ class PublicProfile extends React.Component {
             <CardBody profile>
               <br/>
 
+              <h3>{UserData[idx].name}</h3>
+
               <CustomInput
                 labelText="Ethereum Address"
                 id="ethereum-address"
@@ -222,6 +215,14 @@ class PublicProfile extends React.Component {
           </Card>
         </GridItem>
       </GridContainer>
+      <div className="container" style={styles.centerer1}>
+        <div className="container" style={styles.centerer2}>
+          <Button color="info" style={styles.fullbutton}>
+            Message
+          </Button>
+        </div>
+      </div>
+
       </div>
     );
   }

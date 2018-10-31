@@ -108,15 +108,6 @@ function UserProfile(props) {
                   <div>
                     <h3>General</h3>
                     <CustomInput
-                      labelText="Name"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      value={UserData[idx].name}
-                    />
-
-                    <CustomInput
                       labelText="Email"
                       id="email"
                       formControlProps={{
@@ -136,7 +127,7 @@ function UserProfile(props) {
 
                     <CustomInput
                       labelText="About"
-                      id="About"
+                      id="aboutGeneral"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -156,7 +147,7 @@ function UserProfile(props) {
                     <h3>Seller Profile</h3>
                     <CustomInput
                       labelText="Seller Details"
-                      id="About"
+                      id="sellerAbout"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -168,7 +159,7 @@ function UserProfile(props) {
                     />
                     <CustomInput
                       labelText="Tags (Separate with commas eg: Restaurant, Bar)"
-                      id="country-city"
+                      id="tags"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -184,7 +175,7 @@ function UserProfile(props) {
                     <h3>Buyer Profile</h3>
                     <CustomInput
                       labelText="Buyer Details"
-                      id="About"
+                      id="buyerAbout"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -233,7 +224,7 @@ function UserProfile(props) {
               <img src={UserData[idx].imgSrc} alt="..." />
             </CardImage>
             <CardBody profile>
-              <Button color="info" style={styles.button} onclick={this.uploadPhoto()}>
+              <Button color="info" style={styles.button} onclick={uploadPhoto()}>
                 Upload Photo
               </Button>
 
@@ -242,7 +233,14 @@ function UserProfile(props) {
                   View Profile
                 </Button>
               </a>
-
+              <CustomInput
+                labelText="Username"
+                id="user-name"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                value={UserData[idx].name}
+              />
               <CustomInput
                 labelText="Ethereum Address"
                 id="ethereum-address"

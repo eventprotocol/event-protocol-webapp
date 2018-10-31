@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
+from sqlalchemy.sql.expression import func
 
 from project.api.models import User
 from project.api.utils import authenticate
@@ -124,6 +125,7 @@ def get_all_users():
 
     return jsonify(response_object), 200
 
+
 @users_blueprint.route('/users/page/filter_by_id/<number>', methods=['GET'])
 def get_users_page_by_id(number):
     """
@@ -137,11 +139,26 @@ def get_users_page_by_id(number):
 
     try:
         number = int(number)
+        # get the page according to the number
+        page_data = []
+        for x in range(1 + (number-1)*6, number*6+1):
+            try:
+                page_data.append(User.query.get(x).to_json())
+            except AttributeError:
+                # if we get a NoneType error means no value exist
+                break
+
+        # get max number of pages
+        max_id = db.session.query(func.max(User.id)).first()[0]
+        page_total = max_id // 6
+        if max_id % 6 > 0:
+            page_total += 1
+
         response_object = {
             'status': 'success',
             'data': {
-                'users': [User.query.get(x).to_json()
-                    for x in range(1 + (number-1)*6, number*6 + 1) ]
+                'users': page_data,
+                'page_total': page_total
             }
         }
         return jsonify(response_object), 200
@@ -156,7 +173,7 @@ def get_users_page_by_id(number):
             'DataError'
         return jsonify(response_object), 404
 
-    except:
+    except AttributeError:
         return jsonify(response_object), 404
 
 
@@ -183,38 +200,66 @@ def modify_user_string_fields(resp, post_data):
     user = User.query.filter_by(id=resp).first()
 
     try:
-        user.username = post_data.get("username").strip()
-    except:
+        username = post_data.get('username')
+        if username is None:
+            user.username = ''
+        else:
+            user.username = username.strip()
+    except AttributeError:
         pass
 
     try:
-        user.email = post_data.get("email").strip()
-    except:
+        email = post_data.get('email')
+        if email is None:
+            user.email = ''
+        else:
+            user.email = email.strip()
+    except AttributeError:
         pass
 
     try:
-        user.city_country = post_data.get("city_country").strip()
-    except:
+        city_country = post_data.get('city_country')
+        if city_country is None:
+            user.city_country = ''
+        else:
+            user.city_country = city_country.strip()
+    except AttributeError:
         pass
 
     try:
-        user.tags = post_data.get("tags").strip()
-    except:
+        tags = post_data.get('tags')
+        if tags is None:
+            user.tags = ''
+        else:
+            user.tags = tags.strip()
+    except AttributeError:
         pass
 
     try:
-        user.about = post_data.get("about").strip()
-    except:
+        about = post_data.get('about')
+        if about is None:
+            user.about = ''
+        else:
+            user.about = about.strip()
+    except AttributeError:
         pass
 
     try:
-        user.seller_detail = post_data.get("seller_detail").strip()
-    except:
+        seller_detail = post_data.get('seller_detail')
+        if seller_detail is None:
+            user.seller_detail = ''
+        else:
+            user.seller_detail = seller_detail.strip()
+    except AttributeError:
         pass
 
     try:
-        user.buyer_detail = post_data.get("buyer_detail").strip()
-    except:
+        buyer_detail = post_data.get('buyer_detail')
+        if buyer_detail is None:
+            user.buyer_detail = ''
+        else:
+            user.buyer_detail = buyer_detail.strip()
+    except AttributeError:
         pass
 
     response_object = {
