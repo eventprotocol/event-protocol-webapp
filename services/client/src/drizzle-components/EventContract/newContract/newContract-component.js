@@ -84,7 +84,6 @@ class NewContract extends Component{
 
   onSubmit = e => {
     e.preventDefault();
-
     var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
     console.log(eventDate_epoch);
     console.log(this.state);
@@ -182,7 +181,7 @@ class NewContract extends Component{
           <TextField
             required
             fullWidth
-            type="datetime-local"
+            type="date"
             id="outlined-full-width"
             label="Event Date and Time"
             value={this.state.eventDate}
