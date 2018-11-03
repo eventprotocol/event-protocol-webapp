@@ -1,5 +1,7 @@
 import React from "react";
 import propTypes from "prop-types";
+import axios from 'axios';
+
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -17,10 +19,7 @@ import CardBody from "../../components/Card/CardBody.jsx";
 import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
 
-
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
-
-import UserData from "../../data/UserData.json";
 
 const styles = {
   cardCategoryWhite: {
@@ -63,18 +62,52 @@ const styles = {
 
 
 class PublicProfile extends React.Component {
-  state = {
-    value: 0,
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      city_country: "",
+      about: "",
+      seller_detail: "",
+      buyer_detail: "",
+      img_src: null,
+      username: "",
+      eth_address: "",
+      tags: []
+    }
   }
+
   handleChange = (event, value) => {
     this.setState({ value });
   }
   handleChangeIndex = (index) => {
     this.setState({ value: index });
   }
+  getUserData(idx) {
+    axios.get('/users/id/' + idx)
+    .then((res) => {
+      var data = res.data.data;
+      this.setState({
+        email: data.email,
+        city_country: data.city_country,
+        about: data.about,
+        seller_detail: data.seller_detail,
+        buyer_detail: data.buyer_detail,
+        img_src: data.img_src,
+        username: data.username,
+        eth_address: data.eth_address,
+        tags: data.tags
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
   render() {
     const { classes } = this.props;
     var idx = this.props.match.params.id;
+    this.getUserData(idx);
+
     return (
       <div>
       <GridContainer>
@@ -93,7 +126,7 @@ class PublicProfile extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      value={UserData[idx].email}
+                      value={this.state.email}
                     />
 
                     <CustomInput
@@ -102,7 +135,7 @@ class PublicProfile extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      value={UserData[idx].cityCountry}
+                      value={this.state.city_country}
                     />
 
                     <CustomInput
@@ -115,7 +148,7 @@ class PublicProfile extends React.Component {
                         multiline: true,
                         rows: 10,
                       }}
-                      value={UserData[idx].about}
+                      value={this.state.about}
                     />
                   </div>
                 )
@@ -135,8 +168,19 @@ class PublicProfile extends React.Component {
                         multiline: true,
                         rows: 10,
                       }}
-                      value={UserData[idx].about}
+                      value={this.state.seller_detail}
                     />
+                    <h6><strong>Tags: </strong>
+                    {
+                      this.state.tags.map((datum) => {
+                        return (
+                          <span className="badge badge-secondary">
+                            {datum}
+                          </span>
+                        );
+                      })
+                    }
+                    </h6>
                   </div>
                 )
               },
@@ -155,7 +199,7 @@ class PublicProfile extends React.Component {
                         multiline: true,
                         rows: 10,
                       }}
-                      value={UserData[idx].about}
+                      value={this.state.buyer_detail}
                     />
                   </div>
                 )
@@ -193,12 +237,19 @@ class PublicProfile extends React.Component {
         <GridItem xs={12} sm={12} md={4}>
           <Card profile>
             <CardImage profile>
-              <img src={UserData[idx].imgSrc} alt="..." />
+              {
+                // if image is null
+                !this.state.img_src ? (
+                  <img src="/media/blank.jpg" alt="..." />
+                ) : (
+                  <img src={this.state.img_src} alt="..." />
+                )
+              }
             </CardImage>
             <CardBody profile>
               <br/>
 
-              <h3>{UserData[idx].name}</h3>
+              <h3>{this.state.username}</h3>
 
               <CustomInput
                 labelText="Ethereum Address"
@@ -209,7 +260,7 @@ class PublicProfile extends React.Component {
                 inputProps={{
                   disabled: true
                 }}
-                value={UserData[idx].ethereumAddress}
+                value={this.state.eth_address}
               />
             </CardBody>
           </Card>
