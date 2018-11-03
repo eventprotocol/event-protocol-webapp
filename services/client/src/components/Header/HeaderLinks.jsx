@@ -42,6 +42,7 @@ class HeaderLinks extends React.Component {
     const { open } = this.state;
     return (
       <div>
+      {/* TODO: Implement search on backend
         <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
@@ -55,10 +56,10 @@ class HeaderLinks extends React.Component {
             }}
           />
           <Button color="white" aria-label="edit" justIcon round>
-            {/* TODO: To implement search on backend */}
             <Search />
           </Button>
         </div>
+      */}
 
 
       {/* To omit until a proper push notification system is created
