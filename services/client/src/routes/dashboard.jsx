@@ -44,7 +44,7 @@ const dashboardRoutes = [
     sidebarName: "Wallet",
     navbarName: "Wallet",
     icon: Book,
-    loginRequired: false,
+    loginRequired: true,
     component: Wallet
   },
   {

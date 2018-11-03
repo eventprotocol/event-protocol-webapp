@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const action = (
-  <a href="https://consensys.zendesk.com/hc/en-us/categories/360000441452-Using-MetaMask">
+  <a href="https://metamask.zendesk.com/hc/en-us/categories/360000914011-Using-MetaMask">
   <Button color="secondary" size="small">
     Metamask FAQ
   </Button>

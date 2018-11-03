@@ -30,7 +30,7 @@ def register():
     NOTE We only accept lower case eth address
     {
         "eth_address":
-        "message":
+        "signed_message":
     }
 
     If user already exists sends user exists
@@ -121,7 +121,7 @@ def login():
     NOTE We only accept lower case eth address
     {
         "eth_address":
-        "message":
+        "signed_message":
     }
     """
     post_data = request.get_json()
@@ -192,12 +192,19 @@ def login():
         return jsonify(response_object), 500
 
 
-@auth_blueprint.route('/users/auth/logout', methods=['GET'])
+@auth_blueprint.route('/users/auth/logout', methods=['POST'])
 @authenticate
-def logout(resp):
+def logout(resp, post_data):
     """
     REQUIRES AUTH
     Logout from current session
+
+    receives payload
+    {
+        "eth_address":
+        "jwt_token":
+    }
+
     """
     # default fail message
     response_object = {
@@ -208,18 +215,20 @@ def logout(resp):
     return jsonify(response_object), 200
 
 
-@auth_blueprint.route('/users/auth/status', methods=['GET'])
+@auth_blueprint.route('/users/auth/status', methods=['POST'])
 @authenticate
-def status(resp):
+def status(resp, post_data):
     """
     REQUIRES AUTH
     Get status for the current user
 
     receives payload
     {
+        "auth_token":
         "eth_address":
-        "jwt_token":
     }
+
+    returns user data json from models
 
     If jwt token is invalid or does not exist return failure
     """

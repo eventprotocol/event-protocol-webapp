@@ -64,6 +64,10 @@ const styles = {
 // Currently for demo take UserData as id 0
 const idx = 0;
 
+function uploadPhoto() {
+
+}
+
 function UserProfile(props) {
   const { classes } = props;
   return (
@@ -99,10 +103,97 @@ function UserProfile(props) {
             headerColor="info"
             tabs={[
               {
+                tabName: "General",
+                tabContent: (
+                  <div>
+                    <h3>General</h3>
+                    <CustomInput
+                      labelText="Email"
+                      id="email"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].email}
+                    />
+
+                    <CustomInput
+                      labelText="Country/City"
+                      id="country-city"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].cityCountry}
+                    />
+
+                    <CustomInput
+                      labelText="About"
+                      id="aboutGeneral"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
+                )
+              },
+              {
+                tabName: "Seller Profile",
+                tabContent: (
+                  <div>
+                    <h3>Seller Profile</h3>
+                    <CustomInput
+                      labelText="Seller Details"
+                      id="sellerAbout"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                    <CustomInput
+                      labelText="Tags (Separate with commas eg: Restaurant, Bar)"
+                      id="tags"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      value={UserData[idx].cityCountry}
+                    />
+                  </div>
+                )
+              },
+              {
+                tabName: "Buyer Profile",
+                tabContent: (
+                  <div>
+                    <h3>Buyer Profile</h3>
+                    <CustomInput
+                      labelText="Buyer Details"
+                      id="buyerAbout"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      inputProps={{
+                        multiline: true,
+                        rows: 10,
+                      }}
+                      value={UserData[idx].about}
+                    />
+                  </div>
+                )
+              },
+        {/* To add proper oauth with social accounts when available
+              {
                 tabName: "Verification",
                 tabContent: (
                   <div>
-                  <h1>Verification</h1>
+                  <h3>Verification</h3>
                   <Button color="info" style={styles.button}>
                     Authenticate With Facebook
                   </Button>
@@ -121,6 +212,7 @@ function UserProfile(props) {
                   </div>
                 )
               }
+        */}
             ]}
           />
         </GridItem>
@@ -132,8 +224,8 @@ function UserProfile(props) {
               <img src={UserData[idx].imgSrc} alt="..." />
             </CardImage>
             <CardBody profile>
-              <Button color="info" style={styles.button}>
-                Change Photo
+              <Button color="info" style={styles.button} onclick={uploadPhoto()}>
+                Upload Photo
               </Button>
 
               <a href={"/account/" + UserData[idx].id}>
@@ -141,7 +233,14 @@ function UserProfile(props) {
                   View Profile
                 </Button>
               </a>
-            
+              <CustomInput
+                labelText="Username"
+                id="user-name"
+                formControlProps={{
+                  fullWidth: true
+                }}
+                value={UserData[idx].name}
+              />
               <CustomInput
                 labelText="Ethereum Address"
                 id="ethereum-address"
@@ -154,45 +253,6 @@ function UserProfile(props) {
                 value={UserData[idx].ethereumAddress}
               />
 
-              <CustomInput
-                labelText="Name"
-                id="name"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].name}
-              />
-
-              <CustomInput
-                labelText="Email"
-                id="email"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].email}
-              />
-
-              <CustomInput
-                labelText="Country/City"
-                id="country-city"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                value={UserData[idx].cityCountry}
-              />
-
-              <CustomInput
-                labelText="About"
-                id="About"
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  multiline: true,
-                  rows: 5,
-                }}
-                value={UserData[idx].about}
-              />
             </CardBody>
           </Card>
         </GridItem>
