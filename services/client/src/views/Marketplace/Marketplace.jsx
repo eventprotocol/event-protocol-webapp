@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import propTypes from "prop-types";
 
 // @material-ui/core
@@ -37,10 +38,27 @@ const styles = {
   };
 
 class Marketplace extends React.Component {
-
-  state = {
-    value: 0,
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: 1,
+      data: null
+    }
   }
+
+  getUserData() {
+    axios.get('/users/id/' + this.state.value)
+    .then((res) => {
+      var pageData = res.data.data;
+      this.setState({
+        data: pageData
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+
   handleChange = (event, value) => {
     this.setState({ value });
   }
@@ -49,11 +67,14 @@ class Marketplace extends React.Component {
   }
   render() {
     const { classes } = this.props;
+    this.getUserData();
 
     // To do search filtering
     return (
       <div>
+      {/*
       <DrizzleProvider options={options}>
+    */}
         <GridContainer>
         {
           UserData.map((data) => {
@@ -88,7 +109,9 @@ class Marketplace extends React.Component {
           })
         }
         </GridContainer>
+        {/*
         </DrizzleProvider>
+      */}
       </div>
 
     );

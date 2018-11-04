@@ -84,9 +84,9 @@ def seed_db():
     user1.email = "info@meetmeetrevolution.com"
     user1.city_country = "Singapore, SG"
     user1.tags = "Meeting Spaces"
-    user1.about = '''This is the best meeting space you will ever see '''
-    user1.seller_detail = '''We sell space '''
-    user1.buyer_detail = '''We are not buying '''
+    user1.about = '''This is the best meeting space you will ever see'''
+    user1.seller_detail = '''We sell space'''
+    user1.buyer_detail = '''We are not buying'''
 
     user2 = User(
         eth_address='0xF4675187bD8B058CcF87f7116b54970fC3f81b52'.lower())
@@ -94,9 +94,9 @@ def seed_db():
     user2.email = "info@makeupbreakup.com"
     user2.city_country = "Singapore, SG"
     user2.tags = "Stylist"
-    user2.about = '''Reimagine your looks with us '''
-    user2.seller_detail = '''We are serving looks tonight '''
-    user2.buyer_detail = '''We are not buying '''
+    user2.about = '''Reimagine your looks with us'''
+    user2.seller_detail = '''We are serving looks tonight'''
+    user2.buyer_detail = '''We are not buying'''
 
     user3 = User(
         eth_address='0x4FaE992a476bB00Be85B7BF76fef8e27DE2231C7'.lower())
@@ -132,8 +132,8 @@ def seed_db():
                    'We serve delicious international cuisine, with fusion'
                    'dishes inspired from our travels. We are always ready for'
                    'your craziest events.')
-    user5.seller_detail = '''We sell wine '''
-    user5.buyer_detail = '''We are not buying '''
+    user5.seller_detail = '''We sell wine'''
+    user5.buyer_detail = '''We are not buying'''
 
     user6 = User(
         eth_address='0x50E9002d238d9a2A29C3047971E8006663A9d799'.lower())
@@ -143,8 +143,8 @@ def seed_db():
     user6.tags = "Performer"
     user6.about = ('Dancers who dance are people who like to dance alot.'
                    'Give us music and we will dance for you.')
-    user6.seller_detail = '''We sell dance '''
-    user6.buyer_detail = '''We are not buying '''
+    user6.seller_detail = '''We sell dance'''
+    user6.buyer_detail = '''We are not buying'''
 
     db.session.add(user1)
     db.session.add(user2)
