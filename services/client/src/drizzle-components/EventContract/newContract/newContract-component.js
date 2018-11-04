@@ -19,7 +19,6 @@ var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/J
 var myContract = new web3.eth.Contract(EventContract.abi);
 var BigNumber = require('bignumber.js');
 let scalar = new BigNumber(10).pow(18);
-console.log(scalar.toNumber());
 
 const styles = theme => ({
   container: {
@@ -85,7 +84,6 @@ class NewContract extends Component{
   onSubmit = e => {
     e.preventDefault();
     var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
-    console.log(eventDate_epoch);
     console.log(this.state);
 
     myContract.deploy({
@@ -132,11 +130,8 @@ class NewContract extends Component{
     };
 
   render(){
-
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventContract != undefined){
       web3.currentProvider = web3.givenProvider
-
-      console.log(window.web3);
       return(
       <div align = "center">
         <form Validate autoComplete="on">

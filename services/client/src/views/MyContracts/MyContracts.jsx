@@ -10,6 +10,10 @@ import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dash
 // import contract form
 import NewContract from "../../drizzle-components/EventContract/newContract/newContract-component.js"
 import WalletCard from '../../custom-components/Card/WalletCard.jsx'
+import CustomContract from "../../drizzle-components/CustomContracts/custom-contract-form.js"
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
 
 class Contracts extends React.Component {
   state = {
@@ -24,9 +28,25 @@ class Contracts extends React.Component {
   render() {
     const { classes } = this.props;
     var component = <NewContract/>
+    var custom_component = <CustomContract/>
+
     return (
       <div>
+
+      <div>
         <WalletCard primary = {component} secondary = "" title = "Deploy New Contract"/>
+      </div>
+
+
+      <div>
+        <br/>
+        <GridList cellHeight={500} className={classes.gridList} cols={2}>
+        <GridListTile>
+          {custom_component}
+        </GridListTile>
+        </GridList>
+      </div>
+
       </div>
     );
   }
