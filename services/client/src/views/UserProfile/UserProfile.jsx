@@ -3,10 +3,11 @@ import React from "react";
 import axios from "axios";
 import PropTypes from 'prop-types'
 
-
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputLabel from "@material-ui/core/InputLabel";
+import Input from "@material-ui/core/Input";
+import FormControl from "@material-ui/core/FormControl";
 
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
@@ -22,6 +23,8 @@ import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+
+// TODO to add oauth
 
 const styles = {
   cardCategoryWhite: {
@@ -66,8 +69,8 @@ const styles = {
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    // this.handleInputChange = this.handleInputChange.bind(this);
-    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       id: null,
       email: "",
@@ -81,22 +84,14 @@ class UserProfile extends React.Component {
       tags: ""
     }
   }
-  handleInputChange(property) {
-    return e => {
-      console.log("e value = " + e.target.value);
-      this.setState({
-        [property]: e.target.value
-      });
-    };
-  }
-  handleSubmit() {
-  }
-  uploadPhoto() {
+  componentDidMount() {
+    this.getUserData(this.props.accounts[0]);
   }
   getUserData(eth_address) {
     axios.get('/users/eth_address/' + eth_address)
     .then((res) => {
       var data = res.data.data;
+      console.log("getUserData", data);
       this.setState({
         id: data.id,
         email: data.email,
@@ -114,196 +109,206 @@ class UserProfile extends React.Component {
       console.log(err);
     });
   }
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+  handleSubmit() {
+    console.log(this.state);
+    axios.post('/users/edit', {
+      eth_address: this.state.eth_address,
+      auth_token: window.localStorage.authToken,
+      email: this.state.email,
+      city_country: this.state.city_country,
+      about: this.state.about,
+      seller_detail: this.state.seller_detail,
+      buyer_detail: this.state.buyer_detail,
+      username: this.state.username,
+      tags: this.state.tags
+    })
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+  uploadPhoto() {
+  }
   render() {
     const { classes } = this.props;
     var idx = this.props.match.params.id;
 
-    if (this.props.drizzleStatus.initialized) {var ethAddr = this.props.accounts[0];
-      this.getUserData(ethAddr);
-
-      return (
-        <div>
-        <GridContainer>
-          <GridItem xs={12} sm={12} md={8}>
-            <CustomTabs
-              headerColor="info"
-              tabs={[
-                {
-                  tabName: "General",
-                  tabContent: (
-                    <div>
-                      <h3>General</h3>
-                      <CustomInput
-                        labelText="Email"
+    return (
+      <div>
+      <GridContainer>
+        <GridItem xs={12} sm={12} md={8}>
+          <CustomTabs
+            headerColor="info"
+            tabs={[
+              {
+                tabName: "General",
+                tabContent: (
+                  <div>
+                    <h3>General</h3>
+                    <FormControl fullWidth={true} >
+                      <InputLabel htmlFor="email">
+                        Email
+                      </InputLabel>
+                      <Input
                         id="email"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                        name="email"
                         value={this.state.email}
-                        onChange={(e) => {
-                          console.log(e);
-                          this.setState({email: e.target.value});
-                        }
-                        }
+                        onChange={this.handleChange}
                       />
+                    </FormControl>
 
-                      <CustomInput
-                        labelText="Country/City"
-                        id="country_city"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                    <FormControl fullWidth={true} >
+                      <InputLabel htmlFor="city_country">
+                        City/Country
+                      </InputLabel>
+                      <Input
+                        id="city_country"
+                        name="city_country"
                         value={this.state.city_country}
+                        onChange={this.handleChange}
                       />
+                    </FormControl>
 
-                      <CustomInput
-                        labelText="About"
+                    <FormControl fullWidth={true} >
+                      <InputLabel htmlFor="about">
+                        About
+                      </InputLabel>
+                      <Input
                         id="about"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          multiline: true,
-                          rows: 10,
-                        }}
+                        name="about"
+                        multiline={true}
+                        rows={10}
                         value={this.state.about}
+                        onChange={this.handleChange}
                       />
-                    </div>
-                  )
-                },
-                {
-                  tabName: "Seller Profile",
-                  tabContent: (
-                    <div>
-                      <h3>Seller Profile</h3>
-                      <CustomInput
-                        labelText="Seller Details"
+                    </FormControl>
+                  </div>
+                )
+              },
+              {
+                tabName: "Seller Profile",
+                tabContent: (
+                  <div>
+                    <h3>Seller Profile</h3>
+                    <FormControl fullWidth={true} >
+                      <InputLabel htmlFor="seller_detail">
+                        Seller Details
+                      </InputLabel>
+                      <Input
                         id="seller_detail"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          multiline: true,
-                          rows: 10,
-                        }}
+                        name="seller_detail"
+                        multiline={true}
+                        rows={10}
                         value={this.state.seller_detail}
+                        onChange={this.handleChange}
                       />
-                      <CustomInput
-                        labelText="Tags, Separate Entries with , eg. bar, restaurant"
+                    </FormControl>
+
+                     <FormControl fullWidth={true} >
+                      <InputLabel htmlFor="tags">
+                        Tags, Separate Entries with commas eg. bar, restaurant
+                      </InputLabel>
+                      <Input
                         id="tags"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
+                        name="tags"
                         value={this.state.tags}
+                        onChange={this.handleChange}
                       />
-                    </div>
-                  )
-                },
-                {
-                  tabName: "Buyer Profile",
-                  tabContent: (
-                    <div>
-                      <h3>Buyer Profile</h3>
-                      <CustomInput
-                        labelText="Buyer Details"
+                    </FormControl>
+                  </div>
+                )
+              },
+              {
+                tabName: "Buyer Profile",
+                tabContent: (
+                  <div>
+                    <h3>Buyer Profile</h3>
+                    <FormControl fullWidth={true} >
+                      <InputLabel htmlFor="buyer_detail">
+                        Buyer Details
+                      </InputLabel>
+                      <Input
                         id="buyer_detail"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          multiline: true,
-                          rows: 10,
-                        }}
+                        name="buyer_detail"
+                        multiline={true}
+                        rows={10}
                         value={this.state.buyer_detail}
+                        onChange={this.handleChange}
                       />
-                    </div>
-                  )
-                },
-          {/* To add proper oauth with social accounts
-                {
-                  tabName: "Verification",
-                  tabContent: (
-                    <div>
-                    <h3>Verification</h3>
-                    <Button color="info" style={styles.button}>
-                      Authenticate With Facebook
-                    </Button>
+                    </FormControl>
+                  </div>
+                )
+              }
+            ]}
+          />
+        </GridItem>
 
-                    <Button color="info" style={styles.button}>
-                      Authenticate With Google+
-                    </Button>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card profile>
+            <CardImage profile>
+              {
+                // if image is null
+                !this.state.img_src ? (
+                  <img src="/media/blank.jpg" alt="..." />
+                ) : (
+                  <img src={this.state.img_src} alt="..." />
+                )
+              }
+            </CardImage>
+            <CardBody profile>
+              <Button color="info" style={styles.button} onclick={this.uploadPhoto()}>
+                Upload Photo
+              </Button>
 
-                    <Button color="info" style={styles.button}>
-                      Authenticate With Twitter
-                    </Button>
-
-                    <Button color="info" style={styles.button}>
-                      Authenticate With LinkedIn
-                    </Button>
-                    </div>
-                  )
-                }
-          */}
-              ]}
-            />
-          </GridItem>
-
-          <GridItem xs={12} sm={12} md={4}>
-            <Card profile>
-              <CardImage profile>
-                {
-                  // if image is null
-                  !this.state.img_src ? (
-                    <img src="/media/blank.jpg" alt="..." />
-                  ) : (
-                    <img src={this.state.img_src} alt="..." />
-                  )
-                }
-              </CardImage>
-              <CardBody profile>
-                <Button color="info" style={styles.button} onclick={this.uploadPhoto()}>
-                  Upload Photo
+              <a href={"/account/" + this.state.id}>
+                <Button color="info" style={styles.button}>
+                  View Profile
                 </Button>
-
-                <a href={"/account/" + this.state.id}>
-                  <Button color="info" style={styles.button}>
-                    View Profile
-                  </Button>
-                </a>
-                <CustomInput
-                  labelText="Username"
+              </a>
+              <FormControl fullWidth={true} >
+                <InputLabel htmlFor="username">
+                  Username
+                </InputLabel>
+                <Input
                   id="username"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
+                  name="username"
                   value={this.state.username}
+                  onChange={this.handleChange}
                 />
-                <CustomInput
-                  labelText="Ethereum Address"
+              </FormControl>
+              <FormControl fullWidth={true} >
+                <InputLabel htmlFor="eth_address">
+                  Ethereum Address
+                </InputLabel>
+                <Input
                   id="eth_address"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    disabled: true
-                  }}
+                  name="eth_address"
+                  disabled={true}
                   value={this.state.eth_address}
+                  onChange={this.handleChange}
                 />
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer>
-        <div className="container" style={styles.centerer1}>
-          <div className="container" style={styles.centerer2}>
-            <Button color="info" style={styles.fullbutton}>
-              Save
-            </Button>
-          </div>
+              </FormControl>
+            </CardBody>
+          </Card>
+        </GridItem>
+      </GridContainer>
+      <div className="container" style={styles.centerer1}>
+        <div className="container" style={styles.centerer2}>
+          <Button color="info" style={styles.fullbutton} onClick={this.handleSubmit}>
+            Save
+          </Button>
         </div>
+      </div>
 
-        </div>
-      );
-    }
+      </div>
+    );
   }
 }
 

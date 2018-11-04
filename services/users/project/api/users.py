@@ -205,7 +205,8 @@ def modify_user_string_fields(resp, post_data):
             user.username = ''
         else:
             user.username = username.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at username:", e)
         pass
 
     try:
@@ -214,7 +215,8 @@ def modify_user_string_fields(resp, post_data):
             user.email = ''
         else:
             user.email = email.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at email:", e)
         pass
 
     try:
@@ -223,7 +225,8 @@ def modify_user_string_fields(resp, post_data):
             user.city_country = ''
         else:
             user.city_country = city_country.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at city_country:", e)
         pass
 
     try:
@@ -232,7 +235,8 @@ def modify_user_string_fields(resp, post_data):
             user.tags = ''
         else:
             user.tags = tags.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at tags:", e)
         pass
 
     try:
@@ -241,7 +245,8 @@ def modify_user_string_fields(resp, post_data):
             user.about = ''
         else:
             user.about = about.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at about:", e)
         pass
 
     try:
@@ -250,7 +255,8 @@ def modify_user_string_fields(resp, post_data):
             user.seller_detail = ''
         else:
             user.seller_detail = seller_detail.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at seller_detail:", e)
         pass
 
     try:
@@ -259,8 +265,11 @@ def modify_user_string_fields(resp, post_data):
             user.buyer_detail = ''
         else:
             user.buyer_detail = buyer_detail.strip()
-    except AttributeError:
+    except AttributeError as e:
+        print("AttributeError at buyer_detail:", e)
         pass
+
+    db.session.commit()
 
     response_object = {
         'status': 'success',

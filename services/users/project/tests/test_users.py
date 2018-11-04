@@ -285,6 +285,115 @@ class TestUserService(BaseTestCase):
             self.assertIn('test', data['data']['buyer_detail'])
             self.assertIn('success', data['status'])
 
+    def test_modify_user_string_fields_2(self):
+        """
+        Check if we can modify user data after registration
+        """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+
+            auth_token = data['auth_token']
+
+            # round 1 edit
+            response = self.client.post(
+                '/users/edit',
+                data=json.dumps({
+                    'auth_token': f'{auth_token}',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'username': 'Meeting Room Of The Century',
+                    'email': 'info@meetmeetrevolution.com',
+                    'city_country': 'Singapore, SG',
+                    'tags': 'Meeting Spaces',
+                    'about': 'This is the best meeting space you will ever see',
+                    'seller_detail': 'We sell space ',
+                    'buyer_detail': 'We are not buying '
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(
+                data['message'] == 'Details modified')
+
+            self.assertEqual(response.status_code, 200)
+
+            # retrieve information about user
+            response = self.client.get(f'/users/id/1')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                data['data']['eth_address']
+            )
+            self.assertIn('Meeting Room Of The Century',
+                          data['data']['username'])
+            self.assertIn('info@meetmeetrevolution.com', data['data']['email'])
+            self.assertIn('Singapore, SG', data['data']['city_country'])
+            self.assertEqual(['Meeting Spaces'], data['data']['tags'])
+            self.assertIn('This is the best meeting space you will ever see',
+                          data['data']['about'])
+            self.assertIn('We sell space', data['data']['seller_detail'])
+            self.assertIn('We are not buying', data['data']['buyer_detail'])
+            self.assertIn('success', data['status'])
+
+            # round 2 edit
+            response = self.client.post(
+                '/users/edit',
+                data=json.dumps({
+                    'auth_token': f'{auth_token}',
+                    'eth_address':
+                        '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'username': 'asdf',
+                    'email': 'asdf@asdf.com',
+                    'city_country': 'asdf, SG',
+                    'tags': 'Meeting Spaces, lol',
+                    'about': 'asdf',
+                    'seller_detail': 'asdf',
+                    'buyer_detail': 'asdf'
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(
+                data['message'] == 'Details modified')
+
+            self.assertEqual(response.status_code, 200)
+
+            # retrieve information about user
+            response = self.client.get(
+                '/users/eth_address/'+
+                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
+            self.assertIn(
+                '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                data['data']['eth_address']
+            )
+            self.assertIn('asdf',
+                          data['data']['username'])
+            self.assertIn('asdf@asdf.com', data['data']['email'])
+            self.assertIn('asdf, SG', data['data']['city_country'])
+            self.assertEqual(['Meeting Spaces', 'lol'], data['data']['tags'])
+            self.assertIn('asdf',
+                          data['data']['about'])
+            self.assertIn('asdf', data['data']['seller_detail'])
+            self.assertIn('asdf', data['data']['buyer_detail'])
+            self.assertIn('success', data['status'])
+
     def test_modify_user_string_fields_empty_fields(self):
         """
         Check if we can modify user data after registration
