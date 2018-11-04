@@ -315,7 +315,8 @@ class TestUserService(BaseTestCase):
                     'email': 'info@meetmeetrevolution.com',
                     'city_country': 'Singapore, SG',
                     'tags': 'Meeting Spaces',
-                    'about': 'This is the best meeting space you will ever see',
+                    'about':
+                        'This is the best meeting space you will ever see',
                     'seller_detail': 'We sell space ',
                     'buyer_detail': 'We are not buying '
                 }),
@@ -375,7 +376,7 @@ class TestUserService(BaseTestCase):
 
             # retrieve information about user
             response = self.client.get(
-                '/users/eth_address/'+
+                '/users/eth_address/' +
                 '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)

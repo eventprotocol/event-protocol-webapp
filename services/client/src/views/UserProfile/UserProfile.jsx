@@ -8,6 +8,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
+import Snackbar from "@material-ui/core/Snackbar";
+
+
 
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
@@ -25,6 +28,7 @@ import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
 // TODO to add oauth
+// TODO to add color to snackbars
 
 const styles = {
   cardCategoryWhite: {
@@ -71,7 +75,11 @@ class UserProfile extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
+    this.openSnackbar = this.openSnackbar.bind(this);
     this.state = {
+      snackbarOpen: false,
+      snackbarMessage: "",
       id: null,
       email: "",
       city_country: "",
@@ -109,6 +117,18 @@ class UserProfile extends React.Component {
       console.log(err);
     });
   }
+  handleSnackbarClose() {
+    this.setState({
+      snackbarOpen: false,
+      snackbarMessage: ""
+    });
+  }
+  openSnackbar(message) {
+    this.setState({
+      snackbarOpen: true,
+      snackbarMessage: message
+    });
+  }
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -128,10 +148,14 @@ class UserProfile extends React.Component {
       tags: this.state.tags
     })
     .then((res) => {
+      // Display a snackbar
       console.log(res);
+      this.openSnackbar("Success");
     })
     .catch((err) => {
+      // Display a snackbar
       console.log(err);
+      this.openSnackbar("Failure!");
     });
   }
   uploadPhoto() {
@@ -142,6 +166,7 @@ class UserProfile extends React.Component {
 
     return (
       <div>
+
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <CustomTabs
@@ -304,6 +329,13 @@ class UserProfile extends React.Component {
           <Button color="info" style={styles.fullbutton} onClick={this.handleSubmit}>
             Save
           </Button>
+          <Snackbar
+            anchorOrigin={{horizontal: "right", vertical: "bottom" }}
+            message={this.state.snackbarMessage}
+            autoHideDuration={3000}
+            onClose={this.handleSnackbarClose}
+            open={this.state.snackbarOpen}
+          />
         </div>
       </div>
 
