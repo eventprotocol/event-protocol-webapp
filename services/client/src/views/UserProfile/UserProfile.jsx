@@ -66,6 +66,8 @@ const styles = {
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
+    // this.handleInputChange = this.handleInputChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       id: null,
       email: "",
@@ -76,15 +78,18 @@ class UserProfile extends React.Component {
       img_src: null,
       username: "",
       eth_address: "",
-      tags: []
+      tags: ""
     }
   }
-
-  handleChange = (event, value) => {
-    this.setState({ value });
+  handleInputChange(property) {
+    return e => {
+      console.log("e value = " + e.target.value);
+      this.setState({
+        [property]: e.target.value
+      });
+    };
   }
-  handleChangeIndex = (index) => {
-    this.setState({ value: index });
+  handleSubmit() {
   }
   uploadPhoto() {
   }
@@ -102,7 +107,7 @@ class UserProfile extends React.Component {
         img_src: data.img_src,
         username: data.username,
         eth_address: data.eth_address,
-        tags: data.tags
+        tags: data.tags.join()
       });
     })
     .catch((err) => {
@@ -113,8 +118,7 @@ class UserProfile extends React.Component {
     const { classes } = this.props;
     var idx = this.props.match.params.id;
 
-    if (this.props.drizzleStatus.initialized) {
-      var ethAddr = this.props.accounts[0];
+    if (this.props.drizzleStatus.initialized) {var ethAddr = this.props.accounts[0];
       this.getUserData(ethAddr);
 
       return (
@@ -136,11 +140,16 @@ class UserProfile extends React.Component {
                           fullWidth: true
                         }}
                         value={this.state.email}
+                        onChange={(e) => {
+                          console.log(e);
+                          this.setState({email: e.target.value});
+                        }
+                        }
                       />
 
                       <CustomInput
                         labelText="Country/City"
-                        id="country-city"
+                        id="country_city"
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -149,7 +158,7 @@ class UserProfile extends React.Component {
 
                       <CustomInput
                         labelText="About"
-                        id="About"
+                        id="about"
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -169,7 +178,7 @@ class UserProfile extends React.Component {
                       <h3>Seller Profile</h3>
                       <CustomInput
                         labelText="Seller Details"
-                        id="About"
+                        id="seller_detail"
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -179,17 +188,14 @@ class UserProfile extends React.Component {
                         }}
                         value={this.state.seller_detail}
                       />
-                      <h6><strong>Tags: </strong>
-                      {
-                        this.state.tags.map((datum) => {
-                          return (
-                            <span className="badge badge-secondary">
-                              {datum}
-                            </span>
-                          );
-                        })
-                      }
-                      </h6>
+                      <CustomInput
+                        labelText="Tags, Separate Entries with , eg. bar, restaurant"
+                        id="tags"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        value={this.state.tags}
+                      />
                     </div>
                   )
                 },
@@ -200,7 +206,7 @@ class UserProfile extends React.Component {
                       <h3>Buyer Profile</h3>
                       <CustomInput
                         labelText="Buyer Details"
-                        id="About"
+                        id="buyer_detail"
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -266,7 +272,7 @@ class UserProfile extends React.Component {
                 </a>
                 <CustomInput
                   labelText="Username"
-                  id="user-name"
+                  id="username"
                   formControlProps={{
                     fullWidth: true
                   }}
@@ -274,7 +280,7 @@ class UserProfile extends React.Component {
                 />
                 <CustomInput
                   labelText="Ethereum Address"
-                  id="ethereum-address"
+                  id="eth_address"
                   formControlProps={{
                     fullWidth: true
                   }}
@@ -283,7 +289,6 @@ class UserProfile extends React.Component {
                   }}
                   value={this.state.eth_address}
                 />
-
               </CardBody>
             </Card>
           </GridItem>

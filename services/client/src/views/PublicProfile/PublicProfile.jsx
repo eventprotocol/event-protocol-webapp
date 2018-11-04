@@ -160,7 +160,7 @@ class PublicProfile extends React.Component {
                     <h3>Seller Profile</h3>
                     <CustomInput
                       labelText="Seller Details"
-                      id="About"
+                      id="sellerDetail"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -191,7 +191,7 @@ class PublicProfile extends React.Component {
                     <h3>Buyer Profile</h3>
                     <CustomInput
                       labelText="Buyer Details"
-                      id="About"
+                      id="buyerDetail"
                       formControlProps={{
                         fullWidth: true
                       }}
@@ -253,7 +253,7 @@ class PublicProfile extends React.Component {
 
               <CustomInput
                 labelText="Ethereum Address"
-                id="ethereum-address"
+                id="ethereumAddress"
                 formControlProps={{
                   fullWidth: true
                 }}

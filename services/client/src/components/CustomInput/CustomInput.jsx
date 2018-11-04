@@ -12,62 +12,73 @@ import Check from "@material-ui/icons/Check";
 // core components
 import customInputStyle from "../../assets/jss/material-dashboard-react/components/customInputStyle";
 
-function CustomInput({ ...props }) {
-  const {
-    classes,
-    formControlProps,
-    labelText,
-    id,
-    labelProps,
-    inputProps,
-    error,
-    success,
-    value
-  } = props;
+class CustomInput extends React.Component {
+  constructor(props) {
+    super(props);
+    // console.log(props);
+    // const {
+    //   classes,
+    //   formControlProps,
+    //   labelText,
+    //   id,
+    //   labelProps,
+    //   inputProps,
+    //   error,
+    //   success,
+    //   value
+    // } = props;
 
-  const labelClasses = classNames({
-    [" " + classes.labelRootError]: error,
-    [" " + classes.labelRootSuccess]: success && !error
-  });
-  const underlineClasses = classNames({
-    [classes.underlineError]: error,
-    [classes.underlineSuccess]: success && !error,
-    [classes.underline]: true
-  });
-  const marginTop = classNames({
-    [classes.marginTop]: labelText === undefined
-  });
-  return (
-    <FormControl
-      {...formControlProps}
-      className={formControlProps.className + " " + classes.formControl}
-    >
-      {labelText !== undefined ? (
-        <InputLabel
-          className={classes.labelRoot + labelClasses}
-          htmlFor={id}
-          {...labelProps}
-        >
-          {labelText}
-        </InputLabel>
-      ) : null}
-      <Input
-        classes={{
-          root: marginTop,
-          disabled: classes.disabled,
-          underline: underlineClasses
-        }}
-        id={id}
-        value={value}
-        {...inputProps}
-      />
-      {error ? (
-        <Clear className={classes.feedback + " " + classes.labelRootError} />
-      ) : success ? (
-        <Check className={classes.feedback + " " + classes.labelRootSuccess} />
-      ) : null}
-    </FormControl>
-  );
+  }
+
+  render() {
+    const labelClasses = classNames({
+      [" " + this.props.classes.labelRootError]: this.props.error,
+      [" " + this.props.classes.labelRootSuccess]: this.props.success && !this.props.error
+    });
+    const underlineClasses = classNames({
+      [this.props.classes.underlineError]: this.props.error,
+      [this.props.classes.underlineSuccess]: this.props.success && !this.props.error,
+      [this.props.classes.underline]: true
+    });
+    const marginTop = classNames({
+      [this.props.classes.marginTop]: this.props.labelText === undefined
+    });
+
+    return (
+      <FormControl
+        {...this.props.formControlProps}
+        className={this.props.formControlProps.className + " " + this.props.classes.formControl}
+      >
+        {this.props.labelText !== undefined ? (
+          <InputLabel
+            className={this.props.classes.labelRoot + this.props.labelClasses}
+            htmlFor={this.props.id}
+            {...this.props.labelProps}
+          >
+            {this.props.labelText}
+          </InputLabel>
+        ) : null}
+        <Input
+          classes={{
+            root: marginTop,
+            disabled: this.props.classes.disabled,
+            underline: underlineClasses
+          }}
+          id={this.props.id}
+          value={this.props.value}
+          onChange={(e) => {
+          }}
+          {...this.props.inputProps}
+        />
+        {this.props.error ? (
+          <Clear className={this.props.classes.feedback + " " + this.props.classes.labelRootError} />
+        ) : this.props.success ? (
+          <Check className={this.props.classes.feedback + " " + this.props.classes.labelRootSuccess} />
+        ) : null}
+      </FormControl>
+    );
+
+  }
 }
 
 CustomInput.propTypes = {
