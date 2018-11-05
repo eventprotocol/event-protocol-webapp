@@ -20,6 +20,8 @@ import Button from '@material-ui/core/Button';
 import ActivateComponent from "./activate-component.js";
 import CancelComponent from "./cancelEvent-component.js";
 import AcknowledgeCancelButton from "./acknowledge-cancel-component.js";
+import SuccessComponent from "./success-component.js";
+import AcknowledgeSuccessButton from "./acknowledge-success-component.js";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -27,6 +29,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import CardMedia from '@material-ui/core/CardMedia';
 
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -34,10 +37,22 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import CallIcon from '@material-ui/icons/Call';
 
+import FolderIcon from '@material-ui/icons/Folder';
+import PageviewIcon from '@material-ui/icons/Pageview';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import pink from '@material-ui/core/colors/pink';
+import green from '@material-ui/core/colors/green';
+import MoneyIcon from '@material-ui/icons/Money';
+import PersonIcon from '@material-ui/icons/Person';
+import Alarm from '@material-ui/icons/AccessAlarm';
+
 const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
   },
 
 }))(TableCell);
@@ -47,9 +62,15 @@ const CustomTableCell = withStyles(theme => ({
  */
  var cardStyle = {
     display: 'block',
-    width: '40vw',
+    width: '18vw',
     transitionDuration: '0.3s',
-    height: '255vw'
+    height: '255vw',
+
+    media: {
+    height: 5,
+    paddingTop: '26.25%', // 16:9,
+    marginTop:'30'
+    }
 }
 
  class TeamComponent extends React.Component{
@@ -71,8 +92,6 @@ const CustomTableCell = withStyles(theme => ({
        <ReactCardFlip isFlipped={this.state.isFlipped} height="100px">
          <Card key="front" style={cardStyle}>
 
-             <CardContent>
-
              <CardHeader align="center"
                avatar={
                  <Avatar aria-label="Recipe">
@@ -83,46 +102,70 @@ const CustomTableCell = withStyles(theme => ({
                subheader={this.props.data.eventDate}
              />
 
-             <Paper>
-             <Table>
+             <CardMedia
+              image="./media/event-cover-photo.jpeg"
+              title={this.props.data.name}
+              style={cardStyle.media}
+             />
 
+             <CardContent>
+
+             <Table align="center" colspan="12">
                 <TableRow>
-                  <CustomTableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>Status</CustomTableCell>
-                  <CustomTableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>{this.props.data.status}</CustomTableCell>
+                  <CustomTableCell>
+                  <Avatar style={{color: '#fff', backgroundColor: green[500]}}>
+                     <AssignmentIcon />
+                  </Avatar>
+                 {this.props.data.status}
+                 </CustomTableCell>
+
+                  <CustomTableCell>
+                  <Avatar style={{color: '#fff', backgroundColor: pink[500]}}>
+                     <MoneyIcon />
+                  </Avatar>
+                 {this.props.data.totalPayment}
+                  </CustomTableCell>
                 </TableRow>
 
-                <TableRow>
-                  <TableCell style={{backgroundColor:'#cbf7ed', color: 'black',}}>Amount</TableCell>
-                  <TableCell style={{backgroundColor:'#cbf7ed', color: 'black',}}>{this.props.data.totalPayment}</TableCell>
-                </TableRow>
 
                 <TableRow>
-                  <TableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>Client</TableCell>
-                  <TableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>{this.props.data.buyer}</TableCell>
+                  <CustomTableCell>
+                  <Avatar style={{color: '#fff', backgroundColor: green[500]}}>
+                     <PersonIcon />
+                     B
+                  </Avatar>
+                 {this.props.data.buyer}
+                 </CustomTableCell>
+
+                  <CustomTableCell>
+                  <Avatar style={{color: '#fff', backgroundColor: pink[500]}}>
+                     <PersonIcon />
+                     S
+                  </Avatar>
+                 {this.props.data.seller}
+                  </CustomTableCell>
                 </TableRow>
 
-                <TableRow>
-                  <TableCell style={{backgroundColor:'#cbf7ed', color: 'black',}}>Vendor</TableCell>
-                  <TableCell style={{backgroundColor:'#cbf7ed', color: 'black',}}>{this.props.data.seller}</TableCell>
-                </TableRow>
 
                 <TableRow>
-                  <TableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>Buyer Activation</TableCell>
-                  <TableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>{this.props.data.buyerActAmount}</TableCell>
-                </TableRow>
+                  <CustomTableCell>
+                  <Avatar style={{color: '#fff', backgroundColor: green[500]}}>
+                     <Alarm />
+                     B
+                  </Avatar>
+                 {this.props.data.buyerActAmount}
+                 </CustomTableCell>
 
-                <TableRow>
-                  <TableCell style={{backgroundColor:'#cbf7ed', color: 'black',}}>Seller Activation</TableCell>
-                  <TableCell style={{backgroundColor:'#cbf7ed', color: 'black',}}>{this.props.data.sellerActAmount}</TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>Contract Address</TableCell>
-                  <TableCell style={{backgroundColor:'#b5b1ae', color: 'black',}}>{this.props.data.contractAddress}</TableCell>
+                  <CustomTableCell>
+                  <Avatar style={{color: '#fff', backgroundColor: pink[500]}}>
+                     <Alarm />
+                     S
+                  </Avatar>
+                 {this.props.data.sellerActAmount}
+                  </CustomTableCell>
                 </TableRow>
 
              </Table>
-             </Paper>
            </CardContent>
 
            <div align="center">
@@ -147,10 +190,19 @@ const CustomTableCell = withStyles(theme => ({
              subheader={this.props.data.eventDate}
            />
 
+           <CardMedia
+            image="./media/jacq.jpg"
+            title="Contemplative Reptile"
+           />
+
            <CardContent>
               <ActivateComponent/>
               <CancelComponent/>
               <AcknowledgeCancelButton/>
+              <br/>
+              <SuccessComponent/>
+              <br/>
+              <AcknowledgeSuccessButton/>
            </CardContent>
 
 

@@ -85,21 +85,22 @@ class NewContract extends Component{
     e.preventDefault();
     var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
     console.log(this.state);
+    console.log(eventDate_epoch);
 
     myContract.deploy({
       data: EventContract.bytecode,
       arguments: [this.state.eventName,
       this.state.eventLocation,
-      new BigNumber(eventDate_epoch).toNumber(),
+      new BigNumber(eventDate_epoch),
       this.state.buyer,
-      this.state.postponements,
-      new BigNumber(this.state.buyerEscrow).times(scalar).toNumber(),
-      new BigNumber(this.state.sellerEscrow).times(scalar).toNumber(),
-      new BigNumber(this.state.sellerAdvance).times(scalar).toNumber(),
-      new BigNumber(this.state.sellerCancellation).times(scalar).toNumber(),
-      new BigNumber(this.state.buyerContributionPool).times(scalar).toNumber(),
-      new BigNumber(this.state.sellerContributionPool).times(scalar).toNumber(),
-      new BigNumber(this.state.eventPayment).times(scalar).toNumber(),
+      new BigNumber(this.state.postponements),
+      new BigNumber(this.state.buyerEscrow).times(scalar),
+      new BigNumber(this.state.sellerEscrow).times(scalar),
+      new BigNumber(this.state.sellerAdvance).times(scalar),
+      new BigNumber(this.state.sellerCancellation).times(scalar),
+      new BigNumber(this.state.buyerContributionPool).times(scalar),
+      new BigNumber(this.state.sellerContributionPool).times(scalar),
+      new BigNumber(this.state.eventPayment).times(scalar),
       this.state.etAddress,
       this.state.etTokenAddress]
       })
@@ -109,7 +110,7 @@ class NewContract extends Component{
           //gasPrice: '300000000000'
       })
       .then(function(newContractInstance){
-          console.log(newContractInstance.options.address) // instance with the new contract address
+          console.log(newContractInstance) // instance with the new contract address
       });
 
       this.setState({

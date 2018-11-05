@@ -98,22 +98,22 @@ class ContractData extends Component {
       displayData = parseInt(displayData);
       var result;
       switch (displayData){
-        case 1:
+        case 0:
           result = "Inactive";
           break;
-        case 2:
+        case 1:
           result = "Active";
           break;
-        case 3:
+        case 2:
           result = "Postponed";
           break;
-        case 4:
+        case 3:
           result = "Cancelled";
           break;
-        case 5:
+        case 4:
           result = "Report";
           break;
-        case 6:
+        case 5:
           result = "Disputed";
           break;
         default:
@@ -140,6 +140,14 @@ class ContractData extends Component {
         <span>{displayData}</span>
       )
     }
+
+    // This is to convert epoch to Date
+    if (this.props.method == "getBuyer" | this.props.method == "getSeller"){
+      var result1 = displayData.slice(0, 4);
+      var result2 = displayData.slice(-4, -1);
+      return result1 +".." + result2;
+    }
+
 
     return(
       <span>{`${displayData}`}{pendingSpinner}</span>

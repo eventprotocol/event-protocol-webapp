@@ -8,10 +8,6 @@ import Button from '@material-ui/core/Button';
  * Create component.
  */
 
-var BigNumber = require('bignumber.js');
-var Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/JRIhcMSUX50sCH9PKk6b'));
-
 class ContractForm extends Component {
   constructor(props, context) {
     super(props);
@@ -45,23 +41,10 @@ class ContractForm extends Component {
   }
 
   handleSubmit() {
-    let newState = Object.assign({}, this.state);
-
-    newState._to= this.context.drizzle.contracts.EventContract.address;
-    console.log(typeof newState._value);
-    if (newState._value === ""){
-      newState._value = 0;
-    }
-    newState._value = new BigNumber(newState._value).times(Math.pow(10, 18));
-    newState._data = web3.utils.fromAscii("x");
-
+    this.state.val = 1
     if (this.props.sendArgs) {
-      return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
+      return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(this.state), this.props.sendArgs);
     }
-
-    this.state._to = "";
-    this.state._value = "0";
-    this.state._data = "";
 
   }
 
@@ -86,7 +69,6 @@ class ContractForm extends Component {
   }
 
   render() {
-    web3.currentProvider = web3.givenProvider
     return (
       <div align="center">
       <form className ="pure-form pure-form-stacked">
@@ -94,11 +76,7 @@ class ContractForm extends Component {
             var inputType = this.translateType(input.type)
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
-            if (input.name === "_to"){
-              inputType = "hidden";
-            }
-
-            if (input.name === "_data"){
+            if (input.name === "val"){
               inputType = "hidden";
             }
 
@@ -116,8 +94,8 @@ class ContractForm extends Component {
             )
         })}
         <div align="center">
-          <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
-          ACTIVATE
+          <Button variant="outlined" color="fefault" onClick={this.handleSubmit}>
+          ACKNOWLEDGE SUCCESS
           </Button>
         </div>
       </form>
