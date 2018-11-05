@@ -188,8 +188,9 @@ def login():
     # Throw integrityError if this does not work
     except Exception as e:
         print(e)
-        response_object['message'] = "Try again"
-        return jsonify(response_object), 500
+        response_error['status'] = 'success'
+        response_object['message'] = "Try again. Server Error: " + e
+        return jsonify(response_object), 200
 
 
 @auth_blueprint.route('/users/auth/logout', methods=['POST'])

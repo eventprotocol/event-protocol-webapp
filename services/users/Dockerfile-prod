@@ -1,7 +1,7 @@
 FROM python:3.6
 
 # install environment dependencies
-RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends netcat && apt-get -q clean
+RUN apt-get --allow-unauthenticated update -yqq && apt-get --allow-unauthenticated install -yqq --no-install-recommends netcat && apt-get -q clean
 
 # set working directory
 RUN mkdir -p /app
