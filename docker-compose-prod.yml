@@ -29,12 +29,12 @@ services:
     environment:
       # To store secrets safely
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres 
+      - POSTGRES_PASSWORD=postgres
 
 
   nginx:
     container_name: nginx
-    build: 
+    build:
       context: ./services/nginx
       dockerfile: Dockerfile-prod
     restart: always

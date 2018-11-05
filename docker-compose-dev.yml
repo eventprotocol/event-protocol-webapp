@@ -33,7 +33,7 @@ services:
     environment:
       # To store secrets safely
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres 
+      - POSTGRES_PASSWORD=postgres
 
 
   nginx:
@@ -51,7 +51,7 @@ services:
 
   client:
     container_name: client
-    build: 
+    build:
       context: ./services/client
       dockerfile: Dockerfile-dev
     volumes:
@@ -65,4 +65,3 @@ services:
       - users
     links:
       - users
-    
