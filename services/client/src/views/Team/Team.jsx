@@ -43,10 +43,11 @@ class TeamComponent extends React.Component{
 
   render() {
     return (
-      <ReactCardFlip isFlipped={this.state.isFlipped}>
         <Card key="front">
+
           <CardImage profile>
             <img
+              width = "100"
               src={this.props.data.imgSrc}
               alt="{data.name} picture"
             />
@@ -63,36 +64,7 @@ class TeamComponent extends React.Component{
 
           </CardContent>
 
-          <div align="center">
-          <Button variant="fab" color="primary" aria-label="Add"  onClick = {this.handleClick}>
-            <ContactIcon />
-          </Button>
-          </div>
         </Card>
-
-
-        <Card key="back">
-
-          <CardContent>
-            <Typography gutterBottom variant="headline" component="h2" align="center">
-              <b>{this.props.data.email}</b>
-            </Typography>
-
-            <Typography gutterBottom variant="headline" component="p" align="center">
-              {this.props.data.tag}
-            </Typography>
-
-          </CardContent>
-
-
-          <div align="center">
-          <Button variant="fab" color="primary" aria-label="Add"  onClick = {this.handleClick}>
-            <PeopleIcon/>
-          </Button>
-          </div>
-
-        </Card>
-      </ReactCardFlip>
     )
   }
 }

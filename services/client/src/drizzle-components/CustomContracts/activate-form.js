@@ -87,6 +87,7 @@ class ContractForm extends Component {
 
   render() {
     web3.currentProvider = web3.givenProvider
+    this.state._to = this.context.drizzle.contracts.EventContract.address;
     return (
       <div align="center">
       <form className ="pure-form pure-form-stacked">
@@ -95,7 +96,7 @@ class ContractForm extends Component {
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
             if (input.name === "_to"){
-              inputType = "hidden";
+              inputType = "disabled";
             }
 
             if (input.name === "_data"){

@@ -31,6 +31,16 @@
 
   {
     "id": "3",
+    "name": "JEREMY SEOW",
+    "designation": "PARTNER AT CHAINROCK",
+    "tag": "Need to think",
+    "email": "jeremy@eventprotocol.com",
+    "imgSrc": "./media/jeremy.jpg",
+    "about": "Jeremy is a Partner at ChainRock, a global digital asset investment firm where he heads up business development from Singapore. He was a Senior Product Manager at Zendesk, where he built and shipped the Zendesk message product. Jeremy joined Zendesk as a result of the acquisition of the chat startup, Zopim where he was the Director of Sales and oversaw all of sales and marketing as the startup grew from 50,000 users to 200,000 users."
+  },
+
+  {
+    "id": "4",
     "name": "JOSHIA SEAM",
     "designation": "BLOCKCHAIN ENGINEER",
     "tag": "Need to ask him lol",
@@ -40,23 +50,14 @@
   },
 
   {
-    "id": "4",
-    "name": "KESHIGEYAN CHANDRASEGARAN",
+    "id": "5",
+    "name": "KESHIGEYAN C",
     "designation": "BLOCKCHAIN ENGINEER",
     "tag": "Need to think",
     "email": "keshik@eventprotocol.com",
     "imgSrc": "./media/keshik.jpg",
     "about": "Keshigeyan Chandrasegaran is a software developer and data science student studying in Singapore University of Technology and Design. He has experiences in building blockchain applications on the Ethereum blockchain and is currently part of a research project focusing on sentimental analysis of tweets related to popular cryptocurrencies."
-  },
-
-  {
-    "id": "5",
-    "name": "JEREMY SEOW",
-    "designation": "PARTNER AT CHAINROCK",
-    "tag": "Need to think",
-    "email": "jeremy@eventprotocol.com",
-    "imgSrc": "./media/jeremy.jpg",
-    "about": "Jeremy is a Partner at ChainRock, a global digital asset investment firm where he heads up business development from Singapore. He was a Senior Product Manager at Zendesk, where he built and shipped the Zendesk message product. Jeremy joined Zendesk as a result of the acquisition of the chat startup, Zopim where he was the Director of Sales and oversaw all of sales and marketing as the startup grew from 50,000 users to 200,000 users."
   }
+
 
 ]

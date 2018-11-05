@@ -34,7 +34,7 @@ class Contracts extends React.Component {
       <div>
 
       <div>
-        <WalletCard primary = {component} secondary = "" title = "Deploy New Contract"/>
+        <WalletCard primary = {component} secondary = "" title = "New Event"/>
       </div>
 
 
