@@ -138,7 +138,7 @@ class UserProfile extends React.Component {
     console.log(this.state);
     axios.post('/users/edit', {
       eth_address: this.state.eth_address,
-      auth_token: window.localStorage.authToken,
+      auth_token: window.sessionStorage.getItem('authToken'),
       email: this.state.email,
       city_country: this.state.city_country,
       about: this.state.about,

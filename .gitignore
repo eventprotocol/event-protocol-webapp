@@ -8,3 +8,4 @@ env
 htmlcov/
 __snapshots__/
 build/
+.env

@@ -40,7 +40,7 @@ class DrizzleContainer extends Component {
           console.log(res);
 
           // store the authToken in local store
-          window.localStorage.setItem('authToken', res.data.auth_token);
+          window.sessionStorage.setItem('authToken', res.data.auth_token);
         })
         .catch((err) => {
           console.log(err);
@@ -71,7 +71,7 @@ class DrizzleContainer extends Component {
         .then((res) => {
           console.log(res);
 
-          window.localStorage.setItem('authToken', res.data.auth_token);
+          window.sessionStorage.setItem('authToken', res.data.auth_token);
         })
         .catch((err) => {
           console.log(err);
@@ -134,7 +134,7 @@ class DrizzleContainer extends Component {
       axios.get('/users/eth_address/' + userAccount)
       .then((res) => {
         // If user account is found start login
-        var authToken = window.localStorage.authToken;
+        var authToken = window.sessionStorage.authToken;
 
         if(!authToken) {
           // if authToken not found means we haven't logged in
@@ -158,7 +158,7 @@ class DrizzleContainer extends Component {
             console.log(err);
 
             // If error we might have token problems login again
-            window.localStorage.removeItem(authToken);
+            window.sessionStorage.removeItem(authToken);
             this.login(web3Instance, userAccount, hashedMsg);
           })
         }

@@ -11,8 +11,12 @@ services:
       - "5000"
     environment:
       - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://postgres:postgres@users-db:5432/users_prod
-      - DATABASE_TEST_URL=postgres://postgres:postgres@users-db:5432/users_test
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@users-db:5432/users_prod
+      - DATABASE_TEST_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@users-db:5432/users_test
+      # create a .env in root folder if it doesn't already exist
+      # add the the following
+      # SECRET_KEY=enter_secret_key_here
+      - SECRET_KEY=${SECRET_KEY}
     depends_on:
       - users-db
     links:
@@ -27,9 +31,11 @@ services:
     expose:
       - "5432"
     environment:
-      # To store secrets safely
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      # create a .env in root folder if it doesn't already exist
+      # POSTGRES_USER=enter_user_name_here
+      # POSTGRES_PASSWORD=enter_secure_password_here
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 
   nginx:
