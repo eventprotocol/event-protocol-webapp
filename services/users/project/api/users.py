@@ -276,3 +276,19 @@ def modify_user_string_fields(resp, post_data):
         'message': 'Details modified'
     }
     return jsonify(response_object), 200
+
+
+@users_blueprint.route('/users/upload/profile_img', methods=['POST'])
+@authenticate
+def upload_img_pic(resp, post_data):
+ """
+    Modify user details
+    Receives payload
+    {
+        "auth_token":
+        "eth_address":
+        "image_file": this is some binary eg jpg
+    }
+
+    We will store img_src in static folder
+    """

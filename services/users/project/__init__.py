@@ -12,6 +12,7 @@ toolbar = DebugToolbarExtension()
 migrate = Migrate()
 
 MIGRATION_DIR = os.path.join("migrations")
+UPLOAD_DIR = os.path.join("static")
 
 
 def create_app(script_info=None):
