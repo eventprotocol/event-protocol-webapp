@@ -99,6 +99,9 @@ class Marketplace extends React.Component {
   render() {
     const { classes } = this.props;
 
+
+    // To swap data.img to data.img_src when alternative data storage
+    // is used
     return (
       <div>
         <GridContainer>
@@ -117,7 +120,7 @@ class Marketplace extends React.Component {
                         />
                       ) : (
                         <img
-                          src={data.img_src}
+                          src={data.img}
                           alt="{data.username} picture"
                         />
                       )

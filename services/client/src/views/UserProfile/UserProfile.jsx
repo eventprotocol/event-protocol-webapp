@@ -70,11 +70,14 @@ const styles = {
 };
 
 
+// To swap data.img to data.img_src when alternative data storage
+// is used
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.uploadPhoto = this.uploadPhoto.bind(this);
     this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
     this.openSnackbar = this.openSnackbar.bind(this);
     this.state = {
@@ -87,6 +90,7 @@ class UserProfile extends React.Component {
       seller_detail: "",
       buyer_detail: "",
       img_src: null,
+      img: null,
       username: "",
       eth_address: "",
       tags: ""
@@ -108,6 +112,7 @@ class UserProfile extends React.Component {
         seller_detail: data.seller_detail,
         buyer_detail: data.buyer_detail,
         img_src: data.img_src,
+        img: data.img,
         username: data.username,
         eth_address: data.eth_address,
         tags: data.tags.join()
@@ -150,7 +155,7 @@ class UserProfile extends React.Component {
     .then((res) => {
       // Display a snackbar
       console.log(res);
-      this.openSnackbar("Success");
+      this.openSnackbar("Success!");
     })
     .catch((err) => {
       // Display a snackbar
@@ -158,7 +163,31 @@ class UserProfile extends React.Component {
       this.openSnackbar("Failure!");
     });
   }
-  uploadPhoto() {
+  uploadPhoto(file) {
+    var reader = new FileReader();
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      // console.log(reader.result);
+      var imgData = reader.result;
+      console.log(imgData);
+      axios.post('/users/upload', {
+        eth_address: this.state.eth_address,
+        auth_token: window.sessionStorage.getItem('authToken'),
+        img: imgData
+      })
+      .then((res) => {
+        console.log(res);
+        this.openSnackbar("Success!");
+      })
+      .catch((err) => {
+        console.log(err);
+        this.openSnackbar("Failure!");
+      })
+    }
+    reader.onerror = (error) => {
+      console.log(error)
+    }
+
   }
   render() {
     const { classes } = this.props;
@@ -283,12 +312,19 @@ class UserProfile extends React.Component {
                 !this.state.img_src ? (
                   <img src="/media/blank.jpg" alt="..." />
                 ) : (
-                  <img src={this.state.img_src} alt="..." />
+                  <img src={this.state.img} alt="..." />
                 )
               }
             </CardImage>
-            <CardBody profile>
-              <Button color="info" style={styles.button} onclick={this.uploadPhoto()}>
+            <CardBody>
+              <input
+                id="file_input" type="file"
+                ref={(ref => this.upload = ref)}
+                style={{ display: 'none' }}
+                onChange={(e) => this.uploadPhoto(e.target.files[0]) } />
+              <Button
+                color="info" style={styles.button}
+                onClick={(e) => this.upload.click()}>
                 Upload Photo
               </Button>
 

@@ -61,6 +61,8 @@ const styles = {
 };
 
 
+// To swap data.img to data.img_src when alternative data storage
+// is use
 class PublicProfile extends React.Component {
   constructor(props) {
     super(props);
@@ -71,6 +73,7 @@ class PublicProfile extends React.Component {
       seller_detail: "",
       buyer_detail: "",
       img_src: null,
+      img: null,
       username: "",
       eth_address: "",
       tags: []
@@ -94,6 +97,7 @@ class PublicProfile extends React.Component {
         seller_detail: data.seller_detail,
         buyer_detail: data.buyer_detail,
         img_src: data.img_src,
+        img: data.img,
         username: data.username,
         eth_address: data.eth_address,
         tags: data.tags
@@ -242,7 +246,7 @@ class PublicProfile extends React.Component {
                 !this.state.img_src ? (
                   <img src="/media/blank.jpg" alt="..." />
                 ) : (
-                  <img src={this.state.img_src} alt="..." />
+                  <img src={this.state.img} alt="..." />
                 )
               }
             </CardImage>

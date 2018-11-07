@@ -515,6 +515,45 @@ class TestUserService(BaseTestCase):
             self.assertIn('', data['data']['buyer_detail'])
             self.assertIn('success', data['status'])
 
+    def test_upload_image_normal(self):
+        """
+        Upload image normally
+        """
+        with self.client:
+            response = self.client.post(
+                '/users/auth/register',
+                data=json.dumps({
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'signed_message': signature
+                }),
+                content_type='application/json'
+            )
+
+            data = json.loads(response.data.decode())
+
+            auth_token = data['auth_token']
+
+            response = self.client.post(
+                '/users/upload',
+                data=json.dumps({
+                    'eth_address':
+                    '0x0d604c28a2a7c199c7705859c3f88a71cce2acb7',
+                    'auth_token': auth_token,
+                    'img':
+                    ('data:image/png;base64, '
+                     'iVBORw0KGgoAAAANSUhEUgAAAAUA'
+                     'AAAFCAYAAACNbyblAAAAHElEQVQI1'
+                     '2P4//8/w38GIAXDIBKE0DHxgljNBAAO'
+                     '9TXL0Y4OHwAAAABJRU5ErkJggg==')
+                }),
+                content_type='application/json'
+            )
+            data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)            
+            self.assertTrue(data['status'] == 'success')
+            self.assertTrue(data['message'] == 'Upload success')
+
 
 if __name__ == '__main__':
     unittest.main()
