@@ -17,6 +17,14 @@ import Contracts from "../views/MyContracts/MyContracts.jsx";
 
 const dashboardRoutes = [
   {
+    path: "/user",
+    sidebarName: "Profile",
+    navbarName: "Profile",
+    icon: Person,
+    loginRequired: true,
+    component: UserProfile
+  },
+  {
     path: "/marketplace",
     sidebarName: "Marketplace",
     navbarName: "Marketplace",
@@ -32,12 +40,12 @@ const dashboardRoutes = [
     component: Workspace
   },
   {
-    path: "/user",
-    sidebarName: "Profile",
-    navbarName: "Profile",
-    icon: Person,
-    loginRequired: true,
-    component: UserProfile
+    path: "/contracts",
+    sidebarName: "Contracts",
+    navbarName: "Contracts",
+    icon: Calendar,
+    loginRequired: false,
+    component: Contracts
   },
   {
     path: "/wallet",
@@ -47,15 +55,6 @@ const dashboardRoutes = [
     loginRequired: true,
     component: Wallet
   },
-  {
-    path: "/contracts",
-    sidebarName: "Contracts",
-    navbarName: "Contracts",
-    icon: Calendar,
-    loginRequired: false,
-    component: Contracts
-  },
-
   {
     path: "/team",
     sidebarName: "Team",

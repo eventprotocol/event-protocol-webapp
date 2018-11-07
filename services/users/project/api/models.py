@@ -1,7 +1,10 @@
 from project import db
+
 from flask import current_app
 import jwt
-
+import io
+from PIL import Image
+import binascii
 import datetime
 
 
@@ -14,6 +17,7 @@ class User(db.Model):
     city_country = db.Column(db.String(128), nullable=True)
     _tags = db.Column(db.String(128), nullable=True)
     img_src = db.Column(db.String(256), nullable=True)
+    img = db.Column(db.LargeBinary(), nullable=True)
     about = db.Column(db.String(500), nullable=True)
     seller_detail = db.Column(db.String(500), nullable=True)
     buyer_detail = db.Column(db.String(500), nullable=True)
@@ -29,19 +33,47 @@ class User(db.Model):
         """
         Returns data as a dict to be converted into json
         """
-        return {
-            'id': self.id,
-            'eth_address': self.eth_address,
-            'username': self.username,
-            'email': self.email,
-            'city_country': self.city_country,
-            'tags': self.tags,
-            'img_src': self.img_src,
-            'about': self.about,
-            'seller_detail': self.seller_detail,
-            'buyer_detail': self.buyer_detail,
-            'active': self.active
-        }
+        try:
+            byte_img = self.img
+            img = Image.open(io.BytesIO(byte_img))
+            img_format = img.format.lower()
+
+            # removen new line char
+            str_img = binascii.b2a_base64(byte_img)[:-1]
+            str_img = str_img.decode('utf-8')
+            str_format = "data:image/{};base64, ".format(img_format)
+            final_str = str_format + str_img
+
+            return {
+                'id': self.id,
+                'eth_address': self.eth_address,
+                'username': self.username,
+                'email': self.email,
+                'city_country': self.city_country,
+                'tags': self.tags,
+                'img_src': self.img_src,
+                'img': final_str,
+                'about': self.about,
+                'seller_detail': self.seller_detail,
+                'buyer_detail': self.buyer_detail,
+                'active': self.active
+            }
+
+        except OSError:
+            return {
+                'id': self.id,
+                'eth_address': self.eth_address,
+                'username': self.username,
+                'email': self.email,
+                'city_country': self.city_country,
+                'tags': self.tags,
+                'img_src': self.img_src,
+                'img': '',
+                'about': self.about,
+                'seller_detail': self.seller_detail,
+                'buyer_detail': self.buyer_detail,
+                'active': self.active
+            }
 
     @property
     def tags(self):

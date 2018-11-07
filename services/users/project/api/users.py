@@ -1,6 +1,9 @@
 from flask import Blueprint, jsonify, request, render_template
 from sqlalchemy import exc
 from sqlalchemy.sql.expression import func
+import binascii
+from PIL import Image
+import io
 
 from project.api.models import User
 from project.api.utils import authenticate
@@ -276,3 +279,125 @@ def modify_user_string_fields(resp, post_data):
         'message': 'Details modified'
     }
     return jsonify(response_object), 200
+
+
+@users_blueprint.route('/users/upload', methods=['POST'])
+@authenticate
+def upload_user_img(resp, post_data):
+    """
+    Modify user image
+    Receives payload
+    {
+        "auth_token":
+        "eth_address":
+        "img": base64 encoding image
+    }
+
+    To store image in db, this is not an optimal solution
+    Better to store in aws s3 for example. We will want
+    to reduce loads on db.
+    """
+    # get image from from post_data
+    response_object = {
+        'status': 'fail',
+        'message': 'Error'
+    }
+
+    try:
+        user = User.query.filter_by(id=resp).first()
+        str_img = post_data.get("img").strip().split(',')[1]
+        byte_img = binascii.a2b_base64(str_img)
+
+        # use Image open to determine if image file
+        image = Image.open(io.BytesIO(byte_img))
+
+        # # convert image to jpeg if not image
+        # if image.format != 'JPEG':
+        #     rgb_image = image.convert('RGB')
+
+        user.img = byte_img
+        user.img_src = resp
+        db.session.commit()
+
+        response_object = {
+            'status': 'success',
+            'message': 'Upload success'
+        }
+        return jsonify(response_object), 200
+
+    except OSError:
+        response_object['message'] = \
+            'Invalid file'
+        return jsonify(response_object), 400
+    except binascii.Error:
+        response_object['message'] = \
+            'Invalid file'
+        return jsonify(response_object), 400
+    except exc.DataError:
+        response_object['message'] = \
+            'DataError'
+        return jsonify(response_object), 400
+    except exc.DatabaseError:
+        response_object['message'] = \
+            'DatabaseError'
+        return jsonify(response_object), 400
+
+
+@users_blueprint.route('/users/image/<user_id>', methods=['GET'])
+@authenticate
+def view_user_img(number):
+    """
+    Convert image jpeg and send as json
+    Only accept jpeg for now
+    """
+    # get image from from post_data
+    response_object = {
+        'status': 'fail',
+        'message': 'Error'
+    }
+
+    try:
+        user = User.query.filter_by(id=user_id).first()
+
+        if not user:
+            response_object['message'] = 'User does not exist'
+            return jsonify(response_object), 404
+
+        else:
+            byte_img = user.img
+            img = Image.open(io.BytesIO(byte_img))
+            img_format = img.format.lower()
+
+            # removen new line char
+            str_img = binascii.b2a_base64(byte_img)[:-1]
+            str_img = str_img.decode('utf-8')
+            str_format = "data:image/{};base64, ".format(img_format)
+            final_str = str_format + str_img
+
+            response_object = {
+                'status': 'success',
+                'data': final_str
+            }
+
+            return jsonify(response_object), 200
+
+    except ValueError:
+        response_object['message'] = \
+            'ValueError'
+        return jsonify(response_object), 404
+    except OSError:
+        response_object['message'] = \
+            'Invalid file'
+        return jsonify(response_object), 400
+    except binascii.Error:
+        response_object['message'] = \
+            'Invalid file'
+        return jsonify(response_object), 400
+    except exc.DataError:
+        response_object['message'] = \
+            'DataError'
+        return jsonify(response_object), 400
+    except exc.DatabaseError:
+        response_object['message'] = \
+            'DatabaseError'
+        return jsonify(response_object), 400

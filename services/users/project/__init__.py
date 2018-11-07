@@ -13,7 +13,6 @@ migrate = Migrate()
 
 MIGRATION_DIR = os.path.join("migrations")
 
-
 def create_app(script_info=None):
     # instantiate app
     app = Flask(__name__)

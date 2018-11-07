@@ -13,7 +13,7 @@
 
 1. Check if you have the required docker programs
 ```
-$ docker -v 
+$ docker -v
 $ docker-compose -v
 $ docker-machine -v
 ```
@@ -38,7 +38,14 @@ $ cd <root of the repository>
 $ docker-compose -f docker-compose-dev.yml build
 ```
 
-4. Run the containers
+4. create .env file
+```
+SECRET_KEY=enter_secret_key
+POSTGRES_USER=enter_user_name_here
+POSTGRES_PASSWORD=enter_secure_password_here
+```
+
+5. Run the containers
 ```
 // Include this in path to run react. Replace DOCKER_MACHINE_DEV_IP with docker-machine eventprotocol-dev ip
 $ export  REACT_APP_USERS_SERVICE_URL=http://DOCKER_MACHINE_DEV_IP
@@ -63,6 +70,12 @@ $ docker-compose -f docker-compose-dev.yml run users python manage.py test
 
 
 # Docker Deployment on AWS
+0. To prepare for production deployment you can create an .env file in the root directory of event-protocol-webapp as follows containing env variables for the database the .env file should contain the following
+```
+SECRET_KEY=enter_secret_key
+POSTGRES_USER=enter_user_name_here
+POSTGRES_PASSWORD=enter_secure_password_here
+```
 1. Create an Admin group on aws and create an IAM account and give it the admin group privileges. You will obtain an access key and key id. Create a credentials file in ~/.aws
 ```
 $ cd ~/.aws

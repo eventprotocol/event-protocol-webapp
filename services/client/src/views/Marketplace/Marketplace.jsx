@@ -9,16 +9,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Card from "../../components/Card/Card.jsx";
+import Button from "../../components/CustomButtons/Button.jsx";
 // import CardHeader from "../../components/Card/CardHeader.jsx";
 import CardImage from "../../components/Card/CardImage.jsx";
 // import CardIcon from "../../components/Card/CardIcon.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
 // import CardFooter from "../../components/Card/CardFooter.jsx";
-
-
-// import data
-// TODO: Intead these hardcoded data, to get json response from server
-import UserData from "../../data/UserData.json";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 
@@ -35,61 +31,112 @@ const styles = {
       height: 0,
       paddingTop: '56.25%', // 16:9
     },
+    button: {
+      width: "30%",
+      margin: "10px",
+      fontSize: "24px"
+    },
+    pagination: {
+      fontSize: "24px",
+      width: "20%",
+      margin: '10px',
+      textAlign: 'center'
+    },
+    centerer1: {
+      display: "flex",
+      "flex_direction": "row",
+      "align-items": "center",
+      "justify-content": "center"
+    },
+
+    centerer2: {
+      "max-width": "50%"
+    },
   };
 
 class Marketplace extends React.Component {
   constructor(props) {
     super(props);
+    this.onLeftClick = this.onLeftClick.bind(this);
+    this.onRightClick = this.onRightClick.bind(this);
     this.state = {
-      value: 1,
-      data: null
+      page: 1,
+      maxPage: 1,
+      data: []
     }
   }
-
+  componentDidMount() {
+    this.getUserData(this.state.page);
+  }
   getUserData() {
-    axios.get('/users/id/' + this.state.value)
+    axios.get('/users/page/filter_by_id/' + this.state.page)
     .then((res) => {
-      var pageData = res.data.data;
+      var userData = res.data.data.users;
+      var maxPage = res.data.data.page_total;
       this.setState({
-        data: pageData
+        data: userData,
+        maxPage: maxPage
       });
     })
     .catch((err) => {
       console.log(err);
     });
   }
-
-  handleChange = (event, value) => {
-    this.setState({ value });
+  onLeftClick() {
+    var curr = this.state.page;
+    if (curr > 1) {
+      curr--;
+    }
+    this.setState({
+      page: curr
+    }, () => {
+      this.getUserData(this.state.page);
+    });
   }
-  handleChangeIndex = (index) => {
-    this.setState({ value: index });
+  onRightClick() {
+    var curr = this.state.page;
+    var max = this.state.maxPage;
+    if (curr < max) {
+      curr++;
+    }
+    this.setState({
+      page: curr
+    }, () => {
+      this.getUserData(this.state.page);
+    });
   }
   render() {
     const { classes } = this.props;
-    this.getUserData();
 
-    // To do search filtering
+
+    // To swap data.img to data.img_src when alternative data storage
+    // is used
     return (
       <div>
-      {/*
-      <DrizzleProvider options={options}>
-    */}
         <GridContainer>
         {
-          UserData.map((data) => {
+          this.state.data.map((data) => {
             return(
               <GridItem xs={12} sm={6} md={4}>
                 <a href={"/account/" + data.id}>
                 <Card>
                   <CardImage profile>
-                    <img
-                      src={data.imgSrc}
-                      alt="{data.name} picture"
-                    />
+                    {
+                      !data.img_src ? (
+                        <img
+                          src="/media/blank.jpg"
+                          alt="{data.username} picture"
+                        />
+                      ) : (
+                        <img
+                          src={data.img}
+                          alt="{data.username} picture"
+                        />
+                      )
+                    }
                   </CardImage>
                   <CardBody>
-                    <h4>{data.name}</h4>
+                    <h4>{data.username}</h4>
                     <h6><strong>Tags: </strong>
                     {
                       data.tags.map((datum) => {
@@ -108,10 +155,20 @@ class Marketplace extends React.Component {
             );
           })
         }
+        <div className="container" style={styles.centerer1}>
+          <div className="container" style={styles.centerer2}>
+            <Button color="info" style={styles.button} onClick={this.onLeftClick}>
+              {'<'}
+            </Button>
+            <Button color="transparent" styles={styles.pagination}>
+              {this.state.page + " / " +  this.state.maxPage}
+            </Button>
+            <Button color="info" style={styles.button} onClick={this.onRightClick}>
+              {'>'}
+            </Button>
+          </div>
+        </div>
         </GridContainer>
-        {/*
-        </DrizzleProvider>
-      */}
       </div>
 
     );
