@@ -90,7 +90,6 @@ class Marketplace extends React.Component {
     this.setState({
       page: curr
     }, () => {
-      console.log(this.state.page);
       this.getUserData(this.state.page);
     });
   }
@@ -103,7 +102,6 @@ class Marketplace extends React.Component {
     this.setState({
       page: curr
     }, () => {
-      console.log(this.state.page);
       this.getUserData(this.state.page);
     });
   }
