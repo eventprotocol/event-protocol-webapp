@@ -3,10 +3,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-import green from '@material-ui/core/colors/green';
+
 /*
  * Create component.
  */
+
+var BigNumber = require('bignumber.js');
 
 class ContractForm extends Component {
   constructor(props, context) {
@@ -37,11 +39,12 @@ class ContractForm extends Component {
     }
 
     this.state = initialState;
-    console.log(this.state);
   }
 
   handleSubmit() {
+    this.state._contractId = new BigNumber(this.props.myVal);
     this.state.val = 1;
+    console.log(this.state);
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(this.state), this.props.sendArgs);
     }
@@ -76,7 +79,7 @@ class ContractForm extends Component {
             var inputType = this.translateType(input.type)
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
-            if (input.name === "val"){
+            if (input.name === "val" || input.name == "_contractId"){
               inputType = "hidden";
             }
 
@@ -93,11 +96,13 @@ class ContractForm extends Component {
               </div>
             )
         })}
+        <br/>
         <div align="center">
-          <Button variant="outlined" color="default" onClick={this.handleSubmit}>
-          REPORT SUCCESS
+          <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
+          SUCCESS
           </Button>
         </div>
+        <br/>
       </form>
       </div>
     )

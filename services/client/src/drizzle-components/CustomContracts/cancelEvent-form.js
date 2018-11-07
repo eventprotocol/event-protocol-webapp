@@ -8,6 +8,8 @@ import Button from '@material-ui/core/Button';
  * Create component.
  */
 
+var BigNumber = require('bignumber.js');
+
 class ContractForm extends Component {
   constructor(props, context) {
     super(props);
@@ -37,11 +39,12 @@ class ContractForm extends Component {
     }
 
     this.state = initialState;
-    console.log(this.state);
   }
 
   handleSubmit() {
+    this.state._contractId = new BigNumber(this.props.myVal);
     this.state.val = 2;
+    console.log(this.state);
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(this.state), this.props.sendArgs);
     }
@@ -76,7 +79,7 @@ class ContractForm extends Component {
             var inputType = this.translateType(input.type)
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
-            if (input.name === "val"){
+            if (input.name === "val" || input.name == "_contractId"){
               inputType = "hidden";
             }
 

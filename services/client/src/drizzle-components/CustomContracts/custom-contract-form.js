@@ -19,9 +19,7 @@ import ReactCardFlip from 'react-card-flip';
 import Button from '@material-ui/core/Button';
 import ActivateComponent from "./activate-component.js";
 import CancelComponent from "./cancelEvent-component.js";
-import AcknowledgeCancelButton from "./acknowledge-cancel-component.js";
 import SuccessComponent from "./success-component.js";
-import AcknowledgeSuccessButton from "./acknowledge-success-component.js";
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -89,13 +87,14 @@ const CustomTableCell = withStyles(theme => ({
 
    render() {
      return (
+       <div>
        <ReactCardFlip isFlipped={this.state.isFlipped} height="100px">
          <Card key="front" style={cardStyle}>
 
              <CardHeader align="center"
                avatar={
                  <Avatar aria-label="Recipe">
-                   PM
+                   {this.props.data.contractId}
                  </Avatar>
                }
                title={this.props.data.name}
@@ -183,26 +182,18 @@ const CustomTableCell = withStyles(theme => ({
            <CardHeader align="center"
              avatar={
                <Avatar aria-label="Recipe">
-                 PM
+                 {this.props.data.contractId}
                </Avatar>
              }
              title={this.props.data.name}
              subheader={this.props.data.eventDate}
            />
 
-           <CardMedia
-            image="./media/jacq.jpg"
-            title="Contemplative Reptile"
-           />
-
            <CardContent>
-              <ActivateComponent/>
-              <CancelComponent/>
-              <AcknowledgeCancelButton/>
+              <ActivateComponent myVal={this.props.data.contractId}/>
+              <SuccessComponent myVal={this.props.data.contractId}/>
               <br/>
-              <SuccessComponent/>
-              <br/>
-              <AcknowledgeSuccessButton/>
+              <CancelComponent myVal={this.props.data.contractId}/>
            </CardContent>
 
 
@@ -211,11 +202,11 @@ const CustomTableCell = withStyles(theme => ({
            <CallIcon/>
            </Button>
            <br/>
-           <br/>
            </div>
 
          </Card>
        </ReactCardFlip>
+       </div>
      )
    }
  }
@@ -240,6 +231,7 @@ class GetCustomComponent extends Component {
       isFlipped: false,
       contracts: context.drizzle.contracts,
       contractAddress: "",
+      contractId: this.props.contractId,
     };
     this.precisionRound = this.precisionRound.bind(this);
     this.convertToEther = this.convertToEther.bind(this);
@@ -261,18 +253,17 @@ class GetCustomComponent extends Component {
   }
 
   render() {
-    if (this.props.drizzleStatus.initialized === true && this.context.drizzle.contracts.EventToken !== undefined){
+    if (this.props.drizzleStatus.initialized === true && this.context.drizzle.contracts.EventContract !== undefined){
 
-      this.state.name = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.status = <DataFetchComponent contract="EventContract" method="getEventState" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.eventDate= <DataFetchComponent contract="EventContract" method="getEventDate" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.advance = <DataFetchComponent contract="EventContract" method="getSellerAdvanceFee" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.totalPayment = <DataFetchComponent contract="EventContract" method="getEventPaymentCharges" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.buyer = <DataFetchComponent contract="EventContract" method="getBuyer" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.seller = <DataFetchComponent contract="EventContract" method="getSeller" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.location = <DataFetchComponent contract="EventContract" method="getEventLocation" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.buyerActAmount = <DataFetchComponent contract="EventContract" method="getBuyerActivationAmount" methodArgs={[{from: this.props.accounts[0]}]} />
-      this.state.sellerActAmount = <DataFetchComponent contract="EventContract" method="getSellerActivationAmount" methodArgs={[{from: this.props.accounts[0]}]} />
+      this.state.name = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.status = <DataFetchComponent contract="EventContract" method="getEventState" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.eventDate= <DataFetchComponent contract="EventContract" method="getEventDate" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.totalPayment = <DataFetchComponent contract="EventContract" method="getEventPaymentCharges" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.buyer = <DataFetchComponent contract="EventContract" method="getBuyer" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.seller = <DataFetchComponent contract="EventContract" method="getSeller" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.location = <DataFetchComponent contract="EventContract" method="getEventLocation" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.buyerActAmount = <DataFetchComponent contract="EventContract" method="getBuyerActivationAmount" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
+      this.state.sellerActAmount = <DataFetchComponent contract="EventContract" method="getSellerActivationAmount" methodArgs={[parseInt(this.state.contractId), {from: this.props.accounts[0]}]} />
       this.state.contractAddress = this.context.drizzle.contracts.EventContract.address;
 
       var data = {
@@ -287,11 +278,15 @@ class GetCustomComponent extends Component {
         sellerActAmount: this.state.sellerActAmount,
         buyerActAmount: this.state.buyerActAmount,
         contractAddress: this.state.contractAddress,
+        contractId: this.state.contractId,
       }
 
       return (
         <div>
           <TeamComponent data={data}></TeamComponent>
+          <h1></h1>
+          <h1></h1>
+          <h1></h1>
         </div>
       );
     }

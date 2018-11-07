@@ -3,11 +3,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-
 /*
  * Create component.
  */
 
+var BigNumber = require('bignumber.js');
+var Web3 = require('web3');
+var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/JRIhcMSUX50sCH9PKk6b'));
 class ContractForm extends Component {
   constructor(props, context) {
     super(props);
@@ -16,7 +18,7 @@ class ContractForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.contracts = context.drizzle.contracts;
-    //this.state._
+
     // Get the contract ABI
     const abi = this.contracts[this.props.contract].abi;
 
@@ -37,14 +39,27 @@ class ContractForm extends Component {
     }
 
     this.state = initialState;
-    console.log(this.state);
+
   }
 
   handleSubmit() {
-    if (this.props.sendArgs) {
-      return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(this.state), this.props.sendArgs);
-    }
+    let newState = Object.assign({}, this.state);;
+    newState.buyerEscrow = new BigNumber(newState.buyerEscrow).times(Math.pow(10, 18))
+    newState.sellerEscrow = new BigNumber(newState.sellerEscrow).times(Math.pow(10, 18))
+    newState.eventPaymentAmount = new BigNumber(newState.eventPaymentAmount).times(Math.pow(10, 18))
+    newState.sellerAdvanceFee = new BigNumber(newState.sellerAdvanceFee).times(Math.pow(10, 18))
+    newState.sellerCancellationPenalty = new BigNumber(newState.sellerCancellationPenalty).times(Math.pow(10, 18))
 
+    var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
+    newState.eventDate = eventDate_epoch;
+
+
+    if (this.props.sendArgs) {
+      return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
+    }
+    console.log(newState)
+
+    this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState));
   }
 
   handleInputChange(event) {
@@ -68,6 +83,7 @@ class ContractForm extends Component {
   }
 
   render() {
+    web3.currentProvider = web3.givenProvider
     return (
       <div align="center">
       <form className ="pure-form pure-form-stacked">
@@ -75,13 +91,12 @@ class ContractForm extends Component {
             var inputType = this.translateType(input.type)
             var inputLabel = this.props.labels ? this.props.labels[index] : input.name
 
-            if (input.name === "val"){
-              inputType = "hidden";
+            if (input.name == "eventDate"){
+              inputType = "date";
             }
-
             // check if input type is struct and if so loop out struct fields as well
             return (
-              <div float="left">
+              <div>
               <input key={input.name}
               type={inputType}
               name={input.name}
@@ -89,14 +104,15 @@ class ContractForm extends Component {
               placeholder={inputLabel}
               onChange={this.handleInputChange}
               />
+              <br></br>
+              <br></br>
               </div>
             )
         })}
-        <div align="center">
-          <Button variant="outlined" color="secondary" onClick={this.handleSubmit}>
-          ACKNOWLEDGE CANCEL
-          </Button>
-        </div>
+        <br></br>
+        <br></br>
+        <div align="center"><Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button></div>
+        <br></br>
       </form>
       </div>
     )
@@ -114,8 +130,7 @@ ContractForm.contextTypes = {
 const mapStateToProps = state => {
   return {
     contracts: state.contracts,
-    drizzleStatus: state.drizzleStatus,
-    accounts: state.accounts,
+    drizzleStatus: state.drizzleStatus
   }
 }
 

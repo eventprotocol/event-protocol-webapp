@@ -6,21 +6,20 @@ import NameCard from '../../../custom-components/Card/NameCard.jsx'
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-import ApprovalForm from "./event-contract-form.js"
+import NewEventComponent from "./new-event-deploy.js"
 import Loading from "@material-ui/icons/CloudUpload"
 
 
-class EventContractConstructor extends Component{
+class IncreaseSecurityDeposit extends Component{
   constructor(props, context){
     super(props);
   }
 
   render(){
-    console.log(this.props.contracts);
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventContract != undefined){
       return(
       <div align = "center">
-        <ApprovalForm contract="EventContract" method="" sendArgs={{from: this.props.accounts[0]}}/>
+        <NewEventComponent contract="EventContract" method="newEvent" sendArgs={{from: this.props.accounts[0]}}/>
       </div>
       )
     }
@@ -38,7 +37,7 @@ class EventContractConstructor extends Component{
   }
 }
 
-EventContractConstructor.contextTypes = {
+IncreaseSecurityDeposit.contextTypes = {
   drizzle: PropTypes.object
 }
 
@@ -55,4 +54,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default drizzleConnect(EventContractConstructor, mapStateToProps)
+export default drizzleConnect(IncreaseSecurityDeposit, mapStateToProps)

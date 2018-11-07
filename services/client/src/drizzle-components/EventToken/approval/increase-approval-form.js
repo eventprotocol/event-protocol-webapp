@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 /*
  * Create component.
  */
+var BigNumber = require('bignumber.js');
 
 class ContractForm extends Component {
   constructor(props, context) {
@@ -41,14 +42,15 @@ class ContractForm extends Component {
 
   handleSubmit() {
     let newState = Object.assign({}, this.state);;
-    newState._value = newState._value*Math.pow(10, 18)
-    this.state._value = "";
-    this.state._spender = "";
+    newState._value = new BigNumber(newState._value).times(Math.pow(10, 18))
+
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
     }
 
     this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState));
+    this.state._value = "";
+    this.state._spender = "";
 
   }
 

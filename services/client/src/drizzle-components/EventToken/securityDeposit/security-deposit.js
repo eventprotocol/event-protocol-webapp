@@ -47,7 +47,7 @@ class SecurityDepositAccount extends Component {
 
 
     if (this.props.drizzleStatus.initialized == true && this.context.drizzle.contracts.EventToken != undefined){
-      var myComponent = <SecurityDepositComponent contract="EventToken" method="allowance" methodArgs={[this.props.accounts[0], "0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8", {from: this.props.accounts[0]}]} />
+      var myComponent = <SecurityDepositComponent contract="EventToken" method="allowance" methodArgs={[this.props.accounts[0], "0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6", {from: this.props.accounts[0]}]} />
       return(
       <div>
         <NameCard primary = {myComponent} secondary = "Security Deposit" icon = {SecurityIcon}></NameCard>

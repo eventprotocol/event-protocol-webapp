@@ -8,7 +8,7 @@ import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dash
 
 
 // import contract form
-import NewContract from "../../drizzle-components/EventContract/newContract/newContract-component.js"
+import NewContract from "../../drizzle-components/EventContract/newContract/form-component.js"
 import WalletCard from '../../custom-components/Card/WalletCard.jsx'
 import CustomContract from "../../drizzle-components/CustomContracts/custom-contract-form.js"
 
@@ -28,11 +28,15 @@ class Contracts extends React.Component {
   render() {
     const { classes } = this.props;
     var component = <NewContract/>
-    var custom_component = <CustomContract/>
+    var foo = [];
+
+    for (var i = 0; i <= 12; i++) {
+       foo.push(i);
+    }
+    const numbers = foo;
 
     return (
       <div>
-
       <div>
         <WalletCard primary = {component} secondary = "" title = "New Event"/>
       </div>
@@ -40,10 +44,17 @@ class Contracts extends React.Component {
 
       <div>
         <br/>
-        <GridList cellHeight={500} className={classes.gridList} cols={2}>
-        <GridListTile>
-          {custom_component}
-        </GridListTile>
+        <GridList cellHeight={500} className={classes.gridList} cols={3}>
+        {
+          numbers.map((number) => {
+            return(
+              <GridListTile>
+                <CustomContract contractId={number}/>
+              </GridListTile>
+            );
+          })
+        }
+
         </GridList>
       </div>
 

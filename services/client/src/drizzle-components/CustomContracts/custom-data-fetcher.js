@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
  * Create component.
  */
 
+var BigNumber = require('bignumber.js');
 class ContractData extends Component {
   constructor(props, context) {
     super(props)
@@ -131,6 +132,11 @@ class ContractData extends Component {
       return result.toString().slice(0, -14);
     }
 
+    if (this.props.method == "getEventPaymentCharges" | this.props.method == "getBuyerActivationAmount" | this.props.method == "getSellerActivationAmount"){
+      var result = new BigNumber(displayData).div(Math.pow(10, 18))
+      return result.toString();
+    }
+
     // This is to remove the decimels for allowance
     if (this.props.method == "allowance"){
       var a = parseInt(displayData)/Math.pow(10, 18);
@@ -144,7 +150,7 @@ class ContractData extends Component {
     // This is to convert epoch to Date
     if (this.props.method == "getBuyer" | this.props.method == "getSeller"){
       var result1 = displayData.slice(0, 4);
-      var result2 = displayData.slice(-4, -1);
+      var result2 = displayData.slice(-4, displayData.toString().length);
       return result1 +".." + result2;
     }
 

@@ -19,7 +19,7 @@ class IncreaseSecurityDeposit extends Component{
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventToken != undefined){
       return(
       <div align = "center">
-        <SuccessButton contract="EventContract" method="submitResolveRequest" labels={[" val"]} sendArgs={{from: this.props.accounts[0], gas:1000000}}/>
+        <SuccessButton contract="EventContract" method="resolveEvent" myVal={this.props.myVal} labels={[" val"]} sendArgs={{from: this.props.accounts[0], gas:1000000}}/>
       </div>
 
       )

@@ -48,12 +48,13 @@ class ContractForm extends Component {
     let newState = Object.assign({}, this.state);
 
     newState._to= this.context.drizzle.contracts.EventContract.address;
-    console.log(typeof newState._value);
+    newState._contractId = new BigNumber(this.props.myVal);
+
     if (newState._value === ""){
       newState._value = 0;
     }
     newState._value = new BigNumber(newState._value).times(Math.pow(10, 18));
-    newState._data = web3.utils.fromAscii("x");
+    console.log(newState);
 
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
@@ -61,7 +62,7 @@ class ContractForm extends Component {
 
     this.state._to = "";
     this.state._value = "0";
-    this.state._data = "";
+    this.state._contractId = "";
 
   }
 
@@ -88,6 +89,7 @@ class ContractForm extends Component {
   render() {
     web3.currentProvider = web3.givenProvider
     this.state._to = this.context.drizzle.contracts.EventContract.address;
+    this.state._contractId = new BigNumber(this.props.myVal);
     return (
       <div align="center">
       <form className ="pure-form pure-form-stacked">
@@ -99,7 +101,7 @@ class ContractForm extends Component {
               inputType = "disabled";
             }
 
-            if (input.name === "_data"){
+            if (input.name === "_contractId"){
               inputType = "hidden";
             }
 
@@ -107,6 +109,7 @@ class ContractForm extends Component {
             return (
               <div float="left">
               <input key={input.name}
+              fullWidth
               type={inputType}
               name={input.name}
               value={this.state[input.name]}
@@ -116,8 +119,9 @@ class ContractForm extends Component {
               </div>
             )
         })}
+        <br/>
         <div align="center">
-          <Button variant="outlined" color="primary" onClick={this.handleSubmit}>
+          <Button variant="outlined" color="default" onClick={this.handleSubmit}>
           ACTIVATE
           </Button>
         </div>

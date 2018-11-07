@@ -19,7 +19,7 @@ class IncreaseSecurityDeposit extends Component{
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventToken != undefined){
       return(
       <div align = "center">
-        <ActivateForm contract="EventToken" method="transferToContract" labels={[" Recipient Address", " Activation Amount (ET)", " Data"]} sendArgs={{from: this.props.accounts[0], gas:1000000}}/>
+        <ActivateForm contract="EventToken" method="transferToContract" myVal={this.props.myVal} labels={[" Recipient Address", " Activation Amount (ET)", " Contract ID"]} sendArgs={{from: this.props.accounts[0], gas:1000000}}/>
       </div>
       )
     }

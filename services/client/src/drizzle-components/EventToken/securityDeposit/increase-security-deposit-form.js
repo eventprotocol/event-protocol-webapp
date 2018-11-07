@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 /*
  * Create component.
  */
+var BigNumber = require('bignumber.js');
 
 class ContractForm extends Component {
   constructor(props, context) {
@@ -41,7 +42,7 @@ class ContractForm extends Component {
 
   handleSubmit() {
     let newState = Object.assign({}, this.state);;
-    newState._value = newState._value*Math.pow(10, 18)
+    newState._value = new BigNumber(newState._value).times(Math.pow(10, 18));
     this.state._value = "";
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
@@ -82,7 +83,7 @@ class ContractForm extends Component {
             // Hardcode the security account address and dont show this field
             if (input.name === "_spender"){
               inputType = "hidden";
-              this.state[input.name] = "0x24eeac4f88412dc27f4b802ea8eb8b4725cf3af8"
+              this.state[input.name] = "0x1948072CD04b93F4a8BAFaaEf8B19166F03AF8d6"
             }
             // check if input type is struct and if so loop out struct fields as well
             return (
