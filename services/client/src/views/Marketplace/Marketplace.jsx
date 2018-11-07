@@ -32,11 +32,16 @@ const styles = {
       paddingTop: '56.25%', // 16:9
     },
     button: {
-      width: "40%",
-      margin: "16px",
+      width: "30%",
+      margin: "10px",
       fontSize: "24px"
     },
-
+    pagination: {
+      fontSize: "24px",
+      width: "20%",
+      margin: '10px',
+      textAlign: 'center'
+    },
     centerer1: {
       display: "flex",
       "flex_direction": "row",
@@ -84,7 +89,10 @@ class Marketplace extends React.Component {
     }
     this.setState({
       page: curr
-    })
+    }, () => {
+      console.log(this.state.page);
+      this.getUserData(this.state.page);
+    });
   }
   onRightClick() {
     var curr = this.state.page;
@@ -94,7 +102,10 @@ class Marketplace extends React.Component {
     }
     this.setState({
       page: curr
-    })
+    }, () => {
+      console.log(this.state.page);
+      this.getUserData(this.state.page);
+    });
   }
   render() {
     const { classes } = this.props;
@@ -148,10 +159,13 @@ class Marketplace extends React.Component {
         }
         <div className="container" style={styles.centerer1}>
           <div className="container" style={styles.centerer2}>
-            <Button color="info" style={styles.button} onclick={this.onLeftClick}>
+            <Button color="info" style={styles.button} onClick={this.onLeftClick}>
               {'<'}
             </Button>
-            <Button color="info" style={styles.button} onclick={this.onRightClick}>
+            <Button color="transparent" styles={styles.pagination}>
+              {this.state.page + " / " +  this.state.maxPage}
+            </Button>
+            <Button color="info" style={styles.button} onClick={this.onRightClick}>
               {'>'}
             </Button>
           </div>
