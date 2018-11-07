@@ -5,7 +5,7 @@ import binascii
 from PIL import Image
 import io
 
-from project.api.models import User
+from project.api.models import User, Chat
 from project.api.utils import authenticate
 from project import db
 
@@ -397,6 +397,69 @@ def view_user_img(number):
         response_object['message'] = \
             'DataError'
         return jsonify(response_object), 400
+    except exc.DatabaseError:
+        response_object['message'] = \
+            'DatabaseError'
+        return jsonify(response_object), 400
+
+
+@users_blueprint.route('/users/chatroom/make', methods=['POST'])
+@authenticate
+def make_chatroom(resp, post_data):
+    """
+    {
+        eth_address:
+        auth_token:
+        other_id:
+    }
+    """
+    try:
+        user1 = User.query.filter_by(id=resp).first()
+        user2 = User.query.filter_by(id=other_id).first()
+
+        if not user1:
+            response_object['message'] = 'User1 does not exist'
+            return jsonify(response_object), 404
+
+        elif not user2:
+            response_object['message'] = 'User2 does not exist'
+            return jsonify(response_object), 404
+
+        else:
+
+            byte_img = user.img
+            img = Image.open(io.BytesIO(byte_img))
+            img_format = img.format.lower()
+
+            # removen new line char
+            str_img = binascii.b2a_base64(byte_img)[:-1]
+            str_img = str_img.decode('utf-8')
+            str_format = "data:image/{};base64, ".format(img_format)
+            final_str = str_format + str_img
+
+            response_object = {
+                'status': 'success',
+                'data': final_str
+            }
+
+            return jsonify(response_object), 200
+
+
+    except AttributeError:
+        response_object['message'] = \
+            'AttributeError'
+        return jsonify(response_object), 404
+
+    except ValueError:
+        response_object['message'] = \
+            'ValueError'
+        return jsonify(response_object), 404
+
+    except exc.DataError:
+        response_object['message'] = \
+            'DataError'
+        return jsonify(response_object), 400
+
     except exc.DatabaseError:
         response_object['message'] = \
             'DatabaseError'

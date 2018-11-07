@@ -272,9 +272,11 @@ class PublicProfile extends React.Component {
       </GridContainer>
       <div className="container" style={styles.centerer1}>
         <div className="container" style={styles.centerer2}>
-          <Button color="info" style={styles.fullbutton}>
-            Message
-          </Button>
+          <a href={"/contracts"}>
+            <Button color="info" style={styles.fullbutton}>
+              Make Contract
+            </Button>
+          </a>
         </div>
       </div>
 

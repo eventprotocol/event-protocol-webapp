@@ -14,6 +14,7 @@ import PublicProfile from "../views/PublicProfile/PublicProfile.jsx";
 import Wallet from "../views/Wallet/Wallet.jsx";
 import Team from "../views/Team/Team.jsx";
 import Contracts from "../views/MyContracts/MyContracts.jsx";
+import ChatRoom from "../views/ChatRoom/ChatRoom.jsx";
 
 const dashboardRoutes = [
   {
@@ -31,14 +32,14 @@ const dashboardRoutes = [
     icon: Dashboard,
     component: Marketplace
   },
-  {
-    path: "/workspace",
-    sidebarName: "Workspace",
-    navbarName: "Workspace",
-    icon: BusinessCenter,
-    loginRequired: true,
-    component: Workspace
-  },
+  // {
+  //   path: "/workspace",
+  //   sidebarName: "Workspace",
+  //   navbarName: "Workspace",
+  //   icon: BusinessCenter,
+  //   loginRequired: true,
+  //   component: Workspace
+  // },
   {
     path: "/contracts",
     sidebarName: "Contracts",
@@ -72,6 +73,14 @@ const dashboardRoutes = [
     icon: Person,
     invisible: true,
     component: PublicProfile
+  },
+  {
+    path: "/chatroom/:id",
+    sidebarName: "Chatroom",
+    navbarName: "Chatroom",
+    icon: Person,
+    invisible: true,
+    component: ChatRoom
   },
   { redirect: true, path: "/", to: "/marketplace", navbarName: "Redirect" }
 ];

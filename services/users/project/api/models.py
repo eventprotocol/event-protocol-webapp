@@ -16,12 +16,16 @@ class User(db.Model):
     email = db.Column(db.String(128), nullable=True)
     city_country = db.Column(db.String(128), nullable=True)
     _tags = db.Column(db.String(128), nullable=True)
+    _chatrooms = db.Column(db.String(256), nullable=True)
     img_src = db.Column(db.String(256), nullable=True)
     img = db.Column(db.LargeBinary(), nullable=True)
     about = db.Column(db.String(500), nullable=True)
     seller_detail = db.Column(db.String(500), nullable=True)
     buyer_detail = db.Column(db.String(500), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
+
+    # relationship to chatroom
+
 
     def __init__(self, eth_address):
         """
@@ -89,6 +93,20 @@ class User(db.Model):
         else:
             self._tags = f'{value}'
 
+    @property
+    def chatrooms(self):
+        try:
+            return [x.strip() for x in self._chatrooms.split(',')]
+        except AttributeError as e:
+            return []
+
+    @chatrooms.setter
+    def chatrooms(self, value):
+        if value is None or value == "":
+            self._chatrooms = ''
+        else:
+            self._chatrooms = f'{value}'
+
     def encode_auth_token(self, user_id):
         """
         Generates auth token
@@ -130,3 +148,39 @@ class User(db.Model):
 
         except jwt.InvalidTokenError:
             return 'Invalid token please reauthenticate'
+
+
+class Chat(db.Model):
+    """
+    We consider a 2 person chatroom
+    """
+    __tablename__ = "chat"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    chatroom = db.Column(db.Integer, nullable=False)
+    eth_address_1 = db.Column(db.String(128), nullable=False)
+    username_1 = db.Column(db.String(128), nullable=True)
+    id_1 = db.Column(db.Integer, nullable=False)
+    eth_address_2 = db.Column(db.String(128), nullable=False)
+    username_2 = db.Column(db.String(128), nullable=True)
+    id_2 = db.Column(db.Integer, nullable=False)
+    message = db.Column(db.String(500), nullable=True)
+
+    # this will be an eth_address
+    written_by = db.Column(db.String(128), nullable=True)
+
+    def to_json(self):
+        """
+        Returns output in json
+        """
+        return {
+            'id': self.id,
+            'chatroom': self.chatroom,
+            'eth_address_1': self.eth_address_1,
+            'username_1': self.username_1,
+            'id_1': self.id_1,
+            'eth_address_2': self.eth_address_2,
+            'username_2': self.username_2,
+            'id_2': self.id_2,
+            'message': self.message
+        }
+
