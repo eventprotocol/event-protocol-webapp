@@ -85,7 +85,6 @@ class DrizzleContainer extends Component {
       })
 
     }
-
   }
 
   render() {
@@ -98,32 +97,38 @@ class DrizzleContainer extends Component {
         return this.props.errorComp
       }
 
-      return(
-        <main className="container loading-screen">
-          <div className="pure-g">
-            <div className="pure-u-1-1">
-              <h1>⚠️</h1>
-              <p>This browser has no connection to the Ethereum network. Please use the Chrome/FireFox extension MetaMask, or dedicated Ethereum browsers Mist or Parity.</p>
-            </div>
-          </div>
-        </main>
-      )
+      // Pass message to children 
+      // This browser has no connection to the Ethereum network. Please use the Chrome/FireFox extension MetaMask, or dedicated Ethereum browsers Mist or Parity.
+      return Children.only(this.props.children);
+      // return(
+      //   <main className="container loading-screen">
+      //     <div className="pure-g">
+      //       <div className="pure-u-1-1">
+      //         <h1>⚠️</h1>
+      //         <p>This browser has no connection to the Ethereum network. Please use the Chrome/FireFox extension MetaMask, or dedicated Ethereum browsers Mist or Parity.</p>
+      //       </div>
+      //     </div>
+      //   </main>
+      // )
     }
 
 
 
     if (this.props.web3.status === 'initialized' && Object.keys(this.props.accounts).length === 0)
     {
-      //console.log(this.props.drizzleStatus);
-      return(
-        <main className="container loading-screen">
-          <div className="pure-g">
-            <div className="pure-u-1-1">
-            <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"></MetamaskSnackBar>
-            </div>
-          </div>
-        </main>
-      )
+
+      // Pass message
+      // We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked
+      return Children.only(this.props.children);
+      // return(
+      //   <main className="container loading-screen">
+      //     <div className="pure-g">
+      //       <div className="pure-u-1-1">
+      //       <MetamaskSnackBar data="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"></MetamaskSnackBar>
+      //       </div>
+      //     </div>
+      //   </main>
+      // )
     }
     if (this.props.drizzleStatus.initialized) {
       var web3Instance = this.context.drizzle.web3;

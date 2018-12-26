@@ -56,15 +56,6 @@ const dashboardRoutes = [
     loginRequired: true,
     component: Wallet
   },
-  {
-    path: "/team",
-    sidebarName: "Team",
-    navbarName: "Team",
-    icon: Group,
-    loginRequired: false,
-    component: Team
-  },
-
   // These are invisible sidebar items for routing purposes
   {
     path: "/account/:id",
