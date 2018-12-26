@@ -21,7 +21,12 @@ class IncreaseSecurityDeposit extends Component{
     if (this.props.drizzleStatus.initialized == true && this.props.contracts.EventToken != undefined){
       return(
       <div align = "center">
-        <SecurityDepForm contract="EventToken" method="approve" labels={[" Security Account", " Add Deposit (ET)"]} sendArgs={{from: this.props.accounts[0]}}/>
+        <SecurityDepForm
+          contract="EventToken"
+          method="approve"
+          labels={[" Security Account", " Add Deposit (ET)"]}
+          sendArgs={{from: this.props.accounts[0]}}
+        />
       </div>
       )
     }

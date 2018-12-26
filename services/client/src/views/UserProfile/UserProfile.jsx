@@ -10,19 +10,17 @@ import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 import Snackbar from "@material-ui/core/Snackbar";
 
-
-
 // core components
 import GridItem from "../../components/Grid/GridItem.jsx";
 import GridContainer from "../../components/Grid/GridContainer.jsx";
-import CustomInput from "../../components/CustomInput/CustomInput.jsx";
+// import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
 import Card from "../../components/Card/Card.jsx";
-import CardHeader from "../../components/Card/CardHeader.jsx";
-import CardAvatar from "../../components/Card/CardAvatar.jsx";
+// import CardHeader from "../../components/Card/CardHeader.jsx";
+// import CardAvatar from "../../components/Card/CardAvatar.jsx";
 import CardImage from "../../components/Card/CardImage.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-import CardFooter from "../../components/Card/CardFooter.jsx";
+// import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
@@ -140,7 +138,7 @@ class UserProfile extends React.Component {
     });
   }
   handleSubmit() {
-    console.log(this.state);
+    // console.log(this.state);
     axios.post('/users/edit', {
       eth_address: this.state.eth_address,
       auth_token: window.sessionStorage.getItem('authToken'),
@@ -169,7 +167,7 @@ class UserProfile extends React.Component {
     reader.onload = () => {
       // console.log(reader.result);
       var imgData = reader.result;
-      console.log(imgData);
+      // console.log(imgData);
       axios.post('/users/upload', {
         eth_address: this.state.eth_address,
         auth_token: window.sessionStorage.getItem('authToken'),
@@ -190,8 +188,8 @@ class UserProfile extends React.Component {
 
   }
   render() {
-    const { classes } = this.props;
-    var idx = this.props.match.params.id;
+    // const { classes } = this.props;
+    // var idx = this.props.match.params.id;
 
     return (
       <div>

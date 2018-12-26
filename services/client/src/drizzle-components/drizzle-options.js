@@ -1,5 +1,5 @@
-import { DrizzleProvider } from 'drizzle-react';
-import { Drizzle, generateStore } from 'drizzle';
+// import { DrizzleProvider } from 'drizzle-react';
+// import { Drizzle, generateStore } from 'drizzle';
 import EventToken from "../data/EventToken.json";
 import EventContract from "../data/EventContract.json";
 

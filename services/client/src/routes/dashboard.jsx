@@ -1,22 +1,28 @@
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Dashboard from "@material-ui/icons/Dashboard";
-import BusinessCenter from "@material-ui/icons/BusinessCenter";
 import Book from "@material-ui/icons/Book";
-import Group from "@material-ui/icons/Group";
 import Calendar from "@material-ui/icons/CalendarViewDay";
 
 // core components/view
 import Marketplace from "../views/Marketplace/Marketplace.jsx";
-import Workspace from "../views/Workspace/Workspace.jsx";
+// import Workspace from "../views/Workspace/Workspace.jsx";
 import UserProfile from "../views/UserProfile/UserProfile.jsx";
 import PublicProfile from "../views/PublicProfile/PublicProfile.jsx";
 import Wallet from "../views/Wallet/Wallet.jsx";
-import Team from "../views/Team/Team.jsx";
+// import Team from "../views/Team/Team.jsx";
 import Contracts from "../views/MyContracts/MyContracts.jsx";
 import ChatRoom from "../views/ChatRoom/ChatRoom.jsx";
 
 const dashboardRoutes = [
+  {
+    path: "/marketplace",
+    sidebarName: "Marketplace",
+    navbarName: "Marketplace",
+    icon: Dashboard,
+    loginRequired: false,
+    component: Marketplace
+  },
   {
     path: "/user",
     sidebarName: "Profile",
@@ -24,13 +30,6 @@ const dashboardRoutes = [
     icon: Person,
     loginRequired: true,
     component: UserProfile
-  },
-  {
-    path: "/marketplace",
-    sidebarName: "Marketplace",
-    navbarName: "Marketplace",
-    icon: Dashboard,
-    component: Marketplace
   },
   // {
   //   path: "/workspace",
@@ -45,7 +44,7 @@ const dashboardRoutes = [
     sidebarName: "Contracts",
     navbarName: "Contracts",
     icon: Calendar,
-    loginRequired: false,
+    loginRequired: true,
     component: Contracts
   },
   {

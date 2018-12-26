@@ -34,6 +34,7 @@ const Sidebar = ({ ...props }) => {
   function activeRoute(routeName) {
     return props.location.pathname.indexOf(routeName) > -1 ? true : false;
   }
+
   const { classes, color, logo, image, logoText, routes } = props;
   var links = (
     <List className={classes.list}>
@@ -42,11 +43,17 @@ const Sidebar = ({ ...props }) => {
         if (prop.redirect) return null;
         if (prop.invisible) return null;
 
+        // Check if route requires login and if we are already login
+        if (prop.loginRequired === true && props.login === false) {
+          return null;
+        }
+
+
         var listItemClasses;
         listItemClasses = classNames({
           [" " + classes[color]]: activeRoute(prop.path)
         });
-        
+
         const whiteFontClasses = classNames({
           [" " + classes.whiteFont]: activeRoute(prop.path)
         });
@@ -75,33 +82,30 @@ const Sidebar = ({ ...props }) => {
         );
       })}
 
-      {/* TODO: PROGRAM LOGIC FOR THIS*/}
-      {/* Display Connection to Ethereum */}
-      {/* Connected to Rinkeby */}
-      <ListItem className={classes.bottomNavbar}>
-        <ListItemIcon className={classes.itemIcon} style={connected} >
-          <Cloud/>
-        </ListItemIcon>
-        <ListItemText
-          primary="Connected (Rinkeby)"
-          className={classes.itemText}
-          disableTypography={true}
-        />        
-      </ListItem>
-
-      {/* Not connected to Rinkeby */}
-      {/*
-      <ListItem className={classes.bottomNavbar}>
-        <ListItemIcon className={classes.itemIcon} style={notConnected} >
-          <Cloud/>
-        </ListItemIcon>
-        <ListItemText
-          primary="Disconnected"
-          className={classes.itemText}
-          disableTypography={true}
-        />        
-      </ListItem>
-      */}      
+      {props.connected ? (
+          <ListItem className={classes.bottomNavbar}>
+            <ListItemIcon className={classes.itemIcon} style={connected} >
+              <Cloud/>
+            </ListItemIcon>
+            <ListItemText
+              primary="Connected (Rinkeby)"
+              className={classes.itemText}
+              disableTypography={true}
+            />
+          </ListItem>
+        ) : (
+          <ListItem className={classes.bottomNavbar}>
+            <ListItemIcon className={classes.itemIcon} style={notConnected} >
+              <Cloud/>
+            </ListItemIcon>
+            <ListItemText
+              primary="Disconnected"
+              className={classes.itemText}
+              disableTypography={true}
+            />
+          </ListItem>
+        )
+      }
     </List>
   );
   // TODO chnage the a href if needed

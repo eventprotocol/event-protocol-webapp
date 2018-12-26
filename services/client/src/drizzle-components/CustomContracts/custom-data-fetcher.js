@@ -76,7 +76,7 @@ class ContractData extends Component {
       const displayObjectProps = []
 
       Object.keys(displayData).forEach((key) => {
-        if (i != key) {
+        if (i !== key) {
           displayObjectProps.push(<li key={i}>
             <strong>{key}</strong>{pendingSpinner}<br/>
             {`${displayData[key]}`}
@@ -95,7 +95,7 @@ class ContractData extends Component {
     }
 
     // This is to map the state
-    if (this.props.method == "getEventState"){
+    if (this.props.method === "getEventState"){
       displayData = parseInt(displayData);
       var result;
       switch (displayData){
@@ -126,19 +126,19 @@ class ContractData extends Component {
     }
 
     // This is to convert epoch to Date
-    if (this.props.method == "getEventDate"){
+    if (this.props.method === "getEventDate"){
       var result = new Date(0);
       result.setUTCSeconds(parseInt(displayData));
       return result.toString().slice(0, -14);
     }
 
-    if (this.props.method == "getEventPaymentCharges" | this.props.method == "getBuyerActivationAmount" | this.props.method == "getSellerActivationAmount"){
+    if (this.props.method === "getEventPaymentCharges" | this.props.method === "getBuyerActivationAmount" | this.props.method === "getSellerActivationAmount"){
       var result = new BigNumber(displayData).div(Math.pow(10, 18))
       return result.toString();
     }
 
     // This is to remove the decimels for allowance
-    if (this.props.method == "allowance"){
+    if (this.props.method === "allowance"){
       var a = parseInt(displayData)/Math.pow(10, 18);
       var factor = Math.pow(10, 2);
       displayData = Math.round(a * factor) / factor
@@ -148,7 +148,7 @@ class ContractData extends Component {
     }
 
     // This is to convert epoch to Date
-    if (this.props.method == "getBuyer" | this.props.method == "getSeller"){
+    if (this.props.method === "getBuyer" | this.props.method === "getSeller"){
       var result1 = displayData.slice(0, 4);
       var result2 = displayData.slice(-4, displayData.toString().length);
       return result1 +".." + result2;

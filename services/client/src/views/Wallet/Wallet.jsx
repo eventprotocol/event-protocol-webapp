@@ -9,8 +9,8 @@ import SecurityDepositComponent from "../../drizzle-components/EventToken/securi
 import IncreaseSecurityDepComponent from "../../drizzle-components/EventToken/securityDeposit/increase-deposit-component.js";
 import GetAllowanceComponent from "../../drizzle-components/EventToken/allowance/get-allowance-component.js";
 import IncreaseApprovalComponent from "../../drizzle-components/EventToken/approval/increase-approval.js"
-import EventToken from "../../data/EventToken.json";
-import { drizzleConnect } from 'drizzle-react'
+// import EventToken from "../../data/EventToken.json";
+// import { drizzleConnect } from 'drizzle-react'
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 import { DrizzleProvider } from 'drizzle-react';

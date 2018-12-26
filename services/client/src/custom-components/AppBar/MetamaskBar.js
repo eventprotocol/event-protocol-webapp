@@ -19,15 +19,11 @@ const styles = theme => ({
 });
 
 class MetamaskBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return(
     <div align="center">
       <br></br>
-      <img src={require('../../assets/img/logo.png')} height="142" width="142"/>
+      <img src={require('../../assets/img/logo.png')} height="142" width="142" alt="logo"/>
       <br></br>
       <br></br>
       <br></br>

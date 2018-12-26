@@ -27,7 +27,7 @@ function AccountBalanceBar(props) {
     <div className={classes.root}>
       <DrizzleProvider options={vals}>
       <AppBar position="static" color="default">
-            <DrizzleAccount></DrizzleAccount>
+        <DrizzleAccount></DrizzleAccount>
       </AppBar>
       </DrizzleProvider>
     </div>

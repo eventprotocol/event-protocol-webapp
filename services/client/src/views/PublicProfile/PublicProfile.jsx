@@ -12,11 +12,8 @@ import GridContainer from "../../components/Grid/GridContainer.jsx";
 import CustomInput from "../../components/CustomInput/CustomInput.jsx";
 import Button from "../../components/CustomButtons/Button.jsx";
 import Card from "../../components/Card/Card.jsx";
-import CardHeader from "../../components/Card/CardHeader.jsx";
-import CardAvatar from "../../components/Card/CardAvatar.jsx";
 import CardImage from "../../components/Card/CardImage.jsx";
 import CardBody from "../../components/Card/CardBody.jsx";
-import CardFooter from "../../components/Card/CardFooter.jsx";
 import CustomTabs from "../../components/CustomTabs/CustomTabs.jsx";
 
 import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
@@ -108,7 +105,7 @@ class PublicProfile extends React.Component {
     });
   }
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
     var idx = this.props.match.params.id;
     this.getUserData(idx);
 

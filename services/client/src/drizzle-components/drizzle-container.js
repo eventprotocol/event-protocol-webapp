@@ -1,7 +1,7 @@
 import { drizzleConnect } from 'drizzle-react'
-import React, { Children, Component } from 'react'
+import { Children, Component } from 'react'
 import PropTypes from 'prop-types'
-import MetamaskSnackBar from '../custom-components/AppBar/MetamaskBar.js'
+// import MetamaskSnackBar from '../custom-components/AppBar/MetamaskBar.js'
 
 // axios for server access
 import axios from 'axios';
@@ -23,7 +23,10 @@ class DrizzleContainer extends Component {
     // human readable message
     if(!this.state.signRequest) {
       // set signRequest flag to true as we are trying to sign something
-      this.state.signRequest = true;
+      this.setState({
+        signRequest: true
+      })
+
       console.log("Sign Register")
 
       web3Instance.eth.sign(hashedMsg, userAccount)
@@ -51,14 +54,18 @@ class DrizzleContainer extends Component {
         console.log(err);
 
         // set signRequest flag to false as we couldn't sign properly
-        this.state.signRequest = false;
+        this.setState({
+          signRequest: false
+        })
       })
     }
   }
 
   login(web3Instance, userAccount, hashedMsg) {
     if(!this.state.signRequest) {
-      this.state.signRequest = true;
+      this.setState({
+        signRequest: true
+      })
 
       console.log("Sign Login")
 
@@ -81,7 +88,9 @@ class DrizzleContainer extends Component {
       })
       .catch((err) => {
         console.log(err);
-        this.state.signRequest = false;
+        this.state({
+          signRequest: false
+        })
       })
 
     }
@@ -91,13 +100,12 @@ class DrizzleContainer extends Component {
     // console.log(this.props.accounts);
     // console.log(this.props);
 
-    if (this.props.web3.status === 'failed')
-    {
+    if (this.props.web3.status === 'failed') {
       if (this.props.errorComp) {
         return this.props.errorComp
       }
 
-      // Pass message to children 
+      // Pass message to children
       // This browser has no connection to the Ethereum network. Please use the Chrome/FireFox extension MetaMask, or dedicated Ethereum browsers Mist or Parity.
       return Children.only(this.props.children);
       // return(
@@ -112,10 +120,7 @@ class DrizzleContainer extends Component {
       // )
     }
 
-
-
-    if (this.props.web3.status === 'initialized' && Object.keys(this.props.accounts).length === 0)
-    {
+    if (this.props.web3.status === 'initialized' && Object.keys(this.props.accounts).length === 0) {
 
       // Pass message
       // We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked
@@ -130,6 +135,7 @@ class DrizzleContainer extends Component {
       //   </main>
       // )
     }
+
     if (this.props.drizzleStatus.initialized) {
       var web3Instance = this.context.drizzle.web3;
       var hashedMsg = web3Instance.utils.sha3("EventProtocol");
@@ -173,7 +179,6 @@ class DrizzleContainer extends Component {
 
         // User account not found, start registration
         this.register(web3Instance, userAccount, hashedMsg);
-
       });
 
       return Children.only(this.props.children);
@@ -183,15 +188,7 @@ class DrizzleContainer extends Component {
       return this.props.loadingComp
     }
 
-    return(
-      <main className="container loading-screen">
-        <div className="pure-g">
-          <div className="pure-u-1-1">
-          <MetamaskSnackBar data="Metamask connected. Please connect to the Rinkeby Test Network"></MetamaskSnackBar>
-          </div>
-        </div>
-      </main>
-    )
+    return Children.only(this.props.children);
   }
 }
 

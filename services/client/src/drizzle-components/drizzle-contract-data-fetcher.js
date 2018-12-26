@@ -11,14 +11,25 @@ class ContractData extends Component {
   constructor(props, context) {
     super(props)
 
-    this.contracts = context.drizzle.contracts
+    this.contracts = context.drizzle.contracts;
 
     // Get the contract ABI
     //const abi = this.contracts[this.props.contract].abi;
 
     // Fetch initial value from chain and return cache key for reactive updates.
-    var methodArgs = this.props.methodArgs ? this.props.methodArgs : []
-    this.dataKey = this.contracts[this.props.contract].methods[this.props.method].cacheCall(...methodArgs)
+    var methodArgs = this.props.methodArgs ? this.props.methodArgs : [];
+
+    this.contracts[this.props.contract].methods[this.props.method].cacheCall(...methodArgs)
+    .then((res) => {
+      this.dataKey = res;
+    })
+    .catch((err) => {
+      this.dataKey = 0;
+    })
+
+    this.state = {
+      ET: 0,
+    }
   }
 
   render() {
@@ -45,6 +56,9 @@ class ContractData extends Component {
     }
 
     var displayData = this.props.contracts[this.props.contract][this.props.method][this.dataKey].value
+    this.setState({
+      ET: displayData
+    })
 
     // Optionally convert to UTF8
     if (this.props.toUtf8) {
@@ -57,7 +71,7 @@ class ContractData extends Component {
     }
 
     // If return value is an array
-    if (typeof displayData === 'array') {
+    if (typeof displayData === "array") {
       const displayListItems = displayData.map((datum, index) => {
         <li key={index}>{`${datum}`}{pendingSpinner}</li>
       })
@@ -70,7 +84,7 @@ class ContractData extends Component {
     }
 
     // If retun value is an object
-    if (typeof displayData === 'object') {
+    if (typeof displayData === "object") {
       var i = 0
       const displayObjectProps = []
 

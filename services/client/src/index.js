@@ -4,9 +4,6 @@ import ReactDOM from 'react-dom';
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch } from 'react-router-dom';
 
-// axios for server access
-import axios from 'axios';
-
 // import Web3 and Drizzle
 import { DrizzleProvider } from 'drizzle-react';
 import { Drizzle, generateStore } from 'drizzle'
@@ -20,11 +17,9 @@ import "./assets/css/material-dashboard-react.css";
 
 // components
 import registerServiceWorker from "./registerServiceWorker.js";
-import PublicProfile from "./views/PublicProfile/PublicProfile.jsx";
 
-import EventToken from "./data/EventToken.json";
 import DrizzleContainer from "./drizzle-components/drizzle-container.js"
-import DrizzleAccount from "./drizzle-components/drizzle-account.js"
+// import DrizzleAccount from "./drizzle-components/drizzle-account.js"
 import options from "./drizzle-components/drizzle-options.js";
 
 // Initialize browser history
@@ -34,18 +29,7 @@ const hist = createBrowserHistory();
 let web3 = new Web3();
 
 class App extends Component {
-  constructor() {
-    super();
-  };
-
-  componentDidMount() {
-  };
-
-
   render() {
-    // Routes for dashboard
-    // Routes for account
-
     return (
       <Router history={hist}>
         <Switch>
