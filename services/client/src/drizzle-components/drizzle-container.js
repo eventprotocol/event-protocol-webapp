@@ -27,7 +27,7 @@ class DrizzleContainer extends Component {
         signRequest: true
       })
 
-      console.log("Sign Register")
+      // console.log("Sign Register")
 
       web3Instance.eth.sign(hashedMsg, userAccount)
       .then((signedMsg) => {
