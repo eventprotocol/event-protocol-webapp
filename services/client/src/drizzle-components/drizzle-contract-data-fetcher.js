@@ -14,12 +14,8 @@ class ContractData extends Component {
     this.contracts = context.drizzle.contracts;
 
     // Get the contract ABI
-    //const abi = this.contracts[this.props.contract].abi;
+    const abi = this.contracts[this.props.contract].abi;
 
-    this.state = {
-      dataKey: 0,
-      error: false
-    }
   }
 
   componentDidMount() {
