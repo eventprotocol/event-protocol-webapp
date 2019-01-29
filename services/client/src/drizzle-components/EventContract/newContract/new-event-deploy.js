@@ -29,7 +29,7 @@ const styles = {
 		maxWidth: "50%"
 	},
 
-	form: {
+	form:{
 		maxWidth: "70%"
 	},
 
@@ -154,7 +154,7 @@ class ContractForm extends Component {
 		web3.currentProvider = web3.givenProvider
 		return (
 			<div>
-				<div align="center">
+				<div style={styles.form} align="center">
 					<form className ="pure-form pure-form-stacked">
 						{this.inputs.map((input, index) => {
 								var inputType = this.translateType(input.type);
@@ -209,20 +209,24 @@ class ContractForm extends Component {
 								}
 
 								// check if input type is struct and if so loop out struct fields as well
-								<FormControl margin="normal" required={true}>
-									<InputLabel htmlFor={input.name} >
-										{inputLabel}
-									</InputLabel>
-									<Input
-										id={input.name}
-										key={input.name}
-										name={input.name}
-										type={inputType}
-										value={this.state.email}
-										onChange={this.handleChange}
-										placeholder={placeholder}
-									/>
-								</FormControl>
+								return (
+									<div className="form">
+										<FormControl margin="normal" required={true} fullWidth={true}>
+											<InputLabel htmlFor={input.name} shrink>
+												{inputLabel}
+											</InputLabel>
+											<Input
+												id={input.name}
+												key={input.name}
+												name={input.name}
+												type={inputType}
+												value={this.state.email}
+												onChange={this.handleChange}
+												placeholder={placeholder}
+											/>
+										</FormControl>
+									</div>
+								)
 						})}
 						<br /><br />
 						<div align="center">
