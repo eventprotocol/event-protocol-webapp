@@ -108,7 +108,7 @@ def register():
             return jsonify(response_object), 400
 
     # Throw integrityError if this does not work
-    except exc.IntegrityError as e:
+    except exc.IntegrityError:
         db.session.rollback()
         return jsonify(response_object), 400
 
@@ -188,7 +188,7 @@ def login():
     # Throw integrityError if this does not work
     except Exception as e:
         print(e)
-        response_error['status'] = 'success'
+        response_object['status'] = 'success'
         response_object['message'] = "Try again. Server Error: " + e
         return jsonify(response_object), 200
 

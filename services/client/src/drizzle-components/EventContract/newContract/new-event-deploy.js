@@ -29,6 +29,10 @@ const styles = {
 		maxWidth: "50%"
 	},
 
+	form:{
+		maxWidth: "70%"
+	},
+
 	fullbutton: {
 		width: "100%"
 	}
@@ -89,6 +93,7 @@ class ContractForm extends Component {
 	handleSubmit() {
 		let newState = {};
 		console.log("Submit")
+		console.log(this.state);
 		try {
 			newState.eventName = this.state.eventName;
 			newState.eventLocation = this.state.eventLocation;
@@ -102,6 +107,7 @@ class ContractForm extends Component {
 			var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
 			newState.eventDate = eventDate_epoch;
 
+			console.log(newState);
 
 			if (this.props.sendArgs) {
 				return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
@@ -149,55 +155,47 @@ class ContractForm extends Component {
 		web3.currentProvider = web3.givenProvider
 		return (
 			<div>
-				<div align="center">
+				<div style={styles.form} align="center">
 					<form className ="pure-form pure-form-stacked">
 						{this.inputs.map((input, index) => {
 								var inputType = this.translateType(input.type);
 								var inputLabel = this.props.labels ? this.props.labels[index] : input.name;
 								let placeholder;
-								let disableAnimation
 
 								// To check the phrasing and writing is correct
 								if(inputLabel === "eventName") {
 									inputLabel = "Event Name";
 									placeholder = "Enter the name of the event";
-									disableAnimation = false;
 								}
 
 								if(inputLabel === "eventLocation") {
 									inputLabel = "Event Location";
 									placeholder = "Enter the location of the event";
-									disableAnimation = false
 								}
 
 								if(inputLabel === "buyer") {
 									inputLabel = "Buyer Address";
 									placeholder = "Enter the Ethereum address of the buyer";
-									disableAnimation = false;
 								}
 
 								if(inputLabel === "buyerEscrow") {
 									inputLabel = "Buyer Escrow (ET)";
 									placeholder = "Enter the escrow amount for the buyer in ET";
-									disableAnimation = false;
 								}
 
 								if(inputLabel === "sellerEscrow") {
 									inputLabel = "Seller Escrow (ET)";
 									placeholder = "Enter the escrow amount for the seller in ET";
-									disableAnimation = false;
 								}
 
 								if(inputLabel === "sellerAdvanceFee") {
 									inputLabel = "Seller Advance Fee";
 									placeholder = "Enter the advance fee given to the seller in ET";
-									disableAnimation = false;
 								}
 
 								if(inputLabel === "sellerCancellationPenalty") {
 									inputLabel = "Seller Cancellation Penalty";
-									placeholder = "Enter the penalty fee for the seller if they cancel in ET";
-									disableAnimation = false;
+									placeholder = "Enter the penalty fee for the seller if seller cancels in ET";
 								}
 
 								if(inputLabel === "eventPaymentAmount") {
@@ -208,14 +206,14 @@ class ContractForm extends Component {
 								if (input.name === "eventDate"){
 									inputLabel = "Date Of Event";
 									inputType = "date";
-									placeholder = ""
-									disableAnimation = true;
+									placeholder = "";
 								}
+
 								// check if input type is struct and if so loop out struct fields as well
 								return (
-									<p>
-										<FormControl margin="normal" required={true} disableAnimation={disableAnimation} fullWidth={true}>
-											<InputLabel htmlFor={input.name}>
+									<div className="form">
+										<FormControl margin="normal" required={true} fullWidth={true}>
+											<InputLabel htmlFor={input.name} shrink>
 												{inputLabel}
 											</InputLabel>
 											<Input
@@ -223,12 +221,12 @@ class ContractForm extends Component {
 												key={input.name}
 												name={input.name}
 												type={inputType}
-												value={this.state.email}
-												onChange={this.handleChange}
+												value={this.state[input.name]}
+												onChange={this.handleInputChange}
 												placeholder={placeholder}
 											/>
 										</FormControl>
-									</p>
+									</div>
 								)
 						})}
 						<br /><br />

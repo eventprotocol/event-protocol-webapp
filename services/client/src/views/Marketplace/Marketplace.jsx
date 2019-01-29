@@ -115,9 +115,9 @@ class Marketplace extends React.Component {
       <div>
         <GridContainer>
         {
-          this.state.data.map((data) => {
+          this.state.data.map((data, idx) => {
             return(
-              <GridItem xs={12} sm={6} md={4}>
+              <GridItem xs={12} sm={6} md={4} id={"griditem-" + idx} key={"griditem-" + idx} >
                 <a href={"/account/" + data.id}>
                 <Card>
                   <CardImage profile>
@@ -139,9 +139,9 @@ class Marketplace extends React.Component {
                     <h4>{data.username}</h4>
                     <h6><strong>Tags: </strong>
                     {
-                      data.tags.map((datum) => {
+                      data.tags.map((datum, i) => {
                         return (
-                          <span className="badge badge-secondary">
+                          <span id={ "tags-" + i } key={ "tags-" + i  } className="badge badge-secondary" >
                             {datum}
                           </span>
                         );

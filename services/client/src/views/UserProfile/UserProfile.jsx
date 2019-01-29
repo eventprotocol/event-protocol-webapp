@@ -54,12 +54,12 @@ const styles = {
 
   centerer1: {
     display: "flex",
-    "align-items": "center",
-    "justify-content": "center"
+    alignItems: "center",
+    justifyContent: "center"
   },
 
   centerer2: {
-    "max-width": "50%"
+    "maxWidth": "50%"
   },
 
   fullbutton: {

@@ -8,7 +8,7 @@ import urllib
 import os
 import json
 
-from project.api.models import User, Chat
+from project.api.models import User  # , Chat
 from project.api.utils import authenticate
 from project import db
 
@@ -312,7 +312,7 @@ def upload_user_img(resp, post_data):
         byte_img = binascii.a2b_base64(str_img)
 
         # use Image open to determine if image file
-        image = Image.open(io.BytesIO(byte_img))
+        Image.open(io.BytesIO(byte_img))
 
         # # convert image to jpeg if not image
         # if image.format != 'JPEG':
@@ -348,7 +348,7 @@ def upload_user_img(resp, post_data):
 
 @users_blueprint.route('/users/image/<user_id>', methods=['GET'])
 @authenticate
-def view_user_img(number):
+def view_user_img(user_id):
     """
     Convert image jpeg and send as json
     Only accept jpeg for now
@@ -406,67 +406,66 @@ def view_user_img(number):
         return jsonify(response_object), 400
 
 
-@users_blueprint.route('/users/chatroom/make', methods=['POST'])
-@authenticate
-def make_chatroom(resp, post_data):
-    """
-    {
-        eth_address:
-        auth_token:
-        other_id:
-    }
-    """
-    try:
-        user1 = User.query.filter_by(id=resp).first()
-        user2 = User.query.filter_by(id=other_id).first()
+# @users_blueprint.route('/users/chatroom/make', methods=['POST'])
+# @authenticate
+# def make_chatroom(resp, post_data):
+#     """
+#     {
+#         eth_address:
+#         auth_token:
+#         other_id:
+#     }
+#     """
+#     try:
+#         user1 = User.query.filter_by(id=resp).first()
+#         user2 = User.query.filter_by(id=other_id).first()
 
-        if not user1:
-            response_object['message'] = 'User1 does not exist'
-            return jsonify(response_object), 404
+#         if not user1:
+#             response_object['message'] = 'User1 does not exist'
+#             return jsonify(response_object), 404
 
-        elif not user2:
-            response_object['message'] = 'User2 does not exist'
-            return jsonify(response_object), 404
+#         elif not user2:
+#             response_object['message'] = 'User2 does not exist'
+#             return jsonify(response_object), 404
 
-        else:
+#         else:
 
-            byte_img = user.img
-            img = Image.open(io.BytesIO(byte_img))
-            img_format = img.format.lower()
+#             byte_img = user.img
+#             img = Image.open(io.BytesIO(byte_img))
+#             img_format = img.format.lower()
 
-            # removen new line char
-            str_img = binascii.b2a_base64(byte_img)[:-1]
-            str_img = str_img.decode('utf-8')
-            str_format = "data:image/{};base64, ".format(img_format)
-            final_str = str_format + str_img
+#             # removen new line char
+#             str_img = binascii.b2a_base64(byte_img)[:-1]
+#             str_img = str_img.decode('utf-8')
+#             str_format = "data:image/{};base64, ".format(img_format)
+#             final_str = str_format + str_img
 
-            response_object = {
-                'status': 'success',
-                'data': final_str
-            }
+#             response_object = {
+#                 'status': 'success',
+#                 'data': final_str
+#             }
 
-            return jsonify(response_object), 200
+#             return jsonify(response_object), 200
 
+#     except AttributeError:
+#         response_object['message'] = \
+#             'AttributeError'
+#         return jsonify(response_object), 404
 
-    except AttributeError:
-        response_object['message'] = \
-            'AttributeError'
-        return jsonify(response_object), 404
+#     except ValueError:
+#         response_object['message'] = \
+#             'ValueError'
+#         return jsonify(response_object), 404
 
-    except ValueError:
-        response_object['message'] = \
-            'ValueError'
-        return jsonify(response_object), 404
+#     except exc.DataError:
+#         response_object['message'] = \
+#             'DataError'
+#         return jsonify(response_object), 400
 
-    except exc.DataError:
-        response_object['message'] = \
-            'DataError'
-        return jsonify(response_object), 400
-
-    except exc.DatabaseError:
-        response_object['message'] = \
-            'DatabaseError'
-        return jsonify(response_object), 400
+#     except exc.DatabaseError:
+#         response_object['message'] = \
+#             'DatabaseError'
+#         return jsonify(response_object), 400
 
 
 @users_blueprint.route('/users/transactions/contract', methods=['GET'])
@@ -502,7 +501,7 @@ def get_user_transactions(eth_address):
     address = eth_address
 
     try:
-        with urllib.request.urlopen("http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address={}&startblock=0&endblock=99999999&sort=asc&apikey={}".format(address, api)) as url:  #NOQA
+        with urllib.request.urlopen("http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address={}&startblock=0&endblock=99999999&sort=asc&apikey={}".format(address, api)) as url:  # NOQA
             data = json.loads(url.read().decode())
 
             return jsonify({'status': 'success',
