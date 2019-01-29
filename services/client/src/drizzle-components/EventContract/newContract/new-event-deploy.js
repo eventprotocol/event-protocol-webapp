@@ -98,7 +98,8 @@ class ContractForm extends Component {
             // check if input type is struct and if so loop out struct fields as well
             return (
               <div>
-                <input 
+                <input
+                  stlye={}
                   key={input.name}
                   type={inputType}
                   name={input.name}

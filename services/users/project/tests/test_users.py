@@ -550,9 +550,36 @@ class TestUserService(BaseTestCase):
                 content_type='application/json'
             )
             data = json.loads(response.data.decode())
-            self.assertEqual(response.status_code, 200)            
+            self.assertEqual(response.status_code, 200)
             self.assertTrue(data['status'] == 'success')
             self.assertTrue(data['message'] == 'Upload success')
+
+
+    def test_get_transactions_contract(self):
+        """
+        Upload image normally
+        """
+
+        with self.client:
+            response = self.client.get('users/transactions/contract')
+
+            data = json.loads(response.data.decode())
+
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(data['status'] == 'success')
+
+    def test_get_transactions_users(self):
+        """
+        Upload image normally
+        """
+
+        with self.client:
+            response = self.client.get('users/transactions/0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+
+            data = json.loads(response.data.decode())
+
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(data['status'] == 'success')
 
 
 if __name__ == '__main__':

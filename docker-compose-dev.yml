@@ -20,6 +20,7 @@ services:
       # add the the following
       # SECRET_KEY=enter_secret_key_here
       - SECRET_KEY=${SECRET_KEY}
+      - API_KEY_1=${API_KEY_1}
     depends_on:
       - users-db
     links:

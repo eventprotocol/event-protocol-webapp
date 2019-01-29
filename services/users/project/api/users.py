@@ -4,6 +4,9 @@ from sqlalchemy.sql.expression import func
 import binascii
 from PIL import Image
 import io
+import urllib
+import os
+import json
 
 from project.api.models import User, Chat
 from project.api.utils import authenticate
@@ -464,6 +467,55 @@ def make_chatroom(resp, post_data):
         response_object['message'] = \
             'DatabaseError'
         return jsonify(response_object), 400
+
+
+@users_blueprint.route('/users/transactions/contract', methods=['GET'])
+def get_contract_transactions():
+    """
+    Returns all transactions on the contract
+    """
+    api = os.environ.get('API_KEY_1')
+    contract_address = '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6'
+
+    url = "http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address={}&startblock=0&endblock=99999999&sort=asc&apikey={}".format(contract_address, api)  # NOQA
+
+    try:
+        with urllib.request.urlopen(url) as url:
+            data = json.loads(url.read().decode())
+
+            return jsonify({'status': 'success',
+                            'data': data['result']})
+
+    # TODO add more granular exceptions
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'fail',
+                        'message': 'Error'}), 400
+
+
+@users_blueprint.route('/users/transactions/<eth_address>', methods=['GET'])
+def get_user_transactions(eth_address):
+    """
+    Returns all transaction by user
+    """
+    api = os.environ.get('API_KEY_1')
+    address = eth_address
+
+    try:
+        with urllib.request.urlopen("http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address={}&startblock=0&endblock=99999999&sort=asc&apikey={}".format(address, api)) as url:  #NOQA
+            data = json.loads(url.read().decode())
+
+            return jsonify({'status': 'success',
+                            'data': data['result']})
+
+    # TODO add more granular exceptions
+    except Exception as e:
+        print(e)
+        return jsonify({'status': 'fail',
+                        'message': 'Error'}), 400
+
+
+
 
 
 
