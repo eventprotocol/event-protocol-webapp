@@ -44,9 +44,9 @@ const styles = {
     },
     centerer1: {
       display: "flex",
-      "flex-direction": "row",
-      "align-items": "center",
-      "justify-content": "center"
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center"
     },
 
     centerer2: {
