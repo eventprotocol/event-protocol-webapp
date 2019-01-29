@@ -53,7 +53,8 @@ class Resources extends React.Component {
     const result = new Function('const {' + Object.keys(obj).join(',') + '} = this.obj;return `' + str + '`').call({obj})
 
     //document.body.innerHTML = result
-    console.log(result)
+    //console.log("Here", this.props.drizzleStatus.initialized)
+
     return (
       <div>
           <DrizzleProvider options = {options}>

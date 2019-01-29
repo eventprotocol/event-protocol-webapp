@@ -19,6 +19,7 @@ class ContractForm extends Component {
     this.contracts = context.drizzle.contracts;
 
     // Get the contract ABI
+    console.log("target", this.contracts)
     const abi = this.contracts[this.props.contract].abi;
 
     this.inputs = [];
@@ -73,6 +74,7 @@ class ContractForm extends Component {
   }
 
   render() {
+    console.log(this.props.drizzleStatus)
     return (
       <div align="center">
       <form className ="pure-form pure-form-stacked">
