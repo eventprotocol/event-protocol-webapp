@@ -513,4 +513,3 @@ def get_user_transactions(eth_address):
         print(e)
         return jsonify({'status': 'fail',
                         'message': 'Error'}), 400
-
