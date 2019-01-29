@@ -23,9 +23,7 @@ class User(db.Model):
     seller_detail = db.Column(db.String(500), nullable=True)
     buyer_detail = db.Column(db.String(500), nullable=True)
     active = db.Column(db.Boolean(), default=True, nullable=False)
-
     # relationship to chatroom
-
 
     def __init__(self, eth_address):
         """
@@ -83,7 +81,7 @@ class User(db.Model):
     def tags(self):
         try:
             return [x.strip() for x in self._tags.split(',')]
-        except AttributeError as e:
+        except AttributeError:
             return []
 
     @tags.setter
@@ -97,7 +95,7 @@ class User(db.Model):
     def chatrooms(self):
         try:
             return [x.strip() for x in self._chatrooms.split(',')]
-        except AttributeError as e:
+        except AttributeError:
             return []
 
     @chatrooms.setter
@@ -183,4 +181,3 @@ class Chat(db.Model):
             'id_2': self.id_2,
             'message': self.message
         }
-

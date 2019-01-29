@@ -554,7 +554,6 @@ class TestUserService(BaseTestCase):
             self.assertTrue(data['status'] == 'success')
             self.assertTrue(data['message'] == 'Upload success')
 
-
     def test_get_transactions_contract(self):
         """
         Upload image normally
@@ -574,7 +573,9 @@ class TestUserService(BaseTestCase):
         """
 
         with self.client:
-            response = self.client.get('users/transactions/0x0e35462535dae6fd521f0eea67dc4e9485c714dc')
+            response = self.client.get(
+                'users/transactions/0x0e35462535dae6fd521f0eea67dc4e9485c714dc'
+                )
 
             data = json.loads(response.data.decode())
 
