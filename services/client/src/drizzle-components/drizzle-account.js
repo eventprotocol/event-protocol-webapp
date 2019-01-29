@@ -59,13 +59,13 @@ class DrizzleAccount extends Component {
       return(
         <div>
           <Grid container alignItems="stretch" justify="space-evenly">
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <NameCard primary={ address } secondary="Account" icon={ Group }></NameCard>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <NameCard primary={ getToken } secondary="ET" icon={ EventTokenIcon }/>
             </Grid>
           </Grid>
@@ -111,13 +111,13 @@ class DrizzleAccount extends Component {
       return(
         <div>
           <Grid container alignItems="stretch" justify="space-evenly">
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <NameCard primary={ address } secondary="Account" icon={ Group }></NameCard>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={3}>
               <NameCard primary={ getToken } secondary="ET" icon={ EventTokenIcon }/>
             </Grid>
           </Grid>

@@ -39,7 +39,8 @@ class GetToken extends Component {
 		EventTokenContract.methods.balanceOf(this.props.account).call()
 		.then((res) => {
 			var ETValue = res;
-			var modified = ETValue / 
+			ETValue = ETValue / Math.pow(10,18)
+			var modified = ETValue
 			this.setState({
 				ET: ETValue
 			})

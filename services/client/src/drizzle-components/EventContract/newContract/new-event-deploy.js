@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 var BigNumber = require('bignumber.js');
 var Web3 = require('web3');
 var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/JRIhcMSUX50sCH9PKk6b'));
+
 class ContractForm extends Component {
   constructor(props, context) {
     super(props);
@@ -97,15 +98,16 @@ class ContractForm extends Component {
             // check if input type is struct and if so loop out struct fields as well
             return (
               <div>
-              <input key={input.name}
-              type={inputType}
-              name={input.name}
-              value={this.state[input.name]}
-              placeholder={inputLabel}
-              onChange={this.handleInputChange}
-              />
-              <br></br>
-              <br></br>
+                <input 
+                  key={input.name}
+                  type={inputType}
+                  name={input.name}
+                  value={this.state[input.name]}
+                  placeholder={inputLabel}
+                  onChange={this.handleInputChange}
+                />
+                <br></br>
+                <br></br>
               </div>
             )
         })}
