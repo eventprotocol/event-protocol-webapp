@@ -25,7 +25,10 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
 }
 const EventTokenContract = new web3.eth.Contract(abi, contractAddress)
 
+
 class GetToken extends Component {
+	_isMounted = false;
+
 	constructor(props, context) {
 		super(props);
 
@@ -36,55 +39,28 @@ class GetToken extends Component {
 	}
 
 	componentDidMount() {
+		this._isMounted = true;
+
 		EventTokenContract.methods.balanceOf(this.props.account).call()
 		.then((res) => {
-			var ETValue = res;
-			ETValue = ETValue / Math.pow(10,18)
-			var modified = ETValue
-			this.setState({
-				ET: ETValue
-			})
+			if (this._isMounted) {
+				var ETValue = res;
+				ETValue = ETValue / Math.pow(10,18)
+				var modified = ETValue
+				this.setState({
+					ET: ETValue
+				})
+			}
+		})
+		.catch((err) => {
+			console.log(err)
 		});
 	}
 
+	componentWillUnmount() {
+		this._isMounted = false;
+	}
 
-
-
-	// render() {
-	// 	this.dataKey = this.props.contracts.EventToken.methods.balanceOf.cacheCall(this.props.account);
-	// 	if(this.state.hasError) {
-	// 		// If we have previously fetched values into the state return previous state
-	// 		if(this.state.ET !== -1) {
-	// 			return (
-	// 				<span>{ this.state.ET }</span>
-	// 			)
-	// 		} else {
-	// 			return (
-	// 				<span>Error</span>
-	// 			)
-	// 		}
-	// 	} else {
-	// 		if(this.props.drizzleStatus.initialized) {
-	// 			var data = this.props.contracts.EventToken.methods.balanceOf[this.dataKey].value;
-	// 			this.setState({
-	// 				ET: data
-	// 			})
-
-	// 			return(
-	// 				<div>{ this.state.ET }</div>
-	// 			)
-	// 		}
-
-	// 		if(this.state.ET !== -1) {
-	// 			return (
-	// 				<span>{ this.state.ET }</span>
-	// 			)
-	// 		} else {
-	// 			return (
-	// 				<span>Error</span>
-	// 			)
-	// 		}
-	// 	}
 	render() {
 		return(
 			<span>{this.state.ET}</span>
