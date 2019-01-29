@@ -41,7 +41,7 @@ class ContractForm extends Component {
     }
 
     this.state = initialState;
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   handleSubmit() {
@@ -54,7 +54,7 @@ class ContractForm extends Component {
       newState._value = 0;
     }
     newState._value = new BigNumber(newState._value).times(Math.pow(10, 18));
-    console.log(newState);
+    // console.log(newState);
 
     if (this.props.sendArgs) {
       return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);

@@ -71,8 +71,9 @@ const CustomTableCell = withStyles(theme => ({
     }
 }
 
- class TeamComponent extends React.Component{
-   constructor(props) {
+
+class TeamComponent extends React.Component{
+  constructor(props) {
      super(props);
      this.state = {
        isFlipped: false
@@ -80,12 +81,12 @@ const CustomTableCell = withStyles(theme => ({
      this.handleClick = this.handleClick.bind(this);
    }
 
-   handleClick(e) {
+  handleClick(e) {
      e.preventDefault();
      this.setState({ isFlipped: !this.state.isFlipped });
    }
 
-   render() {
+  render() {
      return (
        <div>
        <ReactCardFlip isFlipped={this.state.isFlipped} height="100px">
