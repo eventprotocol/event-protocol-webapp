@@ -107,6 +107,7 @@ class ContractForm extends Component {
 			var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
 			newState.eventDate = eventDate_epoch;
 
+			console.log(newState);
 
 			if (this.props.sendArgs) {
 				return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
@@ -220,8 +221,8 @@ class ContractForm extends Component {
 												key={input.name}
 												name={input.name}
 												type={inputType}
-												value={this.state.email}
-												onChange={this.handleChange}
+												value={this.state[input.name]}
+												onChange={this.handleInputChange}
 												placeholder={placeholder}
 											/>
 										</FormControl>
