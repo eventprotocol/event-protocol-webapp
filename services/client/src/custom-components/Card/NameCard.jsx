@@ -8,7 +8,7 @@ class CustomCard extends Component{
     return(
       <div>
       <ListItem>
-            <this.props.icon />
+          <this.props.icon />
           <ListItemText primary={this.props.primary} secondary= {this.props.secondary} />
       </ListItem>
       </div>

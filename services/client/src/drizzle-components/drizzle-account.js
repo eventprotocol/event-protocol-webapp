@@ -49,8 +49,14 @@ class DrizzleAccount extends Component {
     const address = this.props.accounts[0];
     let eth_balance;
     eth_balance = this.props.accountBalances[address];
-    eth_balance = this.convertToEther(eth_balance);
-    eth_balance = this.precisionRound(eth_balance, 2);
+
+    if(isNaN(eth_balance)) {
+      eth_balance = "Fetching"
+    } else {
+      eth_balance = this.convertToEther(eth_balance);
+      eth_balance = this.precisionRound(eth_balance, 2);
+    }
+    
     const getToken = <GetToken account={address} />
 
     if (this.props.drizzleStatus.initialized === true && this.context.drizzle.contracts.EventToken !== undefined) {
