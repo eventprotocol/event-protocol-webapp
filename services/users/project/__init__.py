@@ -2,13 +2,13 @@ import os
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
 from flask_migrate import Migrate
 
 # instantiate extensions
 db = SQLAlchemy()
-toolbar = DebugToolbarExtension()
+# toolbar = DebugToolbarExtension()
 migrate = Migrate()
 
 MIGRATION_DIR = os.path.join("migrations")
@@ -26,7 +26,7 @@ def create_app(script_info=None):
 
     # set up extensions
     db.init_app(app)
-    toolbar.init_app(app)
+    # toolbar.init_app(app)
 
     # set up migrations directory
     migrate.init_app(app, db, directory=MIGRATION_DIR)
