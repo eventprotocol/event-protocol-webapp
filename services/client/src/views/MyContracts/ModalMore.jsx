@@ -45,7 +45,7 @@ class ModalMore extends React.Component {
         >
           <div style={getModalStyle()} className={classes.paper}>
             <Typography variant="h3" component="h3" id="modal-title">
-              Contract Details
+              Contract Functions
             </Typography>
             <Typography variant="subtitle1" id="simple-modal-description">
               Duis mollis, est non commodo luctus, nisi erat porttitor ligula.

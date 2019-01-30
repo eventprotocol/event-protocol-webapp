@@ -17,6 +17,7 @@ import ModalMore from './ModalMore';
 import Person from "@material-ui/icons/Person";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import AttachMoney from "@material-ui/icons/AttachMoney";
+import LocationOn from "@material-ui/icons/LocationOn";
 
 // const styles = {
 // 	card: {
@@ -83,7 +84,7 @@ class ContractFrom extends Component {
 
 	render() {
 		return (
-			<Card className={ this.props.classes.card }>
+			<Card className={ this.props.classes.card } style={{height: "45vw", margin: "20px"}}>
 				<CardMedia
 					component="img"
 					alt="Cover Image"
@@ -94,7 +95,7 @@ class ContractFrom extends Component {
 				/>
 
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="h2">
+					<Typography gutterBottom variant="h5" component="h3">
 						{this.props.title}
 					</Typography>
 
@@ -109,6 +110,10 @@ class ContractFrom extends Component {
 
 					<Typography component="p">
 						<CalendarToday /> Event Date: {this.props.date}
+					</Typography>
+
+					<Typography component="p">
+						<LocationOn /> Venue: {this.props.venue}
 					</Typography>
 
 					<Typography component="p">
@@ -200,6 +205,11 @@ class ContractFrom extends Component {
 
 ContractFrom.propTypes = {
 	classes: PropTypes.object,
+	buyer: PropTypes.string,
+	seller: PropTypes.string,
+	date: PropTypes.string, // might need to change to datetime
+	venue: PropTypes.string,
+	value: PropTypes.string
 };
 
 // export default withStyles(styles)(ContractFrom);
