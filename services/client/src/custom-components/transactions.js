@@ -49,10 +49,16 @@ class Transactions extends React.Component {
         axios.get(result)
           .then((response) => {
               let fileList = response;
+              fileList.data.result = fileList.data.result.filter((el, i) => (
+                el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6'
+              ))
               this.setState({
                   value: fileList
               });
           })
+
+        console.log(this.state.value)
+
     }
 
     render(){
@@ -64,6 +70,7 @@ class Transactions extends React.Component {
             return null;
 
         //let imagess = this.state.value.data.result.map(result => <li>{this.state.value.data.result.hash}: {this.state.value.data.result.hash}</li>)
+
 
         let images = this.state.value.data.result.map((el, i) => (
             <TableRow key={el.hash}>
