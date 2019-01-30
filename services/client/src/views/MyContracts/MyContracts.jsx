@@ -17,6 +17,9 @@ import ContractForm from "./ContractForm.jsx";
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 
+import GridContainer from "../../components/Grid/GridContainer.jsx";
+import GridItem from "../../components/Grid/GridItem.jsx";
+
 
 class Contracts extends React.Component {
 	constructor(props) {
@@ -41,12 +44,15 @@ class Contracts extends React.Component {
 
 	render() {
 		var component = <NewContract/>
-		var foo = [];
 
-		for (var i = 0; i <= 5; i++) {
-			 foo.push(i);
-		}
-		const numbers = foo;
+		const sampleData = [
+			["Blockchain Conference", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "20 Jul 2019 12:00", "Singapore Expo", "20000 ET"],
+			["Drunk Powerpoint", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "11 May 2019 20:00", "85 Wisma Ave", "1000 ET"],
+			["Beautiful Flower Presentation", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "12 Apr 2019 10:00", "20 West Coast Ave", "2500 ET"],
+			["CosFest", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "10 Mar 2019 08:00", "Singapore Expo", "8000 ET"],
+			["Trivia Night", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "1 Feb 2019 20:00", "Jekyll & Hyde", "7000 ET"],
+			["Jack & Jill Wedding", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "1 Feb 2019 20:00", "Jekyll & Hyde", "7000 ET"],
+		]
 
 		return (
 			<div>
@@ -59,15 +65,16 @@ class Contracts extends React.Component {
 					<br/>
 					<GridList cellHeight={500} className={this.props.classes.gridList} cols={3}>
 					{
-						numbers.map((number) => {
+						sampleData.map((datum, i) => {
 							return(
 								<GridListTile>
 									<ContractForm
-										title="Test Title"
-										buyer="Buyer"
-										seller="Seller"
-										date="Test Date"
-										value="100 ET"
+										title={datum[0]}
+										buyer={datum[1]}
+										seller={datum[2]}
+										date={datum[3]}
+										venue={datum[4]}
+										value={datum[5]}
 									/>
 								</GridListTile>
 							);
