@@ -96,6 +96,7 @@ class GetAllowanceComponent extends Component {
         <br/>
         <br/>
         <br/>
+        <br/>
         </div>
 
       );

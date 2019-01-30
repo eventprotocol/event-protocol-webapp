@@ -75,12 +75,11 @@ class Resources extends React.Component {
 
             </GridList>
 
+            <h3>Transactions</h3>
             <Transactions eth_address = {this.props.accounts[0]}/>
             </div>
 
           </DrizzleProvider>
-
-          <a href={result} target = "_blank">Transactions</a>
 
 
       </div>
