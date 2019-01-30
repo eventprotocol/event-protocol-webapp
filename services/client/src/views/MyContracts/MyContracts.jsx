@@ -12,59 +12,77 @@ import NewContract from "../../drizzle-components/EventContract/newContract/form
 import WalletCard from '../../custom-components/Card/WalletCard.jsx'
 import CustomContract from "../../drizzle-components/CustomContracts/custom-contract-form.js"
 
+import ContractForm from "./ContractForm.jsx";
+
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 
+
 class Contracts extends React.Component {
-  state = {
-    value: 0,
-  }
-  handleChange = (event, value) => {
-    this.setState({ value });
-  }
-  handleChangeIndex = (index) => {
-    this.setState({ value: index });
-  }
-  render() {
-    const { classes } = this.props;
-    var component = <NewContract/>
-    var foo = [];
+	constructor(props) {
+		super(props);
 
-    for (var i = 0; i <= 12; i++) {
-       foo.push(i);
-    }
-    const numbers = foo;
+		this.state = {
+			value: 0
+		}
 
-    return (
-      <div>
-      <div>
-        <WalletCard primary = {component} secondary = "" title = "New Event"/>
-      </div>
+		this.handleChange.bind(this);
+		this.handleChangeIndex.bind(this);
+
+	}
+
+	handleChange(event, value) {
+		this.setState({ value });
+	}
+
+	handleChangeIndex(index) {
+		this.setState({ value: index });
+	}
+
+	render() {
+		var component = <NewContract/>
+		var foo = [];
+
+		for (var i = 0; i <= 5; i++) {
+			 foo.push(i);
+		}
+		const numbers = foo;
+
+		return (
+			<div>
+				<div>
+					<WalletCard primary = {component} secondary = "" title = "New Event"/>
+				</div>
 
 
-      <div>
-        <br/>
-        <GridList cellHeight={500} className={classes.gridList} cols={3}>
-        {
-          numbers.map((number) => {
-            return(
-              <GridListTile>
-                <CustomContract contractId={number}/>
-              </GridListTile>
-            );
-          })
-        }
+				<div>
+					<br/>
+					<GridList cellHeight={500} className={this.props.classes.gridList} cols={3}>
+					{
+						numbers.map((number) => {
+							return(
+								<GridListTile>
+									<ContractForm
+										title="Test Title"
+										buyer="Buyer"
+										seller="Seller"
+										date="Test Date"
+										value="100 ET"
+									/>
+								</GridListTile>
+							);
+						})
+					}
 
-        </GridList>
-      </div>
-
-      </div>
-    );
-  }
+					</GridList>
+				</div>
+			</div>
+		);
+	}
 }
 
 Contracts.propTypes = {
-  classes: propTypes.object.isRequired
+	classes: propTypes.object.isRequired
 };
 
 export default withStyles(dashboardStyle)(Contracts);
