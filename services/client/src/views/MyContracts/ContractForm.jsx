@@ -108,6 +108,8 @@ class ContractFrom extends Component {
 						<Person /> Seller: {this.props.seller}
 					</Typography>
 
+					<br/>
+
 					<Typography component="p">
 						<CalendarToday /> Event Date: {this.props.date}
 					</Typography>
