@@ -24,7 +24,7 @@ import GridListTile from '@material-ui/core/GridListTile';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
 
-
+import Transactions from '../../custom-components/transactions.js'
 
 
 class Resources extends React.Component {
@@ -74,11 +74,14 @@ class Resources extends React.Component {
               </GridListTile>
 
             </GridList>
+
+            <Transactions eth_address = {this.props.accounts[0]}/>
             </div>
 
           </DrizzleProvider>
 
           <a href={result} target = "_blank">Transactions</a>
+
 
       </div>
     );
