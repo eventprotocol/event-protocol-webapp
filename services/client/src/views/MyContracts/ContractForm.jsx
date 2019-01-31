@@ -101,11 +101,11 @@ class ContractFrom extends Component {
 
 					{/* Buyer And Seller */}
 					<Typography component="p">
-						<Person /> Buyer: {this.props.buyer}
+						<Person /> Buyer: <a href={'/account/' + this.props.buyer }>{this.props.buyer}</a>
 					</Typography>
 
 					<Typography component="p">
-						<Person /> Seller: {this.props.seller}
+						<Person /> Seller: <a href={'/account/' + this.props.seller }>{this.props.seller}</a>
 					</Typography>
 
 					<br/>
