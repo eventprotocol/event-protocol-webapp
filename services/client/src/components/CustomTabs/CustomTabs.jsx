@@ -105,7 +105,7 @@ CustomTabs.propTypes = {
     PropTypes.shape({
       tabName: PropTypes.string.isRequired,
       tabIcon: PropTypes.func,
-      tabContent: PropTypes.node.isRequired
+      tabContent: PropTypes.node
     })
   ),
   rtlActive: PropTypes.bool,

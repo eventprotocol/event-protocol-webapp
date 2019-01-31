@@ -196,9 +196,9 @@ class PublicProfile extends React.Component {
                     />
                     <h6><strong>Tags: </strong>
                     {
-                      this.state.tags.map((datum) => {
+                      this.state.tags.map((datum, i) => {
                         return (
-                          <span className="badge badge-secondary">
+                          <span key={'tags-' + i} className="badge badge-secondary">
                             {datum}
                           </span>
                         );
