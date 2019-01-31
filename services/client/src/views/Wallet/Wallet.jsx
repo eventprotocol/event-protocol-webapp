@@ -45,16 +45,6 @@ class Resources extends React.Component {
 
     var primaryComponent_3 = <IncreaseApprovalComponent/>
 
-
-    const str = 'http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${token}'
-    const obj = {address:this.props.accounts[0], token:'RA5HQDQNQXD9V1FK6ZTEJYWDGYWPAEPURC'}
-
-
-    const result = new Function('const {' + Object.keys(obj).join(',') + '} = this.obj;return `' + str + '`').call({obj})
-
-    //document.body.innerHTML = result
-    //console.log("Here", this.props.drizzleStatus.initialized)
-
     return (
       <div>
           <DrizzleProvider options = {options}>
@@ -62,15 +52,21 @@ class Resources extends React.Component {
 
             <GridList cellHeight={400} className={classes.gridList} cols={3}>
               <GridListTile>
-              <WalletCard primary = {primaryComponent_1} secondary = {secondaryComponent_1} title="Increase Deposit"/>
+              <WalletCard primary = {primaryComponent_1} secondary = {secondaryComponent_1}
+              help_title = "Help" help_message = "You can increase your Security Deposit to gain more credibility in the Event Protocol platform"
+              title="Increase Deposit"/>
               </GridListTile>
 
               <GridListTile>
-              <WalletCard primary = {primaryComponent_2} secondary = "" title = "Check Approval"/>
+              <WalletCard primary = {primaryComponent_2} secondary = ""
+              help_title = "Help" help_message = "Check your ET Transfer Limit to other users here"
+              title = "Check Approval"/>
               </GridListTile>
 
               <GridListTile>
-              <WalletCard primary = {primaryComponent_3} secondary = "" title = "Increase Approval"/>
+              <WalletCard primary = {primaryComponent_3} secondary = ""
+              help_title = "Help" help_message = "Increase ET transfer limit to other users here"
+              title = "Increase Approval"/>
               </GridListTile>
 
             </GridList>
@@ -80,7 +76,6 @@ class Resources extends React.Component {
             </div>
 
           </DrizzleProvider>
-
 
       </div>
     );

@@ -90,7 +90,7 @@ class Transactions extends React.Component {
                     <TableCell>TimeStamp</TableCell>
                     <TableCell align="right">From</TableCell>
                     <TableCell align="right">To</TableCell>
-                    <TableCell align="right">Value</TableCell>
+                    <TableCell align="right">ET transferred</TableCell>
                   </TableRow>
                 </TableHead>
 
