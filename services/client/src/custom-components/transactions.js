@@ -74,6 +74,7 @@ class Transactions extends React.Component {
             value: []
         }
         this.getContractId = this.getContractId.bind(this);
+        this.getStringTime = this.getStringTime.bind(this);
     }
 
     componentDidMount(){
@@ -85,14 +86,12 @@ class Transactions extends React.Component {
           .then((response) => {
               let fileList = response;
               fileList.data.result = fileList.data.result.filter((el, i) => (
-                el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6'
+                el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.to === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f" || el.from === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f"
               ))
               this.setState({
                   value: fileList
               });
           })
-
-        console.log(this.state.value)
 
     }
 
@@ -112,13 +111,18 @@ class Transactions extends React.Component {
       }
 
       if (key === resolve_event){
-        event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
+        event_id = "Event " + web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
       }
 
       return [event_id, value]
 
     }
 
+    getStringTime(timestamp){
+      var date = new Date(timestamp * 1000);
+      var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+      return formattedDate
+    }
     render(){
         console.log(this.state)
         if(this.state.value === undefined)
@@ -132,7 +136,7 @@ class Transactions extends React.Component {
 
         let images = this.state.value.data.result.map((el, i) => (
             <TableRow key={el.hash}>
-              <TableCell>{el.timeStamp}</TableCell>
+              <TableCell>{this.getStringTime(el.timeStamp)}</TableCell>
               <TableCell>{el.from}</TableCell>
               <TableCell>{el.to}</TableCell>
               <TableCell>{this.getContractId(el.input)[1]}</TableCell>
