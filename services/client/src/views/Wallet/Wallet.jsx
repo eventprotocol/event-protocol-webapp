@@ -53,7 +53,7 @@ class Resources extends React.Component {
             <GridList cellHeight={400} className={classes.gridList} cols={3}>
               <GridListTile>
               <WalletCard primary = {primaryComponent_1} secondary = {secondaryComponent_1}
-              help_title = "Help" help_message = "You can increase your Security Deposit to gain more credibility in the Event Protocol platform"
+              help_title = "Help" help_message = "You can increase your Security Deposit to gain more credibility in the Event Protocol platform. Note that there are 18 decimal places used. For example 1 ET written will be appended with 18 zeros in metamask."
               title="Increase Deposit"/>
               </GridListTile>
 

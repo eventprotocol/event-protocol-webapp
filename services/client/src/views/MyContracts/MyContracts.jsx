@@ -63,11 +63,11 @@ class Contracts extends React.Component {
 
 				<div>
 					<br/>
-					<GridList cellHeight={500} className={this.props.classes.gridList} cols={3}>
+					<GridContainer>
 					{
 						sampleData.map((datum, i) => {
 							return(
-								<GridListTile>
+								<GridItem xs={12} sm={6} md={4} id={"griditem-" + i} key={"griditem-" + i} >
 									<ContractForm
 										title={datum[0]}
 										buyer={datum[1]}
@@ -76,12 +76,12 @@ class Contracts extends React.Component {
 										venue={datum[4]}
 										value={datum[5]}
 									/>
-								</GridListTile>
+								</GridItem>
 							);
 						})
 					}
 
-					</GridList>
+					</GridContainer>
 				</div>
 			</div>
 		);

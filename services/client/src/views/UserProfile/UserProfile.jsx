@@ -101,7 +101,7 @@ class UserProfile extends React.Component {
     axios.get('/users/eth_address/' + eth_address)
     .then((res) => {
       var data = res.data.data;
-      console.log("getUserData", data);
+      // console.log("getUserData", data);
       this.setState({
         id: data.id,
         email: data.email,

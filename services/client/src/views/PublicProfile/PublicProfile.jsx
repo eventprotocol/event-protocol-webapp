@@ -44,12 +44,12 @@ const styles = {
 
   centerer1: {
     display: "flex",
-    "align-items": "center",
-    "justify-content": "center"
+    alignItems: "center",
+    justifyContent: "center"
   },
 
   centerer2: {
-    "max-width": "50%"
+    maxWidth: "50%"
   },
 
   fullbutton: {
@@ -84,25 +84,48 @@ class PublicProfile extends React.Component {
     this.setState({ value: index });
   }
   getUserData(idx) {
-    axios.get('/users/id/' + idx)
-    .then((res) => {
-      var data = res.data.data;
-      this.setState({
-        email: data.email,
-        city_country: data.city_country,
-        about: data.about,
-        seller_detail: data.seller_detail,
-        buyer_detail: data.buyer_detail,
-        img_src: data.img_src,
-        img: data.img,
-        username: data.username,
-        eth_address: data.eth_address,
-        tags: data.tags
+    if(idx.substring(0,2) === "0x") {
+      axios.get('/users/eth_address/' + idx)
+      .then((res) => {
+        var data = res.data.data;
+        this.setState({
+          email: data.email,
+          city_country: data.city_country,
+          about: data.about,
+          seller_detail: data.seller_detail,
+          buyer_detail: data.buyer_detail,
+          img_src: data.img_src,
+          img: data.img,
+          username: data.username,
+          eth_address: data.eth_address,
+          tags: data.tags
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    }
+    else{
+      axios.get('/users/id/' + idx)
+      .then((res) => {
+        var data = res.data.data;
+        this.setState({
+          email: data.email,
+          city_country: data.city_country,
+          about: data.about,
+          seller_detail: data.seller_detail,
+          buyer_detail: data.buyer_detail,
+          img_src: data.img_src,
+          img: data.img,
+          username: data.username,
+          eth_address: data.eth_address,
+          tags: data.tags
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    }
   }
   render() {
     // const { classes } = this.props;
@@ -173,9 +196,9 @@ class PublicProfile extends React.Component {
                     />
                     <h6><strong>Tags: </strong>
                     {
-                      this.state.tags.map((datum) => {
+                      this.state.tags.map((datum, i) => {
                         return (
-                          <span className="badge badge-secondary">
+                          <span key={'tags-' + i} className="badge badge-secondary">
                             {datum}
                           </span>
                         );
@@ -257,9 +280,6 @@ class PublicProfile extends React.Component {
                 id="ethereumAddress"
                 formControlProps={{
                   fullWidth: true
-                }}
-                inputProps={{
-                  disabled: true
                 }}
                 value={this.state.eth_address}
               />

@@ -12,7 +12,7 @@ import Typography from '@material-ui/core/Typography';
 // import Modal from '@material-ui/core/Modal';
 
 import ModalTransaction from './ModalTransaction';
-import ModalMore from './ModalMore';
+import ModalFunction from './ModalFunction';
 
 import Person from "@material-ui/icons/Person";
 import CalendarToday from "@material-ui/icons/CalendarToday";
@@ -31,7 +31,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 
 const styles = {
 	card: {
-		maxWidth: "85%",
+		maxWidth: "100%",
 	},
 	media: {
 		// ⚠️ object-fit is not supported by IE 11.
@@ -84,7 +84,7 @@ class ContractFrom extends Component {
 
 	render() {
 		return (
-			<Card className={ this.props.classes.card } style={{height: "45vw", margin: "20px"}}>
+			<Card className={ this.props.classes.card } style={{margin: "5px"}}>
 				<CardMedia
 					component="img"
 					alt="Cover Image"
@@ -101,11 +101,11 @@ class ContractFrom extends Component {
 
 					{/* Buyer And Seller */}
 					<Typography component="p">
-						<Person /> Buyer: {this.props.buyer}
+						<Person /> Buyer: <a href={'/account/' + this.props.buyer }>{this.props.buyer}</a>
 					</Typography>
 
 					<Typography component="p">
-						<Person /> Seller: {this.props.seller}
+						<Person /> Seller: <a href={'/account/' + this.props.seller }>{this.props.seller}</a>
 					</Typography>
 
 					<br/>
@@ -139,9 +139,9 @@ class ContractFrom extends Component {
 						size="medium"
 						color="primary"
 						onClick={this.handleModalOpen_More}>
-							More
+							Functions
 					</Button>
-					<ModalMore
+					<ModalFunction
 						open={this.state.moreOpen}
 						onClose={this.handleModalClose_More}
 					/>

@@ -36,7 +36,6 @@ class DrizzleAccount extends Component {
 	}
 
 	componentDidMount() {
-		// this.getToken = 
 	}
 
 	precisionRound(number, precision) {
@@ -62,30 +61,45 @@ class DrizzleAccount extends Component {
 
 		if (this.props.drizzleStatus.initialized === true && this.context.drizzle.contracts.EventToken !== undefined) {
 			// const balanceComp = <BalanceComponent contract="EventToken" method="balanceOf" methodArgs={[this.props.accounts[0],{from: this.props.accounts[0]}]}/>
-
-			return(
-				<div>
-					<Grid container alignItems="stretch" justify="space-evenly">
-						<Grid item xs={6}>
-							<NameCard primary={ this.props.accounts[0] } secondary="Account" icon={ Group }></NameCard>
+			if (Object.keys(this.props.accounts).length === 0) {
+				return(
+					<div>
+						<Grid container alignItems="center" justify="space-evenly">
+							<Grid item xs>
+								<NameCard
+									primary="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"
+									secondary="Error Message" icon={Warning}>
+								</NameCard>
+							</Grid>
 						</Grid>
-						<Grid item xs={3}>
-							<NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
+					</div>
+				);
+			}
+			else {
+				return(
+					<div>
+						<Grid container alignItems="center" justify="space-evenly">
+							<Grid item xs>
+								<NameCard primary={ this.props.accounts[0] } secondary="Account" icon={ Group }></NameCard>
+							</Grid>
+							<Grid item xs>
+								<NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
+							</Grid>
+							<Grid item xs>
+								<NameCard primary={ <GetToken account={this.props.accounts[0]} /> } secondary="ET" icon={ EventTokenIcon }/>
+							</Grid>
 						</Grid>
-						<Grid item xs={3}>
-							<NameCard primary={ <GetToken account={this.props.accounts[0]} /> } secondary="ET" icon={ EventTokenIcon }/>
-						</Grid>
-					</Grid>
-				</div>
-			);
+					</div>
+				);
+			}
 		}
 
 		else {
 			if (this.props.web3.status === 'failed') {
 				return(
 					<div>
-						<Grid container alignItems="stretch" justify="space-evenly">
-							<Grid item xs={12}>
+						<Grid container alignItems="center" justify="space-evenly">
+							<Grid item xs>
 								<NameCard
 									primary="This browser has no connection to the Ethereum network. Please use the Chrome/FireFox extension MetaMask, or dedicated Ethereum browsers Mist or Parity."
 									secondary="Error Message" icon={Warning}>
@@ -100,8 +114,8 @@ class DrizzleAccount extends Component {
 				if (Object.keys(this.props.accounts).length === 0) {
 					return(
 						<div>
-							<Grid container alignItems="stretch" justify="space-evenly">
-								<Grid item xs={12}>
+							<Grid container alignItems="center" justify="space-evenly">
+								<Grid item xs>
 									<NameCard
 										primary="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"
 										secondary="Error Message" icon={Warning}>
@@ -117,14 +131,14 @@ class DrizzleAccount extends Component {
 
 			return(
 				<div>
-					<Grid container alignItems="stretch" justify="space-evenly">
-						<Grid item xs={6}>
+					<Grid container alignItems="center" justify="space-evenly">
+						<Grid item xs>
 							<NameCard primary={ this.props.accounts[0] } secondary="Account" icon={ Group }></NameCard>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs>
 							<NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs>
 							<NameCard primary={ <GetToken account={this.props.accounts[0]} /> } secondary="ET" icon={ EventTokenIcon }/>
 						</Grid>
 					</Grid>
