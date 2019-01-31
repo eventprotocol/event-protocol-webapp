@@ -139,7 +139,7 @@ class ContractFrom extends Component {
 						size="medium"
 						color="primary"
 						onClick={this.handleModalOpen_More}>
-							More
+							Functions
 					</Button>
 					<ModalMore
 						open={this.state.moreOpen}
