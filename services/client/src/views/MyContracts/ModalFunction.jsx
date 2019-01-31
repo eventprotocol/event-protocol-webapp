@@ -47,7 +47,7 @@ const styles = theme => ({
 	}
 });
 
-class ModalMore extends React.Component {
+class ModalFunction extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -119,11 +119,11 @@ class ModalMore extends React.Component {
 	}
 }
 
-ModalMore.propTypes = {
+ModalFunction.propTypes = {
 	classes: PropTypes.object.isRequired,
 };
 
 // We need an intermediary variable for handling the recursive nesting.
-const SimpleModalWrapped = withStyles(styles)(ModalMore);
+const SimpleModalWrapped = withStyles(styles)(ModalFunction);
 
 export default SimpleModalWrapped;

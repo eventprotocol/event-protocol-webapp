@@ -36,7 +36,6 @@ class DrizzleAccount extends Component {
 	}
 
 	componentDidMount() {
-		// this.getToken = 
 	}
 
 	precisionRound(number, precision) {
@@ -65,14 +64,14 @@ class DrizzleAccount extends Component {
 
 			return(
 				<div>
-					<Grid container alignItems="stretch" justify="space-evenly">
-						<Grid item xs={6}>
+					<Grid container alignItems="center" justify="space-evenly">
+						<Grid item xs>
 							<NameCard primary={ this.props.accounts[0] } secondary="Account" icon={ Group }></NameCard>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs>
 							<NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs>
 							<NameCard primary={ <GetToken account={this.props.accounts[0]} /> } secondary="ET" icon={ EventTokenIcon }/>
 						</Grid>
 					</Grid>
@@ -84,8 +83,8 @@ class DrizzleAccount extends Component {
 			if (this.props.web3.status === 'failed') {
 				return(
 					<div>
-						<Grid container alignItems="stretch" justify="space-evenly">
-							<Grid item xs={12}>
+						<Grid container alignItems="center" justify="space-evenly">
+							<Grid item xs>
 								<NameCard
 									primary="This browser has no connection to the Ethereum network. Please use the Chrome/FireFox extension MetaMask, or dedicated Ethereum browsers Mist or Parity."
 									secondary="Error Message" icon={Warning}>
@@ -100,8 +99,8 @@ class DrizzleAccount extends Component {
 				if (Object.keys(this.props.accounts).length === 0) {
 					return(
 						<div>
-							<Grid container alignItems="stretch" justify="space-evenly">
-								<Grid item xs={12}>
+							<Grid container alignItems="center" justify="space-evenly">
+								<Grid item xs>
 									<NameCard
 										primary="We can't find any Ethereum accounts! Please check and make sure that Metamask is installed in your browser and your account is unlocked"
 										secondary="Error Message" icon={Warning}>
@@ -117,14 +116,14 @@ class DrizzleAccount extends Component {
 
 			return(
 				<div>
-					<Grid container alignItems="stretch" justify="space-evenly">
-						<Grid item xs={6}>
+					<Grid container alignItems="center" justify="space-evenly">
+						<Grid item xs>
 							<NameCard primary={ this.props.accounts[0] } secondary="Account" icon={ Group }></NameCard>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs>
 							<NameCard primary={ eth_balance } secondary={ this.props.units } icon={ EthereumIcon }></NameCard>
 						</Grid>
-						<Grid item xs={3}>
+						<Grid item xs>
 							<NameCard primary={ <GetToken account={this.props.accounts[0]} /> } secondary="ET" icon={ EventTokenIcon }/>
 						</Grid>
 					</Grid>
