@@ -76,15 +76,15 @@ class GetAllowanceComponent extends Component {
         <div align="center">
 
         <form className="pure-form pure-form-stacked">
-                <input key="d"
+                <TextField key="d"
                 type="text"
                 name="spender"
                 value = {this.state.spender}
-                placeholder= " Ethereum Address"
+                label= " Ethereum Address"
                 onChange={this.handleInputChange}
                 />
-                <br></br>
-                <br></br>
+                <br/>
+                <br/>
                 <div align="center">
           <Button variant="fab" color={this.state.btColor} aria-label="Add" onClick={this.handleSubmit}><SendIcon/></Button></div>
         </form>
@@ -96,7 +96,6 @@ class GetAllowanceComponent extends Component {
         <br/>
         <br/>
         <br/>
-        <br/>
         </div>
 
       );
@@ -105,14 +104,13 @@ class GetAllowanceComponent extends Component {
       return(
         <div align="center">
           <form className="pure-form pure-form-stacked">
-                  <input key="d"
+                  <TextField key="d"
                   type="text"
                   name="spender"
                   value = {this.state.spender}
-                  placeholder= "Ethereum Address"
+                  label= "Ethereum Address"
                   onChange={this.handleInputChange}
                   />
-                  <br></br>
                   <br></br>
                   <div align="center">
             <Button><CircularProgress style={{ color: green[500] }} thickness={10} /></Button></div>

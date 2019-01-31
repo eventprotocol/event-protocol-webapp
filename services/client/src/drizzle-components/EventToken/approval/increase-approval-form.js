@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
-
+import TextField from '@material-ui/core/TextField';
 /*
  * Create component.
  */
@@ -86,21 +86,18 @@ class ContractForm extends Component {
             // check if input type is struct and if so loop out struct fields as well
             return (
               <div>
-              <input key={input.name}
+              <TextField key={input.name}
               type={inputType}
               name={input.name}
               value={this.state[input.name]}
-              placeholder={inputLabel}
               onChange={this.handleInputChange}
+              label = {inputLabel}
               />
-              <h1></h1>
               </div>
             )
         })}
-        <br></br>
-        <br></br>
-        <div align="center"><Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button></div>
         <br/>
+        <div align="center"><Button variant="fab" color="primary" aria-label="Add" onClick={this.handleSubmit}><AddIcon/></Button></div>
         <br/>
       </form>
       </div>

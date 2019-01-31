@@ -12,6 +12,8 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import DialogBox from "../dialog_box.jsx"
+
 
 const styles = {
   card: {
@@ -54,6 +56,7 @@ class SimpleCard extends React.Component {
           <Typography variant="caption" gutterBottom align="center">
             {this.props.primary}
             {this.props.secondary}
+            <div align="right"><DialogBox title={this.props.help_title} text = {this.props.help_message}/></div>
           </Typography>
 
         </ExpansionPanel>
