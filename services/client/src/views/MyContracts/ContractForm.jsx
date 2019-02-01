@@ -95,7 +95,7 @@ class ContractFrom extends Component {
 				/>
 
 				<CardContent>
-					<Typography gutterBottom variant="h5" component="h3">
+					<Typography gutterBottom variant="title">
 						{this.props.title}
 					</Typography>
 

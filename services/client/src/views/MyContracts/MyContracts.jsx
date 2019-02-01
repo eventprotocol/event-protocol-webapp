@@ -43,8 +43,6 @@ class Contracts extends React.Component {
 	}
 
 	render() {
-		var component = <NewContract/>
-
 		const sampleData = [
 			["Blockchain Conference", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "20 Jul 2019 12:00", "Singapore Expo", "20000 ET"],
 			["Drunk Powerpoint", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "11 May 2019 20:00", "85 Wisma Ave", "1000 ET"],
@@ -57,9 +55,10 @@ class Contracts extends React.Component {
 		return (
 			<div>
 				<div>
-					<WalletCard primary = {component} secondary = "" title = "New Event"/>
+					<WalletCard primary={<NewContract/>} secondary="" title = "New Event" help_title="Help"
+						help_message="Input relevant details to create an event and store the details on the Blockchain."
+					/>
 				</div>
-
 
 				<div>
 					<br/>

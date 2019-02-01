@@ -7,16 +7,32 @@ import Snackbar from "@material-ui/core/Snackbar";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
+import Web3 from 'web3';
 
-
-
-/*
- * Create component.
- */
+import EventContract from "../../../data/EventContract.json";
 
 var BigNumber = require('bignumber.js');
-var Web3 = require('web3');
-var web3 = new Web3(new Web3.providers.HttpProvider('https://rinkeby.infura.io/JRIhcMSUX50sCH9PKk6b'));
+
+// get abi
+let abi = EventContract.abi;
+// get address at rinkeby "4"
+let contractAddress = EventContract.networks['4'].address;
+
+let web3;
+
+// setup the system
+if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
+  // We are in the browser and metamask is running.
+  web3 = new Web3(window.web3.currentProvider);
+} else {
+  // We are on the server *OR* the user is not running metamask
+  const provider = new Web3.providers.HttpProvider(
+    "https://rinkeby.infura.io/orDImgKRzwNrVCDrAk5Q"
+  );
+  web3 = new Web3(provider);
+}
+const EventContractInst = new web3.eth.Contract(abi, contractAddress);
+
 
 const styles = {
 	centerer1: {
@@ -38,17 +54,13 @@ const styles = {
 	}
 }
 
+
 class ContractForm extends Component {
 	constructor(props, context) {
 		super(props);
 
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
-
-		this.contracts = context.drizzle.contracts;
-
-		// Get the contract ABI
-		const abi = this.contracts[this.props.contract].abi;
 
 		this.inputs = [];
 		this.handleSnackbarClose = this.handleSnackbarClose.bind(this);
@@ -91,44 +103,56 @@ class ContractForm extends Component {
 	}
 
 	handleSubmit() {
-		let newState = {};
 		console.log("Submit")
 		console.log(this.state);
-		try {
-			newState.eventName = this.state.eventName;
-			newState.eventLocation = this.state.eventLocation;
-			newState.buyer = this.state.buyer;
-			newState.buyerEscrow = new BigNumber(this.state.buyerEscrow).times(Math.pow(10, 18));
-			newState.sellerEscrow = new BigNumber(this.state.sellerEscrow).times(Math.pow(10, 18));
-			newState.eventPaymentAmount = new BigNumber(this.state.eventPaymentAmount).times(Math.pow(10, 18));
-			newState.sellerAdvanceFee = new BigNumber(this.state.sellerAdvanceFee).times(Math.pow(10, 18));
-			newState.sellerCancellationPenalty = new BigNumber(this.state.sellerCancellationPenalty).times(Math.pow(10, 18));
+
+		web3.eth.getAccounts().then((res) => {
+			console.log(res);
+			var account = res[0];
+			var eventName = this.state.eventName;
+			var eventLocation = this.state.eventLocation;
 
 			var eventDate_epoch = new Date(this.state.eventDate).getTime()/1000;
-			newState.eventDate = eventDate_epoch;
+			var eventDate = eventDate_epoch;
 
-			console.log(newState);
+			var buyer = this.state.buyer;
+			var buyerEscrow = new BigNumber(this.state.buyerEscrow).times(Math.pow(10, 18));
+			var sellerEscrow = new BigNumber(this.state.sellerEscrow).times(Math.pow(10, 18));
+			var sellerAdvanceFee = new BigNumber(this.state.sellerAdvanceFee).times(Math.pow(10, 18));
+			var sellerCancellationPenalty = new BigNumber(this.state.sellerCancellationPenalty).times(Math.pow(10, 18));
+			var eventPaymentAmount = new BigNumber(this.state.eventPaymentAmount).times(Math.pow(10, 18));
 
-			if (this.props.sendArgs) {
-				return this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState), this.props.sendArgs);
-			}
-			console.log(newState)
-
-			this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState));
-
-			this.setState({
-				snackbarOpen: true,
-				snackbarMessage: "Success"
-			});
-
-		}
-		catch(error) {
-			console.log(error);
+			EventContractInst.methods.newEvent(eventName,
+																				 eventLocation,
+																				 eventDate,
+																				 buyer,
+																				 buyerEscrow,
+																				 sellerEscrow,
+																				 sellerAdvanceFee,
+																				 sellerCancellationPenalty,
+																				 eventPaymentAmount).send({from: account})
+			.then((res) => {
+				console.log(res);
+				this.setState({
+					snackbarOpen: true,
+					snackbarMessage: "Success"
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+				this.setState({
+					snackbarOpen: true,
+					snackbarMessage: "Error"
+				});
+			})
+		})
+		.catch((err) => {
+			console.log(err);
 			this.setState({
 				snackbarOpen: true,
 				snackbarMessage: "Error"
 			});
-		}
+		});
 	}
 
 	handleInputChange(event) {
@@ -211,7 +235,7 @@ class ContractForm extends Component {
 
 								// check if input type is struct and if so loop out struct fields as well
 								return (
-									<div className="form">
+									<div className="form" key={"form-" + index}>
 										<FormControl margin="normal" required={true} fullWidth={true}>
 											<InputLabel htmlFor={input.name} shrink>
 												{inputLabel}
@@ -265,7 +289,6 @@ ContractForm.contextTypes = {
 
 const mapStateToProps = state => {
 	return {
-		contracts: state.contracts,
 		drizzleStatus: state.drizzleStatus
 	}
 }

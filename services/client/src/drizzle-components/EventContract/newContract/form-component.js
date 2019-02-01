@@ -1,13 +1,13 @@
-import { drizzleConnect } from 'drizzle-react'
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { drizzleConnect } from 'drizzle-react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import EventContract from "../../../data/EventContract.json";
-import NameCard from '../../../custom-components/Card/NameCard.jsx'
+import NameCard from '../../../custom-components/Card/NameCard.jsx';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
 import TextField from '@material-ui/core/TextField';
-import NewEventComponent from "./new-event-deploy.js"
-import Loading from "@material-ui/icons/CloudUpload"
+import NewEventComponent from "./new-event-deploy.js";
+import Loading from "@material-ui/icons/CloudUpload";
 
 
 class IncreaseSecurityDeposit extends Component{
