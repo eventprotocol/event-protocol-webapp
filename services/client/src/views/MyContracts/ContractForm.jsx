@@ -19,6 +19,31 @@ import CalendarToday from "@material-ui/icons/CalendarToday";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import LocationOn from "@material-ui/icons/LocationOn";
 
+import Web3 from 'web3';
+import EventContract from "../../data/EventContract.json";
+
+var BigNumber = require('bignumber.js');
+
+// get abi
+let abi = EventContract.abi;
+// get address at rinkeby "4"
+let contractAddress = EventContract.networks['4'].address;
+
+let web3;
+
+// setup the system
+if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
+	// We are in the browser and metamask is running.
+	web3 = new Web3(window.web3.currentProvider);
+} else {
+	// We are on the server *OR* the user is not running metamask
+	const provider = new Web3.providers.HttpProvider(
+	"https://rinkeby.infura.io/orDImgKRzwNrVCDrAk5Q"
+	);
+	web3 = new Web3(provider);
+}
+const EventContractInst = new web3.eth.Contract(abi, contractAddress);
+
 // const styles = {
 // 	card: {
 // 		maxWidth: "85%",
@@ -46,13 +71,40 @@ class ContractFrom extends Component {
 
 		this.state = {
 			transactionOpen: false,
-			moreOpen: false
+			moreOpen: false,
+			id: 0,
+			name: "",
+
 		};
 
 		this.handleModalOpen_Transaction = this.handleModalOpen_Transaction.bind(this);
 		this.handleModalClose_Transaction = this.handleModalClose_Transaction.bind(this);
 		this.handleModalOpen_More = this.handleModalOpen_More.bind(this);
 		this.handleModalClose_More = this.handleModalClose_More.bind(this);
+		this.getContractData = this.getContrctData.bind(this);
+	}
+
+	componentDidMount() {
+		this.getContractData();
+	}
+
+	getContractData() {
+				// name: this.state.name,
+				// status: this.state.status,
+				// eventDate: this.state.eventDate,
+				// advance: this.state.advance,
+				// totalPayment: this.state.totalPayment,
+				// buyer: this.state.buyer,
+				// seller: this.state.seller,
+				// location: this.state.location,
+				// sellerActAmount: this.state.sellerActAmount,
+				// buyerActAmount: this.state.buyerActAmount,
+				// contractAddress: this.state.contractAddress,
+				// contractId: this.state.contractId,
+		EventContractInst.methods.getEventName().call().then((res) => {
+
+		}).catch((err ))
+
 	}
 
 	handleModalOpen_Transaction() {
@@ -80,7 +132,6 @@ class ContractFrom extends Component {
 			moreOpen: false
 		});
 	}
-
 
 	render() {
 		return (
@@ -124,12 +175,12 @@ class ContractFrom extends Component {
 				</CardContent>
 
 				<CardActions>
-		      <Button
-		        size="medium"
-		        color="primary"
-		        onClick={this.handleModalOpen_Transaction}>
-		          Transactions
-		      </Button>
+					<Button
+						size="medium"
+						color="primary"
+						onClick={this.handleModalOpen_Transaction}>
+							Transactions
+					</Button>
 					<ModalTransaction
 						open={this.state.transactionOpen}
 						onClose={this.handleModalClose_Transaction}
@@ -207,11 +258,7 @@ class ContractFrom extends Component {
 
 ContractFrom.propTypes = {
 	classes: PropTypes.object,
-	buyer: PropTypes.string,
-	seller: PropTypes.string,
-	date: PropTypes.string, // might need to change to datetime
-	venue: PropTypes.string,
-	value: PropTypes.string
+	id: PropTypes.number
 };
 
 // export default withStyles(styles)(ContractFrom);
