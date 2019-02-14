@@ -97,6 +97,7 @@ class ModalFunction extends React.Component {
 										value={this.state.buyerValue}
 										onChange={this.handleChange}
 										placeholder="Input the activation amount above to activate the contract. This is irreversible."
+										type="number"
 									/>
 								</FormControl>
 								<br />
@@ -118,6 +119,7 @@ class ModalFunction extends React.Component {
 										value={this.state.sellerValue}
 										onChange={this.handleChange}
 										placeholder="Input the activation amount above to activate the contract. This is irreversible."
+										type="number"
 									/>
 								</FormControl>
 								<br />

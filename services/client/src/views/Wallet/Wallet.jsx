@@ -27,13 +27,27 @@ import Transactions from '../../custom-components/transactions.js'
 
 
 class Resources extends React.Component {
-  state = {
-    value: 0,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: 0
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeIndex = this.handleChangeIndex.bind(this);
+    this.onUnload = this.onUnload.bind(this);
+
   }
-  handleChange = (event, value) => {
+
+  onUnload() {
+    this.context.router.push('/marketplace');
+  }
+
+  handleChange(event, value) {
     this.setState({ value });
   }
-  handleChangeIndex = (index) => {
+  handleChangeIndex(index) {
     this.setState({ value: index });
   }
   render() {
@@ -41,7 +55,6 @@ class Resources extends React.Component {
     var primaryComponent_1 = <SecurityDepositComponent/>
     var secondaryComponent_1 = <IncreaseSecurityDepComponent/>
     var primaryComponent_2 = <GetAllowanceComponent/>
-
     var primaryComponent_3 = <IncreaseApprovalComponent/>
 
     return (
