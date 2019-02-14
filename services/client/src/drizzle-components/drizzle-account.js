@@ -1,26 +1,17 @@
 import { drizzleConnect } from 'drizzle-react'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import BalanceComponent from "../drizzle-components/drizzle-contract-data-fetcher.js";
 import GetToken from "../drizzle-components/drizzle-get-token.js";
-
 
 import EventToken from "../data/EventToken.json";
 
-
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import Group from "@material-ui/icons/Group";
 import Warning from "@material-ui/icons/Warning"
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid'
 import NameCard from '../custom-components/Card/NameCard.jsx'
 import EthereumIcon from "@material-ui/icons/AccountBalanceWalletTwoTone";
 import EventTokenIcon from "@material-ui/icons/AttachMoney";
-
-import Loading from "@material-ui/icons/CloudUpload"
+ 	
 /*
  * Create component.
  */

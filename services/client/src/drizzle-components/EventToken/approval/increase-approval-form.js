@@ -29,8 +29,8 @@ class ContractForm extends Component {
         if (abi[i].name === this.props.method) {
             this.inputs = abi[i].inputs;
 
-            for (var i = 0; i < this.inputs.length; i++) {
-                initialState[this.inputs[i].name] = '';
+            for (var j = 0; j < this.inputs.length; j++) {
+                initialState[this.inputs[j].name] = '';
             }
 
             break;
@@ -49,8 +49,10 @@ class ContractForm extends Component {
     }
 
     this.contracts[this.props.contract].methods[this.props.method].cacheSend(...Object.values(newState));
-    this.state._value = "";
-    this.state._spender = "";
+    this.state.setState({
+      _value: "",
+      _spender: ""
+    });
 
   }
 

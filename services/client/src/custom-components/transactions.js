@@ -34,13 +34,6 @@ const contract = new web3.eth.Contract(event_abi, event_contract_address)
 
 
 const abi = Contract.abi
-console.log(abi)
-
-var input = "00000000000000000000000089e8a23ca8bab8bef769df2c10c060dc1c30053f00000000000000000000000000000000000000000000000ad78ebc5ac62000000000000000000000000000000000000000000000000000000000000000000001"
-// abi[2] is tokenfallback
-console.log(abi)
-console.log(web3.eth.abi.encodeFunctionSignature(abi[5]))
-
 
 // for (var i = 0; i < abi.length; i++) {
 //   // if (i === 1){

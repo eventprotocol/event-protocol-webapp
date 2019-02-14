@@ -76,8 +76,8 @@ class ContractForm extends Component {
 				if (abi[i].name === this.props.method) {
 						this.inputs = abi[i].inputs;
 
-						for (var i = 0; i < this.inputs.length; i++) {
-								initialState[this.inputs[i].name] = '';
+						for (var j = 0; j < this.inputs.length; j++) {
+								initialState[this.inputs[j].name] = '';
 						}
 
 						break;

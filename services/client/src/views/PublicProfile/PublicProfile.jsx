@@ -105,7 +105,7 @@ class PublicProfile extends React.Component {
         console.log(err);
       });
     }
-    else{
+    else if (idx > 0) {
       axios.get('/users/id/' + idx)
       .then((res) => {
         var data = res.data.data;
@@ -124,6 +124,20 @@ class PublicProfile extends React.Component {
       })
       .catch((err) => {
         console.log(err);
+      });
+    }
+    else {
+      this.setState({
+        email: "",
+        city_country: "",
+        about: "",
+        seller_detail: "",
+        buyer_detail: "",
+        img_src: "",
+        img: "",
+        username: "" ,
+        eth_address: "",
+        tags: ""
       });
     }
   }
