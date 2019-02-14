@@ -20,12 +20,13 @@ import WalletCard from '../../custom-components/Card/WalletCard.jsx'
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 
-
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom'
 
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 import Transactions from '../../custom-components/transactions.js'
 
+import Chip from '@material-ui/core/Chip';
 
 class Resources extends React.Component {
   state = {
@@ -50,6 +51,10 @@ class Resources extends React.Component {
           <DrizzleProvider options = {options}>
             <div>
 
+              <div align = "center">
+                <Chip style={{width: 350, fontSize: '23px'}} label="Please do not refresh this page" variant="outlined"/>
+              </div>
+              <br/>
             <GridList cellHeight={400} className={classes.gridList} cols={3}>
               <GridListTile>
               <WalletCard primary = {primaryComponent_1} secondary = {secondaryComponent_1}
