@@ -19,7 +19,10 @@ import Paper from '@material-ui/core/Paper';
 import EventToken from "./EventToken.json"
 import EventContract from "./EventContract.json"
 import Contract from "./EventContract.json"
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 //import get_id from "./get_contract_id.js"
+
+import DataFetchComponent from "../drizzle-components/CustomContracts/custom-data-fetcher.js";
 
 var Web3 = require('web3');
 var BigNumber = require('bignumber.js');
@@ -31,15 +34,13 @@ const event_contract_address = "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f"
 
 const contract = new web3.eth.Contract(event_abi, event_contract_address)
 
-
-
 const abi = Contract.abi
-console.log(abi)
-
-var input = "00000000000000000000000089e8a23ca8bab8bef769df2c10c060dc1c30053f00000000000000000000000000000000000000000000000ad78ebc5ac62000000000000000000000000000000000000000000000000000000000000000000001"
-// abi[2] is tokenfallback
-console.log(abi)
-console.log(web3.eth.abi.encodeFunctionSignature(abi[5]))
+// console.log(abi)
+//
+// var input = "00000000000000000000000089e8a23ca8bab8bef769df2c10c060dc1c30053f00000000000000000000000000000000000000000000000ad78ebc5ac62000000000000000000000000000000000000000000000000000000000000000000001"
+// // abi[2] is tokenfallback
+// console.log(abi)
+// console.log(web3.eth.abi.encodeFunctionSignature(abi[5]))
 
 
 // for (var i = 0; i < abi.length; i++) {
@@ -98,6 +99,7 @@ class Transactions extends React.Component {
     getContractId(transaction_input){
       var event_id = "Wallet"
       var value = 0
+      console.log(<DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(1), {from: this.props.eth_address}]} />)
       //tokenfallback function abi
       const tokenFallback_ = "0x95f847fd"
       const resolve_event = "0xda9db866"
@@ -106,12 +108,14 @@ class Transactions extends React.Component {
       var input = transaction_input.slice(10, transaction_input.length)
 
       if (key === tokenFallback_){
-        event_id = "Event " + web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
+        event_id = web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
         value = new BigNumber(web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[1])/(Math.pow(10, 18))
+        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
       }
 
       if (key === resolve_event){
-        event_id = "Event " + web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
+        event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
+        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
       }
 
       return [event_id, value]
@@ -155,7 +159,7 @@ class Transactions extends React.Component {
                     <TableCell align="right">From</TableCell>
                     <TableCell align="right">To</TableCell>
                     <TableCell align="right">ET transferred</TableCell>
-                    <TableCell align="right">Transaction Type</TableCell>
+                    <TableCell align="right">Transaction</TableCell>
                   </TableRow>
                 </TableHead>
 
@@ -165,6 +169,7 @@ class Transactions extends React.Component {
               </Table>
             </Paper>
             </div>
+
         );
     }
 }
