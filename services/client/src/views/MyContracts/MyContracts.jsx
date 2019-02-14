@@ -77,7 +77,6 @@ class Contracts extends React.Component {
 				userAddress: res[0]
 			}, () => {
 				EventContractInst.methods.getEventCount().call().then((res) => {
-					console.log(this.state);
 
 					this.setState({
 						contractCount: res

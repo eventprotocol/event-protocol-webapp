@@ -13,9 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import ModalTransaction from './ModalTransaction';
 import ModalFunction from './ModalFunction';
 import Person from "@material-ui/icons/Person";
+
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import LocationOn from "@material-ui/icons/LocationOn";
+import Timelapse from "@material-ui/icons/Timelapse";
 
 
 import Web3 from 'web3';
@@ -60,7 +62,7 @@ class ContractFrom extends Component {
 
 		this.state = {
 			transactionOpen: false,
-			moreOpen: false,
+			functionOpen: false,
 
 			id: 0,
 			eventName: "",
@@ -71,8 +73,9 @@ class ContractFrom extends Component {
       location: "",
       buyerActAmount: "",
 			sellerActAmount: "",
+			isBuyer: "",
       advance: "",
-      totalPayment: "",
+			totalPayment: "",
 
 		};
 
@@ -87,6 +90,7 @@ class ContractFrom extends Component {
 
 	componentDidMount() {
 		this.getContractData();
+		console.log(this.state);
 	}
 
 	reducePower(num) {
@@ -119,6 +123,22 @@ class ContractFrom extends Component {
 		EventContractInst.methods.getBuyer(this.props.id).call().then((res) => {
 			this.setState({
 				buyer: res
+			}, () => {
+				EventContractInst.methods.getBuyerActivationAmount(this.props.id).call().then((res) => {
+					if(this.props.account === this.state.buyer) {
+						this.setState({
+							buyerActAmount: this.reducePower(res),
+							isBuyer: true
+						})
+					} else {
+						this.setState({
+							buyerActAmount: this.reducePower(res),
+							isBuyer: false
+						})
+					}
+				}).catch((err) => {
+					console.log(err)
+				})
 			})
 		}).catch((err) => {
 			console.log(err)
@@ -127,6 +147,22 @@ class ContractFrom extends Component {
 		EventContractInst.methods.getSeller(this.props.id).call().then((res) => {
 			this.setState({
 				seller: res
+			}, () => {
+				EventContractInst.methods.getSellerActivationAmount(this.props.id).call().then((res) => {
+					if(this.props.account === this.state.seller) {
+						this.setState({
+							sellerActAmount: this.reducePower(res),
+							isSeller: true
+						})
+					} else {
+						this.setState({
+							sellerActAmount: this.reducePower(res),
+							isBuyer: false
+						})
+					}
+				}).catch((err) => {
+					console.log(err)
+				})
 			})
 		}).catch((err) => {
 			console.log(err)
@@ -148,21 +184,6 @@ class ContractFrom extends Component {
 			console.log(err)
 		})
 
-		EventContractInst.methods.getBuyerActivationAmount(this.props.id).call().then((res) => {
-			this.setState({
-				buyerActAmount: this.reducePower(res)
-			})
-		}).catch((err) => {
-			console.log(err)
-		})
-		
-		EventContractInst.methods.getSellerActivationAmount(this.props.id).call().then((res) => {
-			this.setState({
-				sellerActAmount: this.reducePower(res)
-			})
-		}).catch((err) => {
-			console.log(err)
-		})
 
 		EventContractInst.methods.getEventPaymentCharges(this.props.id).call().then((res) => {
 			this.setState({
@@ -190,13 +211,13 @@ class ContractFrom extends Component {
 	handleModalOpen_Function() {
 		this.setState({
 			transactionOpen: false,
-			moreOpen: true
+			functionOpen: true
 		});
 	}
 
 	handleModalClose_Function() {
 		this.setState({
-			moreOpen: false
+			functionOpen: false
 		});
 	}
 
@@ -240,6 +261,10 @@ class ContractFrom extends Component {
 					<Typography component="p">
 						<AttachMoney /> Contract Value: {this.state.totalPayment} ET
 					</Typography>
+
+					<Typography component="p">
+						<Timelapse /> Event Status: {this.state.status}
+					</Typography>
 				</CardContent>
 
 				<CardActions>
@@ -261,8 +286,13 @@ class ContractFrom extends Component {
 							Functions
 					</Button>
 					<ModalFunction
-						open={this.state.moreOpen}
+						open={this.state.functionOpen}
 						onClose={this.handleModalClose_Function}
+						buyerActAmount={this.state.buyerActAmount}
+						sellerActAmount={this.state.sellerActAmount}
+						isBuyer={this.state.isBuyer}
+						isSeller={this.state.isSeller}
+						status={this.state.status}
 					/>
 				</CardActions>
 

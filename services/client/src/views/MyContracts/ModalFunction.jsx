@@ -54,7 +54,8 @@ class ModalFunction extends React.Component {
     this.handleChange = this.handleChange.bind(this);
 
 		this.state = {
-			value: 0,
+			buyerValue: "",
+			sellerValue: "",
 		}
 	}
 
@@ -67,6 +68,8 @@ class ModalFunction extends React.Component {
 	render() {
 		const { classes } = this.props;
 
+		// console.log("Event Status: ", this.props.status)
+
 		return (
 			<div>
 				<Modal
@@ -75,42 +78,64 @@ class ModalFunction extends React.Component {
 					open={this.props.open}
 					onClose={this.props.onClose}
 				>
-					<div style={getModalStyle()} className={classes.paper}>
-						<Typography variant="h3" component="h3" id="modal-title">
-							Contract Functions
-						</Typography>
-
-						<div style={styles.centerer1}>
-							<div style={styles.centerer2}>
-								<p>Activation Amount: 200 ET</p> {/* To dynamically load this value*/}
-								<p>Confirm you want to engage in this contract. Input the activation amount above to activate the contract. This is irreversible.</p>
+					<div>
+						<div style={getModalStyle()} className={classes.paper}>
+							<Typography variant="h3" component="h3" id="modal-title">
+								Contract Functions
+							</Typography>
+							<div style={{display: this.props.isBuyer ? 'inline' : 'none'}}>
+								<p>Buyer Activation Amount: {this.props.buyerActAmount} ET</p> {/* To dynamically load this value*/}
+								<p>Input the activation amount above to activate the contract as a buyer. This is irreversible.</p>
 
 								<FormControl fullWidth={true} >
-									<InputLabel htmlFor="city_country">
-										Activation Amount
+									<InputLabel htmlFor="buyer_value">
+										Buyer Activation Amount
 									</InputLabel>
 									<Input
-										id="value"
-										name="value"
-										value={this.state.value}
+										id="buyerValue"
+										name="buyerValue"
+										value={this.state.buyerValue}
 										onChange={this.handleChange}
 										placeholder="Input the activation amount above to activate the contract. This is irreversible."
 									/>
 								</FormControl>
 								<br />
 								<br />
-								<Button variant="outlined">Activate Contract</Button>
-								<br />
-								<br />
-								<br />
-								<Button variant="contained" color="primary">Event Completed</Button>
-								<br />
-								<br />
-								<Button variant="contained" color="secondary">Cancel Event</Button>
-								<br />
-								<br />
+								<Button variant="outlined">Activate Contract (Buyer)</Button>
 							</div>
+							<div style={{display: this.props.isSeller ? 'inline' : 'none'}}>
+								<br />
+								<p>Seller Activation Amount: {this.props.sellerActAmount} ET</p> {/* To dynamically load this value*/}
+								<p>Input the activation amount above to activate the contract as a seller. This is irreversible.</p>
+
+								<FormControl fullWidth={true} >
+									<InputLabel htmlFor="seller_value">
+										Seller Activation Amount
+									</InputLabel>
+									<Input
+										id="sellerValue"
+										name="sellerValue"
+										value={this.state.sellerValue}
+										onChange={this.handleChange}
+										placeholder="Input the activation amount above to activate the contract. This is irreversible."
+									/>
+								</FormControl>
+								<br />
+								<br />
+								<Button variant="outlined">Activate Contract (Seller)</Button>
+							</div>
+
+							<br />
+							<br />
+							<br />
+							<Button variant="contained" color="primary">Event Completed</Button>
+							<br />
+							<br />
+							<Button variant="contained" color="secondary">Cancel Event</Button>
+							<br />
+							<br />
 						</div>
+
 						<SimpleModalWrapped />
 					</div>
 				</Modal>
