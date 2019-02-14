@@ -8,10 +8,7 @@ import dashboardStyle from "../../assets/jss/material-dashboard-react/views/dash
 // import contract form
 import NewContract from "../../drizzle-components/EventContract/newContract/form-component.js"
 import WalletCard from '../../custom-components/Card/WalletCard.jsx'
-import CustomContract from "../../drizzle-components/CustomContracts/custom-contract-form.js"
 import ContractForm from "./ContractForm.jsx";
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import GridContainer from "../../components/Grid/GridContainer.jsx";
 import GridItem from "../../components/Grid/GridItem.jsx";
 import Web3 from 'web3';
@@ -43,22 +40,6 @@ const EventContractInst = new web3.eth.Contract(abi, contractAddress);
 class Contracts extends React.Component {
 	constructor(props) {
 		super(props);
-
-		// var data = {
-		// 	name: this.state.name,
-		// 	status: this.state.status,
-		// 	eventDate: this.state.eventDate,
-		// 	advance: this.state.advance,
-		// 	totalPayment: this.state.totalPayment,
-		// 	buyer: this.state.buyer,
-		// 	seller: this.state.seller,
-		// 	location: this.state.location,
-		// 	sellerActAmount: this.state.sellerActAmount,
-		// 	buyerActAmount: this.state.buyerActAmount,
-		// 	contractAddress: this.state.contractAddress,
-		// 	contractId: this.state.contractId,
-		// }
-
 
 		this.state = {
 			userAddress: "",
@@ -147,24 +128,6 @@ class Contracts extends React.Component {
 	}
 
 	render() {
-
-		// const sampleData = [
-		// 	["Blockchain Conference", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "20 Jul 2019 12:00", "Singapore Expo", "20000 ET"],
-		// 	["Drunk Powerpoint", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "11 May 2019 20:00", "85 Wisma Ave", "1000 ET"],
-		// 	["Beautiful Flower Presentation", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "12 Apr 2019 10:00", "20 West Coast Ave", "2500 ET"],
-		// 	["CosFest", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "10 Mar 2019 08:00", "Singapore Expo", "8000 ET"],
-		// 	["Trivia Night", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "1 Feb 2019 20:00", "Jekyll & Hyde", "7000 ET"],
-		// 	["Jack & Jill Wedding", "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", "1 Feb 2019 20:00", "Jekyll & Hyde", "7000 ET"],
-		// ]
-
-		// let newIdList = this.state.idList.slice();
-		// newIdList.sort();
-		// this.setState({
-		// 	idList: newIdList
-		// })
-
-		console.log(this.state);
-
 		return (
 			<div>
 				<div>
@@ -181,7 +144,8 @@ class Contracts extends React.Component {
 							return(
 								<GridItem xs={12} sm={6} md={4} id={"griditem-" + i} key={"griditem-" + i} >
 									<ContractForm
-										id={datum[0]}
+										id={datum}
+										account={this.state.userAddress}
 									/>
 								</GridItem>
 							);

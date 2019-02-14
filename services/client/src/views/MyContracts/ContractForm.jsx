@@ -10,14 +10,13 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 // import Modal from '@material-ui/core/Modal';
-
 import ModalTransaction from './ModalTransaction';
 import ModalFunction from './ModalFunction';
-
 import Person from "@material-ui/icons/Person";
 import CalendarToday from "@material-ui/icons/CalendarToday";
 import AttachMoney from "@material-ui/icons/AttachMoney";
 import LocationOn from "@material-ui/icons/LocationOn";
+
 
 import Web3 from 'web3';
 import EventContract from "../../data/EventContract.json";
@@ -44,16 +43,6 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
 }
 const EventContractInst = new web3.eth.Contract(abi, contractAddress);
 
-// const styles = {
-// 	card: {
-// 		maxWidth: "85%",
-// 	},
-// 	media: {
-// 		// ⚠️ object-fit is not supported by IE 11.
-// 		objectFit: 'cover',
-// 	},
-// };
-
 const styles = {
 	card: {
 		maxWidth: "100%",
@@ -72,38 +61,116 @@ class ContractFrom extends Component {
 		this.state = {
 			transactionOpen: false,
 			moreOpen: false,
+
 			id: 0,
-			name: "",
+			eventName: "",
+			status: "",
+			buyer: "",
+			seller: "",
+			eventDate: "",
+      location: "",
+      buyerActAmount: "",
+			sellerActAmount: "",
+      advance: "",
+      totalPayment: "",
 
 		};
 
 		this.handleModalOpen_Transaction = this.handleModalOpen_Transaction.bind(this);
 		this.handleModalClose_Transaction = this.handleModalClose_Transaction.bind(this);
-		this.handleModalOpen_More = this.handleModalOpen_More.bind(this);
-		this.handleModalClose_More = this.handleModalClose_More.bind(this);
-		this.getContractData = this.getContrctData.bind(this);
+		this.handleModalOpen_Function = this.handleModalOpen_Function.bind(this);
+		this.handleModalClose_Function = this.handleModalClose_Function.bind(this);
+		this.getContractData = this.getContractData.bind(this);  
+		this.reducePower = this.reducePower.bind(this);
+		this.getStringTime = this.getStringTime.bind(this);
 	}
 
 	componentDidMount() {
 		this.getContractData();
 	}
 
-	getContractData() {
-				// name: this.state.name,
-				// status: this.state.status,
-				// eventDate: this.state.eventDate,
-				// advance: this.state.advance,
-				// totalPayment: this.state.totalPayment,
-				// buyer: this.state.buyer,
-				// seller: this.state.seller,
-				// location: this.state.location,
-				// sellerActAmount: this.state.sellerActAmount,
-				// buyerActAmount: this.state.buyerActAmount,
-				// contractAddress: this.state.contractAddress,
-				// contractId: this.state.contractId,
-		EventContractInst.methods.getEventName().call().then((res) => {
+	reducePower(num) {
+		return num/(Math.pow(10, 18));
+	}
 
-		}).catch((err ))
+	getStringTime(timestamp){
+		var date = new Date(timestamp * 1000);
+		var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+		return formattedDate
+  }
+
+	getContractData() {
+		EventContractInst.methods.getEventName(this.props.id).call().then((res) => {
+			this.setState({
+				eventName: res
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getEventState(this.props.id).call().then((res) => {
+			this.setState({
+				status: res
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getBuyer(this.props.id).call().then((res) => {
+			this.setState({
+				buyer: res
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getSeller(this.props.id).call().then((res) => {
+			this.setState({
+				seller: res
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getEventDate(this.props.id).call().then((res) => {
+			this.setState({
+				eventDate: this.getStringTime(res)
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getEventLocation(this.props.id).call().then((res) => {
+			this.setState({
+				eventLocation: res
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getBuyerActivationAmount(this.props.id).call().then((res) => {
+			this.setState({
+				buyerActAmount: this.reducePower(res)
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+		
+		EventContractInst.methods.getSellerActivationAmount(this.props.id).call().then((res) => {
+			this.setState({
+				sellerActAmount: this.reducePower(res)
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
+
+		EventContractInst.methods.getEventPaymentCharges(this.props.id).call().then((res) => {
+			this.setState({
+				totalPayment: this.reducePower(res)
+			})
+		}).catch((err) => {
+			console.log(err)
+		})
 
 	}
 
@@ -120,14 +187,14 @@ class ContractFrom extends Component {
 		});
 	}
 
-	handleModalOpen_More() {
+	handleModalOpen_Function() {
 		this.setState({
 			transactionOpen: false,
 			moreOpen: true
 		});
 	}
 
-	handleModalClose_More() {
+	handleModalClose_Function() {
 		this.setState({
 			moreOpen: false
 		});
@@ -141,36 +208,37 @@ class ContractFrom extends Component {
 					alt="Cover Image"
 					className={this.props.classes.media}
 					height="200"
-					image="./media/event-cover-photo.jpeg"
+					image={"./media/event-cover-photo-" + this.props.id % 6 + ".jpeg"}
 					title="Cover Image"
 				/>
 
 				<CardContent>
 					<Typography gutterBottom variant="title">
-						{this.props.title}
+						{this.state.eventName}
 					</Typography>
 
 					{/* Buyer And Seller */}
 					<Typography component="p">
-						<Person /> Buyer: <a href={'/account/' + this.props.buyer }>{this.props.buyer}</a>
+						<Person /> Buyer: 
+						<a href={'/account/' + this.state.buyer }><br />{this.state.buyer}</a>
 					</Typography>
 
 					<Typography component="p">
-						<Person /> Seller: <a href={'/account/' + this.props.seller }>{this.props.seller}</a>
+						<Person /> Seller: <a href={'/account/' + this.state.seller }><br />{this.state.seller}</a>
 					</Typography>
 
 					<br/>
 
 					<Typography component="p">
-						<CalendarToday /> Event Date: {this.props.date}
+						<CalendarToday /> Event Date: {this.state.eventDate}
 					</Typography>
 
 					<Typography component="p">
-						<LocationOn /> Venue: {this.props.venue}
+						<LocationOn /> Venue: {this.state.eventLocation}
 					</Typography>
 
 					<Typography component="p">
-						<AttachMoney /> Contract Value: {this.props.value}
+						<AttachMoney /> Contract Value: {this.state.totalPayment} ET
 					</Typography>
 				</CardContent>
 
@@ -189,67 +257,14 @@ class ContractFrom extends Component {
 					<Button
 						size="medium"
 						color="primary"
-						onClick={this.handleModalOpen_More}>
+						onClick={this.handleModalOpen_Function}>
 							Functions
 					</Button>
 					<ModalFunction
 						open={this.state.moreOpen}
-						onClose={this.handleModalClose_More}
+						onClose={this.handleModalClose_Function}
 					/>
 				</CardActions>
-
-				{/*
-				<CardActions>
-					<Button
-						size="small"
-						color="primary"
-						onClick={this.handleModalOpen_Transaction}>
-							Transactions
-					</Button>
-
-					<Button
-						size="small"
-						color="primary"
-						onClick={this.handleModalOpen_More}>
-							More
-					</Button>
-				</CardActions>
-
-				<Modal
-					open={this.state.transactionOpen}
-					onClose={this.handleModalClose_Transaction}
-					aria-labelledby="simple-modal-title"
-					aria-describedby="simple-modal-description">
-
-					<div style={getModalStyle()} className={this.props.classes.paper}>
-						<Typography variant="h6" id="modal-title">
-							Text in a modal
-						</Typography>
-						<Typography variant="subtitle1" id="simple-modal-description">
-							Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-						</Typography>
-						<SimpleModalWrapped />
-					</div>
-
-				</Modal>
-
-				<Modal
-					open={this.state.moreOpen}
-					onClose={this.handleModalClose_More}
-					aria-labelledby="simple-modal-title"
-					aria-describedby="simple-modal-description"
-				>
-					<div style={getModalStyle()} className={this.props.classes.paper}>
-						<Typography variant="h6" id="modal-title">
-							Text in a modal
-						</Typography>
-						<Typography variant="subtitle1" id="simple-modal-description">
-							Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-						</Typography>
-						<SimpleModalWrapped />
-					</div>
-				</Modal>
-			*/}
 
 			</Card>
 		)
