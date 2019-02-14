@@ -48,7 +48,7 @@ class App extends Component {
   }
 
   render() {
-    console.log(history);
+    // console.log(history);
     return (
       <Router history={history}>
         <Switch>

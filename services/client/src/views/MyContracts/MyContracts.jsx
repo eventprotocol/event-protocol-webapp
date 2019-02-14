@@ -45,8 +45,9 @@ class Contracts extends React.Component {
 			userAddress: "",
 			value: 0,
 			contractCount: 0,
-			idList: []
+			idList: [],
 
+			loaded: false
 		}
 
 		this.handleChange.bind(this);
@@ -91,10 +92,19 @@ class Contracts extends React.Component {
 									if(!found) {
 										let newIdList = this.state.idList.slice();
 										newIdList.push(i)
-										newIdList.sort();
 										this.setState({
 											idList: newIdList
 										})
+
+										console.log(i)
+										if(i === this.state.contractCount - 1) {
+											let newIdList = this.state.idList.slice();
+											newIdList.sort()
+											this.setState({
+												loaded: true,
+												idList: newIdList
+											})
+										}
 									}
 								}
 							}).catch((err) => {
@@ -110,10 +120,19 @@ class Contracts extends React.Component {
 									if(!found) {
 										let newIdList = this.state.idList.slice();
 										newIdList.push(i);
-										newIdList.sort();
 										this.setState({
 											idList: newIdList
 										})
+
+										console.log(i)
+										if(i === this.state.contractCount - 1) {
+											let newIdList = this.state.idList.slice();
+											newIdList.sort()
+											this.setState({
+												loaded: true,
+												idList: newIdList
+											})
+										}
 									}
 								}
 							}).catch((err) => {
@@ -124,6 +143,19 @@ class Contracts extends React.Component {
 				})
 			})
 		});
+	}
+
+	content() {
+		this.state.idList.map((datum, i) => {
+			return(
+				<GridItem xs={12} sm={6} md={4} id={"griditem-" + i} key={"griditem-" + i} >
+					<ContractForm
+						id={datum}
+						account={this.state.userAddress}
+					/>
+				</GridItem>
+			);
+		})
 	}
 
 	render() {
@@ -138,19 +170,20 @@ class Contracts extends React.Component {
 				<div>
 					<br/>
 					<GridContainer>
-					{
-						this.state.idList.map((datum, i) => {
-							return(
-								<GridItem xs={12} sm={6} md={4} id={"griditem-" + i} key={"griditem-" + i} >
-									<ContractForm
-										id={datum}
-										account={this.state.userAddress}
-									/>
-								</GridItem>
-							);
-						})
-					}
-
+						{
+							this.state.loaded ?
+							this.state.idList.map((datum, i) => {
+								return(
+									<GridItem xs={12} sm={6} md={4} id={"griditem-" + i} key={"griditem-" + i} >
+										<ContractForm
+											id={datum}
+											account={this.state.userAddress}
+										/>
+									</GridItem>
+								);
+							})
+							: null
+						}
 					</GridContainer>
 				</div>
 			</div>

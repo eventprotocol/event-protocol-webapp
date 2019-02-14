@@ -90,7 +90,7 @@ class ContractFrom extends Component {
 
 	componentDidMount() {
 		this.getContractData();
-		console.log(this.state);
+		// console.log(this.state);
 	}
 
 	reducePower(num) {
