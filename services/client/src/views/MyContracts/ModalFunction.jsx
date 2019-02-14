@@ -8,9 +8,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 
-function rand() {
-	return Math.round(Math.random() * 20) - 10;
-}
 
 function getModalStyle() {
 	const top = 50;

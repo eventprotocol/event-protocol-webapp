@@ -36,20 +36,6 @@ class Resources extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeIndex = this.handleChangeIndex.bind(this);
-    this.onUnload = this.onUnload.bind(this);
-
-  }
-
-  componentDidMount() {
-    window.addEventListener('beforeunload', this.onUnload);
-  }
-
-  componentWillUnmount() {
-    window.addEventListener('beforeunload', this.onUnload);
-  }
-
-  onUnload() {
-    this.context.route.push('/marketplace');
   }
 
   handleChange(event, value) {

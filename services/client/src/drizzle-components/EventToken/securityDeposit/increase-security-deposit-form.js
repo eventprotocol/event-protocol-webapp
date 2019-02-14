@@ -38,6 +38,7 @@ class ContractForm extends Component {
     }
 
     this.state = initialState;
+
   }
 
   handleSubmit() {
