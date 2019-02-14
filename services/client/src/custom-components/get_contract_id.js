@@ -32,3 +32,29 @@ function getContractId(transaction_input){
   return event_id
 
 }
+
+function isEventTransaction(transaction_input, id){
+  var event_id = -1
+  var value = 0
+  //tokenfallback function abi
+  const tokenFallback_ = "0x95f847fd"
+  const resolve_event = "0xda9db866"
+
+  var key = transaction_input.slice(0, 10)
+  var input = transaction_input.slice(10, transaction_input.length)
+
+  if (key === tokenFallback_){
+    event_id =  web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
+
+  }
+
+  if (key === resolve_event){
+    event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
+  }
+
+  if (event_id === id){
+    return true
+  }
+  return false
+
+}
