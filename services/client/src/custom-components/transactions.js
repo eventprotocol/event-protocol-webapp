@@ -81,6 +81,9 @@ class Transactions extends React.Component {
                   value: fileList
               });
           })
+          .catch((err) => {
+            console.log(err);
+          })
 
     }
 

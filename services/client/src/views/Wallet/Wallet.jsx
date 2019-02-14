@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import { drizzleConnect } from 'drizzle-react'
+import { drizzleConnect } from "drizzle-react";
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -27,8 +27,8 @@ import Transactions from '../../custom-components/transactions.js'
 
 
 class Resources extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
 
     this.state = {
       value: 0
@@ -40,17 +40,28 @@ class Resources extends React.Component {
 
   }
 
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.onUnload);
+  }
+
+  componentWillUnmount() {
+    window.addEventListener('beforeunload', this.onUnload);
+  }
+
   onUnload() {
-    this.context.router.push('/marketplace');
+    this.context.route.push('/marketplace');
   }
 
   handleChange(event, value) {
     this.setState({ value });
   }
+
   handleChangeIndex(index) {
     this.setState({ value: index });
   }
+
   render() {
+    console.log(this.context);
     const { classes } = this.props;
     var primaryComponent_1 = <SecurityDepositComponent/>
     var secondaryComponent_1 = <IncreaseSecurityDepComponent/>
