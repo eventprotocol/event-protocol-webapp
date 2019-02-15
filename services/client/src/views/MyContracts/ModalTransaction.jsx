@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
 import ReactVirtualizedTable from './ReactVirtualizedTable';
+import Transactions from '../../custom-components/transactions.js';
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -33,6 +34,9 @@ const styles = theme => ({
 });
 
 class ModalTransaction extends React.Component {
+  constructor(props, context) {
+    super(props, context);
+  }
   render() {
     const { classes } = this.props;
 
@@ -45,11 +49,12 @@ class ModalTransaction extends React.Component {
           onClose={this.props.onClose}
         >
           <div style={getModalStyle()} className={classes.paper}>
-            <Typography variant="h3" component="h3" id="modal-title">
+            <Typography variant="title" component="h3" id="modal-title">
               Transactions
             </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              <ReactVirtualizedTable/>
+            <Typography variant="body1" id="simple-modal-description">
+              {/*<Transactions eth_address={this.props.eth_address}/>*/}
+              <ReactVirtualizedTable />
             </Typography>
             <SimpleModalWrapped />
           </div>

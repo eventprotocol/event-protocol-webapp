@@ -170,7 +170,7 @@ class ModalFunction extends React.Component {
 				>
 					<div>
 						<div style={getModalStyle()} className={classes.paper}>
-							<Typography variant="h3" component="h3" id="modal-title">
+							<Typography variant="title" component="h3" id="modal-title">
 								Contract Functions
 							</Typography>
 							<div style={{display: this.props.isBuyer ? 'inline' : 'none'}}>

@@ -63,6 +63,7 @@ class ContractFrom extends Component {
 		this.state = {
 			transactionOpen: false,
 			functionOpen: false,
+			eth_address: "",
 
 			id: 0,
 			eventName: "",
@@ -105,6 +106,14 @@ class ContractFrom extends Component {
   }
 
 	getContractData() {
+		web3.eth.getAccounts().then((res) => {
+			this.setState({
+				eth_address: res
+			})
+		}).catch((err) => {
+			console.log(err);
+		})
+
 		EventContractInst.methods.getEventName(this.props.id).call().then((res) => {
 			this.setState({
 				eventName: res
@@ -114,7 +123,6 @@ class ContractFrom extends Component {
 		})
 
 		EventContractInst.methods.getEventState(this.props.id).call().then((res) => {
-			console.log(res);
 			this.setState({
 				status: res
 			})
@@ -227,13 +235,14 @@ class ContractFrom extends Component {
 	handleModalOpen_Transaction() {
 		this.setState({
 			transactionOpen: true,
-			moreOpen: false
+			functionOpen: false
 		});
 	}
 
 	handleModalClose_Transaction() {
 		this.setState({
-			transactionOpen: false
+			transactionOpen: false,
+			functionOpen: false,
 		});
 	}
 
@@ -246,12 +255,12 @@ class ContractFrom extends Component {
 
 	handleModalClose_Function() {
 		this.setState({
+			transactionOpen: false,
 			functionOpen: false
 		});
 	}
 
 	render() {
-		console.log(this.state);
 		return (
 			<Card className={ this.props.classes.card } style={{margin: "5px"}}>
 				<CardMedia
@@ -307,6 +316,7 @@ class ContractFrom extends Component {
 					<ModalTransaction
 						open={this.state.transactionOpen}
 						onClose={this.handleModalClose_Transaction}
+						eth_address={this.state.eth_address}
 					/>
 
 					<Button

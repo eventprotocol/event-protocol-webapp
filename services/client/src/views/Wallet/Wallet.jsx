@@ -21,9 +21,9 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import Transactions from '../../custom-components/transactions.js'
+import Transactions from '../../custom-components/transactions.js';
 
 
 class Resources extends React.Component {
