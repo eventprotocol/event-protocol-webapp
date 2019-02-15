@@ -248,7 +248,7 @@ class ReactVirtualizedTable extends React.Component {
 			}
 
 			this.setState({
-				fileList: updatedFileList;
+				fileList: updatedFileList,
 				loaded: true
 			})
 
