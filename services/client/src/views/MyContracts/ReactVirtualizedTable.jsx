@@ -194,130 +194,124 @@ const WrappedVirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
 var updatedFileList = {};
 var loaded = false;
 
-web3.eth.getAccounts().then((res) => {
-	var account = res[0];
-	const str = 'http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${token}';
-	const obj = {address: account, token:'RA5HQDQNQXD9V1FK6ZTEJYWDGYWPAEPURC'};
-	const result = new Function('const {' + Object.keys(obj).join(',') + '} = this.obj;return `' + str + '`').call({obj});
 
-	axios.get(result).then((res) => {
-		let fileList = res;
-		fileList.data.result = fileList.data.result.filter((el, i) => (
-			el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.to === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f" || el.from === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f"
-		))
-
-		console.log(fileList);
-
-
-		for(var item in fileList) {
-			var event_id = "Wallet"
-      var value = 0
-      console.log(<DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(1), {from: this.props.eth_address}]} />)
-      //tokenfallback function abi
-      const tokenFallback_ = "0x95f847fd"
-      const resolve_event = "0xda9db866"
-
-      var key = item.input.slice(0, 10)
-      var input = item.input.slice(10, item.input.length)
-
-      if (key === tokenFallback_){
-        event_id = web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
-        value = new BigNumber(web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[1])/(Math.pow(10, 18))
-        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
-      }
-
-      if (key === resolve_event){
-        event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
-        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
-      }
-
-      var newItem = item.slice();
-      newItem.push(event_id);
-      newItem.push(value);
-      updatedFileList.push(newItem);
+class ReactVirtualizedTable extends React.Component {
+	constructor(props, context) {
+		super(props, context);
+		this.state = {
+			loaded: false
 		}
+	}
 
-		loaded = true;
+	componentDidMount() {
+		web3.eth.getAccounts().then((res) => {
+		var account = res[0];
+		const str = 'http://api-rinkeby.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${token}';
+		const obj = {address: account, token:'RA5HQDQNQXD9V1FK6ZTEJYWDGYWPAEPURC'};
+		const result = new Function('const {' + Object.keys(obj).join(',') + '} = this.obj;return `' + str + '`').call({obj});
+
+		axios.get(result).then((res) => {
+			let fileList = res;
+			fileList.data.result = fileList.data.result.filter((el, i) => (
+				el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.to === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f" || el.from === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f"
+			))
+
+			console.log(fileList);
 
 
+			for(var item in fileList) {
+				var event_id = "Wallet"
+	      var value = 0
+	      console.log(<DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(1), {from: this.props.eth_address}]} />)
+	      //tokenfallback function abi
+	      const tokenFallback_ = "0x95f847fd"
+	      const resolve_event = "0xda9db866"
+
+	      var key = item.input.slice(0, 10)
+	      var input = item.input.slice(10, item.input.length)
+
+	      if (key === tokenFallback_){
+	        event_id = web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
+	        value = new BigNumber(web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[1])/(Math.pow(10, 18))
+	        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
+	      }
+
+	      if (key === resolve_event){
+	        event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
+	        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
+	      }
+
+	      var newItem = item.slice();
+	      newItem.push(event_id);
+	      newItem.push(value);
+	      updatedFileList.push(newItem);
+			}
+
+			this.setState({
+				fileList: updatedFileList;
+				loaded: true
+			})
+
+		}).catch((err) => {
+			console.log(err);
+		})
 
 	}).catch((err) => {
 		console.log(err);
 	})
 
-}).catch((err) => {
-	console.log(err);
-})
+	}
 
+	render() {
+		console.log(this.state);
+		if(this.state.loaded) {
+			return(
+				<Paper style={{ height: 400, width: '100%' }}>
+					<WrappedVirtualizedTable
+						rowCount={this.state.updatedFileList.length}
+						rowGetter={({ index }) => this.state.updatedFileList[index]}
+						onRowClick={event => console.log(event)}
+						columns={[
+							{
+								width: 120,
+								flexGrow: 1.0,
+								label: 'Timestamp',
+								dataKey: 'timestamp',
+							},
+							{
+								width: 250,
+								flexGrow: 1.0,
+								label: 'To',
+								dataKey: '_to',
+							},
+							{
+								width: 250,
+								flexGrow: 1.0,
+								label: 'From',
+								dataKey: '_from',
+							},
+							{
+								width: 120,
+								flexGrow: 1.0,
+								label: 'ETH Transferred',
+								dataKey: 'eth_value',
+								numeric: true,
+							},
+							{
+								width: 120,
+								flexGrow: 1.0,
+								label: 'ET Transferred',
+								dataKey: 'et_value',
+								numeric: true,
+							},
+						]}
+					/>
+				</Paper>
+			);
+		} else {
+			return (null);
+		}
 
-// const data = [
-// 	['12 Dec 2018, 12:00', "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", 0, 10],
-// 	['12 Jan 2019, 12:00', "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", 0, 100],
-// 	['12 Sep 2018, 12:00', "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", 0, 23],
-// 	['12 Nov 2018, 12:00', "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", 0, 31],
-// 	['13 Sep 2018, 12:00', "0x0E35462535daE6fd521f0Eea67dc4e9485C714dC", "0x24eeAc4F88412DC27F4b802EA8eB8B4725cF3AF8", 0, 43],
-// ];
-
-// let id = 0;
-// function createData(timestamp, _to, _from, eth_value, et_value) {
-// 	id += 1;
-// 	return { id, timestamp, _to, _from, eth_value, et_value };
-// }
-
-// const rows = [];
-
-// for (let i = 0; i < 200; i += 1) {
-// 	const randomSelection = data[Math.floor(Math.random() * data.length)];
-// 	rows.push(createData(...randomSelection));
-// }
-
-function ReactVirtualizedTable() {
-	if(loaded) {
-		return(
-			<Paper style={{ height: 400, width: '100%' }}>
-				<WrappedVirtualizedTable
-					rowCount={updatedFileList.length}
-					rowGetter={({ index }) => updatedFileList[index]}
-					onRowClick={event => console.log(event)}
-					columns={[
-						{
-							width: 120,
-							flexGrow: 1.0,
-							label: 'Timestamp',
-							dataKey: 'timestamp',
-						},
-						{
-							width: 250,
-							flexGrow: 1.0,
-							label: 'To',
-							dataKey: '_to',
-						},
-						{
-							width: 250,
-							flexGrow: 1.0,
-							label: 'From',
-							dataKey: '_from',
-						},
-						{
-							width: 120,
-							flexGrow: 1.0,
-							label: 'ETH Transferred',
-							dataKey: 'eth_value',
-							numeric: true,
-						},
-						{
-							width: 120,
-							flexGrow: 1.0,
-							label: 'ET Transferred',
-							dataKey: 'et_value',
-							numeric: true,
-						},
-					]}
-				/>
-			</Paper>
-		);
-	} else {
-		return (null);
 	}
 }
 
