@@ -22,16 +22,35 @@ import DrizzleContainer from "./drizzle-components/drizzle-container.js"
 // import DrizzleAccount from "./drizzle-components/drizzle-account.js"
 import options from "./drizzle-components/drizzle-options.js";
 
-// Initialize browser history
-const hist = createBrowserHistory();
+import history from "./history";
 
 // Initialize Web3
 let web3 = new Web3();
 
 class App extends Component {
+  constructor(props, context) {
+    super(props, context);
+
+    this.onUnload = this.onUnload.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('beforeunload', this.onUnload);
+  }
+
+  componentWillUnmount() {
+    window.addEventListener('beforeunload', this.onUnload);
+  }
+
+  onUnload() {
+    // Redirect to marketplace on refresh
+    history.push('/');
+  }
+
   render() {
+    // console.log(history);
     return (
-      <Router history={hist}>
+      <Router history={history}>
         <Switch>
           {indexRoutes.map((prop, key) => {
             return <Route path={prop.path} component={prop.component} key={key} />;

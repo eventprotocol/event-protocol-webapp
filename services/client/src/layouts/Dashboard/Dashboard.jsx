@@ -24,6 +24,7 @@ import image from "../../assets/img/sidebar.jpg";
 import logo from "../../assets/img/logo.png";
 
 import AccountBalanceAppBar from "../../custom-components/AppBar/AccountBalanceBar.js";
+import history from "../../history";
 
 
 const switchRoutes = (
@@ -55,6 +56,11 @@ class App extends React.Component {
 
   getRoute() {
     return this.props.location.pathname !== "/maps";
+  }
+
+  onUnload() {
+    // Redirect to marketplace on refresh
+    history.push('/');
   }
 
   resizeFunction() {

@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import { drizzleConnect } from 'drizzle-react'
+import { drizzleConnect } from "drizzle-react";
 
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -27,21 +27,31 @@ import Transactions from '../../custom-components/transactions.js'
 
 
 class Resources extends React.Component {
-  state = {
-    value: 0,
+  constructor(props, context) {
+    super(props, context);
+
+    this.state = {
+      value: 0
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChangeIndex = this.handleChangeIndex.bind(this);
   }
-  handleChange = (event, value) => {
+
+  handleChange(event, value) {
     this.setState({ value });
   }
-  handleChangeIndex = (index) => {
+
+  handleChangeIndex(index) {
     this.setState({ value: index });
   }
+
   render() {
+    console.log(this.context);
     const { classes } = this.props;
     var primaryComponent_1 = <SecurityDepositComponent/>
     var secondaryComponent_1 = <IncreaseSecurityDepComponent/>
     var primaryComponent_2 = <GetAllowanceComponent/>
-
     var primaryComponent_3 = <IncreaseApprovalComponent/>
 
     return (

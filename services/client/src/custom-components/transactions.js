@@ -1,14 +1,10 @@
 import { drizzleConnect } from 'drizzle-react'
 import React from "react";
 import axios from "axios";
-import PropTypes from 'prop-types'
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import FormControl from "@material-ui/core/FormControl";
-import Snackbar from "@material-ui/core/Snackbar";
+
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,7 +15,6 @@ import Paper from '@material-ui/core/Paper';
 import EventToken from "./EventToken.json"
 import EventContract from "./EventContract.json"
 import Contract from "./EventContract.json"
-import SnackbarContent from '@material-ui/core/SnackbarContent';
 //import get_id from "./get_contract_id.js"
 
 import DataFetchComponent from "../drizzle-components/CustomContracts/custom-data-fetcher.js";
@@ -86,6 +81,9 @@ class Transactions extends React.Component {
                   value: fileList
               });
           })
+          .catch((err) => {
+            console.log(err);
+          })
 
     }
 
@@ -148,7 +146,7 @@ class Transactions extends React.Component {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>TimeStamp</TableCell>
+                    <TableCell>Timestamp</TableCell>
                     <TableCell align="right">From</TableCell>
                     <TableCell align="right">To</TableCell>
                     <TableCell align="right">ET transferred</TableCell>

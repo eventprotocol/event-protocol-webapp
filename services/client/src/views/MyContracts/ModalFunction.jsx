@@ -8,9 +8,31 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 
-function rand() {
-	return Math.round(Math.random() * 20) - 10;
+import Web3 from 'web3';
+import EventContract from "../../data/EventContract.json";
+
+var BigNumber = require('bignumber.js');
+
+// get abi
+let abi = EventContract.abi;
+// get address at rinkeby "4"
+let contractAddress = EventContract.networks['4'].address;
+
+let web3;
+
+// setup the system
+if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
+  // We are in the browser and metamask is running.
+  web3 = new Web3(window.web3.currentProvider);
+} else {
+  // We are on the server *OR* the user is not running metamask
+  const provider = new Web3.providers.HttpProvider(
+    "https://rinkeby.infura.io/orDImgKRzwNrVCDrAk5Q"
+  );
+  web3 = new Web3(provider);
 }
+const EventContractInst = new web3.eth.Contract(abi, contractAddress);
+
 
 function getModalStyle() {
 	const top = 50;
@@ -51,11 +73,80 @@ class ModalFunction extends React.Component {
 	constructor(props) {
 		super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    	this.handleChange = this.handleChange.bind(this);
+    	this.handleSubmitSeller = this.handleSubmitSeller.bind(this);
+    	this.handleSubmitBuyer = this.handleSubmitBuyer.bind(this);
+    	this.handleCancelEvent = this.handleCancelEvent.bind(this);
+    	this.handleCompleteEvent = this.handleCompleteEvent.bind(this);
 
-		this.state = {
-			value: 0,
+		var initialState = {
+			buyerValue: "",
+			sellerValue: "",
 		}
+
+		this.state = initialState;
+	}
+
+	handleSubmitBuyer() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			var buyerValue = this.state.buyerValue;
+			var buyerValueConv = new BigNumber(buyerValue).times(Math.pow(10, 18));
+
+			EventContractInst.methods.tokenFallback(account, buyerValueConv, this.props.id).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			})
+
+		}).catch((err) => {
+			console.log(err);
+		})
+
+	}
+
+	handleSubmitSeller() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			var sellerValue = this.state.sellerValue;
+			var sellerValueConv = new BigNumber(sellerValue).times(Math.pow(10, 18));
+
+			EventContractInst.methods.tokenFallback(account, sellerValueConv, this.props.id).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+
+		}).catch((err) => {
+			console.log(err);
+		});
+
+	}
+
+	handleCancelEvent() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			EventContractInst.methods.resolveEvent(this.props.id, 2).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	handleCompleteEvent() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			EventContractInst.methods.resolveEvent(this.props.id, 1).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 
 	handleChange(event) {
@@ -67,6 +158,8 @@ class ModalFunction extends React.Component {
 	render() {
 		const { classes } = this.props;
 
+		// console.log("Event Status: ", this.props.status)
+
 		return (
 			<div>
 				<Modal
@@ -75,42 +168,66 @@ class ModalFunction extends React.Component {
 					open={this.props.open}
 					onClose={this.props.onClose}
 				>
-					<div style={getModalStyle()} className={classes.paper}>
-						<Typography variant="h3" component="h3" id="modal-title">
-							Contract Functions
-						</Typography>
-
-						<div style={styles.centerer1}>
-							<div style={styles.centerer2}>
-								<p>Activation Amount: 200 ET</p> {/* To dynamically load this value*/}
-								<p>Confirm you want to engage in this contract. Input the activation amount above to activate the contract. This is irreversible.</p>
+					<div>
+						<div style={getModalStyle()} className={classes.paper}>
+							<Typography variant="h3" component="h3" id="modal-title">
+								Contract Functions
+							</Typography>
+							<div style={{display: this.props.isBuyer ? 'inline' : 'none'}}>
+								<p>Buyer Activation Amount: {this.props.buyerActAmount} ET</p> {/* To dynamically load this value*/}
+								<p>Input the activation amount above to activate the contract as a buyer. This is irreversible.</p>
 
 								<FormControl fullWidth={true} >
-									<InputLabel htmlFor="city_country">
-										Activation Amount
+									<InputLabel htmlFor="buyer_value">
+										Buyer Activation Amount
 									</InputLabel>
 									<Input
-										id="value"
-										name="value"
-										value={this.state.value}
+										id="buyerValue"
+										name="buyerValue"
+										value={this.state.buyerValue}
 										onChange={this.handleChange}
 										placeholder="Input the activation amount above to activate the contract. This is irreversible."
+										type="number"
 									/>
 								</FormControl>
 								<br />
 								<br />
-								<Button variant="outlined">Activate Contract</Button>
-								<br />
-								<br />
-								<br />
-								<Button variant="contained" color="primary">Event Completed</Button>
-								<br />
-								<br />
-								<Button variant="contained" color="secondary">Cancel Event</Button>
-								<br />
-								<br />
+								<Button variant="outlined" onClick={this.handleSubmitBuyer}>Activate Contract (Buyer)</Button>
 							</div>
+							<div style={{display: this.props.isSeller ? 'inline' : 'none'}}>
+								<br />
+								<p>Seller Activation Amount: {this.props.sellerActAmount} ET</p> {/* To dynamically load this value*/}
+								<p>Input the activation amount above to activate the contract as a seller. This is irreversible.</p>
+
+								<FormControl fullWidth={true} >
+									<InputLabel htmlFor="seller_value">
+										Seller Activation Amount
+									</InputLabel>
+									<Input
+										id="sellerValue"
+										name="sellerValue"
+										value={this.state.sellerValue}
+										onChange={this.handleChange}
+										placeholder="Input the activation amount above to activate the contract. This is irreversible."
+										type="number"
+									/>
+								</FormControl>
+								<br />
+								<br />
+								<Button variant="outlined" onClick={this.handleSubmitSeller}>Activate Contract (Seller)</Button>
+							</div>
+
+							<br />
+							<br />
+							<br />
+							<Button variant="contained" color="primary" onClick={this.handleCompleteEvent}>Event Completed</Button>
+							<br />
+							<br />
+							<Button variant="contained" color="secondary" onClick={this.handleCancelEvent}>Cancel Event</Button>
+							<br />
+							<br />
 						</div>
+
 						<SimpleModalWrapped />
 					</div>
 				</Modal>
