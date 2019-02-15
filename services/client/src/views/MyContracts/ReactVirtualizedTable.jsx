@@ -251,12 +251,12 @@ class ReactVirtualizedTable extends React.Component {
 		      }
 
 		      console.log(tempFileList[i].timeStamp);
-		      var _time = this.getStringTime(tempFileList[i].timeStamp);
+		      var _timestamp = this.getStringTime(tempFileList[i].timeStamp);
 		      var _from = tempFileList[i].from;
 		      var _to = tempFileList[i].to;
-		      var _value = value;
+		      var _etvalue = value;
 
-		      const newItem = {i, _time, _from, _to, _value};
+		      const newItem = {i, _timestamp, _from, _to, _etvalue};
 		      console.log(newItem);
 		      var _fileList = this.state.fileList.slice();
 		      _fileList.push(newItem);
@@ -298,7 +298,7 @@ class ReactVirtualizedTable extends React.Component {
 								width: 120,
 								flexGrow: 1.0,
 								label: 'Timestamp',
-								dataKey: 'timestamp',
+								dataKey: '_timestamp',
 							},
 							{
 								width: 250,
@@ -316,7 +316,7 @@ class ReactVirtualizedTable extends React.Component {
 								width: 120,
 								flexGrow: 1.0,
 								label: 'ET Transferred',
-								dataKey: 'et_value',
+								dataKey: '_etvalue',
 								numeric: true,
 							},
 						]}
