@@ -14,8 +14,6 @@ import GridItem from "../../components/Grid/GridItem.jsx";
 import Web3 from 'web3';
 import EventContract from "../../data/EventContract.json";
 
-var BigNumber = require('bignumber.js');
-
 // get abi
 let abi = EventContract.abi;
 // get address at rinkeby "4"

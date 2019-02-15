@@ -8,6 +8,31 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
 
+import Web3 from 'web3';
+import EventContract from "../../data/EventContract.json";
+
+var BigNumber = require('bignumber.js');
+
+// get abi
+let abi = EventContract.abi;
+// get address at rinkeby "4"
+let contractAddress = EventContract.networks['4'].address;
+
+let web3;
+
+// setup the system
+if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
+  // We are in the browser and metamask is running.
+  web3 = new Web3(window.web3.currentProvider);
+} else {
+  // We are on the server *OR* the user is not running metamask
+  const provider = new Web3.providers.HttpProvider(
+    "https://rinkeby.infura.io/orDImgKRzwNrVCDrAk5Q"
+  );
+  web3 = new Web3(provider);
+}
+const EventContractInst = new web3.eth.Contract(abi, contractAddress);
+
 
 function getModalStyle() {
 	const top = 50;
@@ -48,12 +73,80 @@ class ModalFunction extends React.Component {
 	constructor(props) {
 		super(props);
 
-    this.handleChange = this.handleChange.bind(this);
+    	this.handleChange = this.handleChange.bind(this);
+    	this.handleSubmitSeller = this.handleSubmitSeller.bind(this);
+    	this.handleSubmitBuyer = this.handleSubmitBuyer.bind(this);
+    	this.handleCancelEvent = this.handleCancelEvent.bind(this);
+    	this.handleCompleteEvent = this.handleCompleteEvent.bind(this);
 
-		this.state = {
+		var initialState = {
 			buyerValue: "",
 			sellerValue: "",
 		}
+
+		this.state = initialState;
+	}
+
+	handleSubmitBuyer() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			var buyerValue = this.state.buyerValue;
+			var buyerValueConv = new BigNumber(buyerValue).times(Math.pow(10, 18));
+
+			EventContractInst.methods.tokenFallback(account, buyerValueConv, this.props.id).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			})
+
+		}).catch((err) => {
+			console.log(err);
+		})
+
+	}
+
+	handleSubmitSeller() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			var sellerValue = this.state.sellerValue;
+			var sellerValueConv = new BigNumber(sellerValue).times(Math.pow(10, 18));
+
+			EventContractInst.methods.tokenFallback(account, sellerValueConv, this.props.id).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+
+		}).catch((err) => {
+			console.log(err);
+		});
+
+	}
+
+	handleCancelEvent() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			EventContractInst.methods.resolveEvent(this.props.id, 2).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+		}).catch((err) => {
+			console.log(err);
+		})
+	}
+
+	handleCompleteEvent() {
+		web3.eth.getAccounts().then((res) => {
+			var account = res[0];
+			EventContractInst.methods.resolveEvent(this.props.id, 1).send({from: account}).then((res) => {
+				console.log(res);
+			}).catch((err) => {
+				console.log(err);
+			});
+		}).catch((err) => {
+			console.log(err);
+		})
 	}
 
 	handleChange(event) {
@@ -99,7 +192,7 @@ class ModalFunction extends React.Component {
 								</FormControl>
 								<br />
 								<br />
-								<Button variant="outlined">Activate Contract (Buyer)</Button>
+								<Button variant="outlined" onClick={this.handleSubmitBuyer}>Activate Contract (Buyer)</Button>
 							</div>
 							<div style={{display: this.props.isSeller ? 'inline' : 'none'}}>
 								<br />
@@ -121,16 +214,16 @@ class ModalFunction extends React.Component {
 								</FormControl>
 								<br />
 								<br />
-								<Button variant="outlined">Activate Contract (Seller)</Button>
+								<Button variant="outlined" onClick={this.handleSubmitSeller}>Activate Contract (Seller)</Button>
 							</div>
 
 							<br />
 							<br />
 							<br />
-							<Button variant="contained" color="primary">Event Completed</Button>
+							<Button variant="contained" color="primary" onClick={this.handleCompleteEvent}>Event Completed</Button>
 							<br />
 							<br />
-							<Button variant="contained" color="secondary">Cancel Event</Button>
+							<Button variant="contained" color="secondary" onClick={this.handleCancelEvent}>Cancel Event</Button>
 							<br />
 							<br />
 						</div>

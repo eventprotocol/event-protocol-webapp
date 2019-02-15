@@ -67,6 +67,7 @@ class ContractFrom extends Component {
 			id: 0,
 			eventName: "",
 			status: "",
+			statusName: "",
 			buyer: "",
 			seller: "",
 			eventDate: "",
@@ -83,7 +84,7 @@ class ContractFrom extends Component {
 		this.handleModalClose_Transaction = this.handleModalClose_Transaction.bind(this);
 		this.handleModalOpen_Function = this.handleModalOpen_Function.bind(this);
 		this.handleModalClose_Function = this.handleModalClose_Function.bind(this);
-		this.getContractData = this.getContractData.bind(this);  
+		this.getContractData = this.getContractData.bind(this);
 		this.reducePower = this.reducePower.bind(this);
 		this.getStringTime = this.getStringTime.bind(this);
 	}
@@ -113,9 +114,37 @@ class ContractFrom extends Component {
 		})
 
 		EventContractInst.methods.getEventState(this.props.id).call().then((res) => {
+			console.log(res);
 			this.setState({
 				status: res
 			})
+
+			if(res === "0") {
+				this.setState({
+					statusName: "Not Active"
+				})
+			}
+
+			else if(res === "1") {
+				this.setState({
+					statusName: "Active"
+				})
+			}
+
+			else if(res === "2") {
+				this.setState({
+					statusName: "Cancelled"
+				})
+			}
+
+			else if(res === "3") {
+				this.setState({
+					statusName: "Successfully Completed"
+				})
+			}
+			else {
+				console.log("Unrecognized State Number", res);
+			}
 		}).catch((err) => {
 			console.log(err)
 		})
@@ -157,7 +186,7 @@ class ContractFrom extends Component {
 					} else {
 						this.setState({
 							sellerActAmount: this.reducePower(res),
-							isBuyer: false
+							isSeller: false
 						})
 					}
 				}).catch((err) => {
@@ -222,6 +251,7 @@ class ContractFrom extends Component {
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 			<Card className={ this.props.classes.card } style={{margin: "5px"}}>
 				<CardMedia
@@ -240,7 +270,7 @@ class ContractFrom extends Component {
 
 					{/* Buyer And Seller */}
 					<Typography component="p">
-						<Person /> Buyer: 
+						<Person /> Buyer:
 						<a href={'/account/' + this.state.buyer }><br />{this.state.buyer}</a>
 					</Typography>
 
@@ -263,7 +293,7 @@ class ContractFrom extends Component {
 					</Typography>
 
 					<Typography component="p">
-						<Timelapse /> Event Status: {this.state.status}
+						<Timelapse /> Event Status: {this.state.statusName}
 					</Typography>
 				</CardContent>
 
@@ -290,6 +320,7 @@ class ContractFrom extends Component {
 						onClose={this.handleModalClose_Function}
 						buyerActAmount={this.state.buyerActAmount}
 						sellerActAmount={this.state.sellerActAmount}
+						id={this.props.id}
 						isBuyer={this.state.isBuyer}
 						isSeller={this.state.isSeller}
 						status={this.state.status}
