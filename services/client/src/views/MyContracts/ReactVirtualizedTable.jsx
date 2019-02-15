@@ -256,7 +256,7 @@ class ReactVirtualizedTable extends React.Component {
 		      var _to = tempFileList[i].to;
 		      var _value = value;
 
-		      const newItem = {_time, _from, _to, _value};
+		      const newItem = {i, _time, _from, _to, _value};
 		      console.log(newItem);
 		      var _fileList = this.state.fileList.slice();
 		      _fileList.push(newItem);
