@@ -191,16 +191,22 @@ MuiVirtualizedTable.defaultProps = {
 
 const WrappedVirtualizedTable = withStyles(styles)(MuiVirtualizedTable);
 
-var updatedFileList = {};
-var loaded = false;
-
 
 class ReactVirtualizedTable extends React.Component {
 	constructor(props, context) {
 		super(props, context);
 		this.state = {
-			loaded: false
+			loaded: false,
+			fileList: []
 		}
+
+		this.getStringTime = this.getStringTime.bind(this);
+	}
+
+  getStringTime(timestamp){
+    var date = new Date(timestamp * 1000);
+    var formattedDate = ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+    return formattedDate;
 	}
 
 	componentDidMount() {
@@ -210,55 +216,71 @@ class ReactVirtualizedTable extends React.Component {
 		const obj = {address: account, token:'RA5HQDQNQXD9V1FK6ZTEJYWDGYWPAEPURC'};
 		const result = new Function('const {' + Object.keys(obj).join(',') + '} = this.obj;return `' + str + '`').call({obj});
 
-		axios.get(result).then((res) => {
-			let fileList = res;
-			fileList.data.result = fileList.data.result.filter((el, i) => (
-				el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.to === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f" || el.from === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f"
-			))
+			axios.get(result).then((res) => {
+				let fileList = res;
+				fileList.data.result = fileList.data.result.filter((el, i) => (
+					el.to === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.from === '0x7143a8faa78b56fbdfefe0cfba58016f21620bf6' || el.to === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f" || el.from === "0x89e8a23ca8bab8bef769df2c10c060dc1c30053f"
+				))
 
-			console.log(fileList);
+				var tempFileList = fileList.data.result;
+				// console.log(tempFileList);
 
+				var updatedFileList = {};
 
-			for(var item in fileList) {
-				var event_id = "Wallet"
-	      var value = 0
-	      console.log(<DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(1), {from: this.props.eth_address}]} />)
-	      //tokenfallback function abi
-	      const tokenFallback_ = "0x95f847fd"
-	      const resolve_event = "0xda9db866"
+				for(var i = 0; i < tempFileList.length; i++) {
+					console.log(tempFileList[i]);
+					var event_id = "Wallet"
+		      var value = 0
+		      console.log(<DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(1), {from: this.props.eth_address}]} />)
+		      //tokenfallback function abi
+		      const tokenFallback_ = "0x95f847fd"
+		      const resolve_event = "0xda9db866"
 
-	      var key = item.input.slice(0, 10)
-	      var input = item.input.slice(10, item.input.length)
+		      var key = tempFileList[i].input.slice(0, 10)
+		      var input = tempFileList[i].input.slice(10, tempFileList[i].input.length)
 
-	      if (key === tokenFallback_){
-	        event_id = web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
-	        value = new BigNumber(web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[1])/(Math.pow(10, 18))
-	        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
-	      }
+		      if (key === tokenFallback_){
+		        event_id = web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[2]
+		        value = new BigNumber(web3.eth.abi.decodeParameters(token_abi[10].inputs, input)[1])/(Math.pow(10, 18))
+		        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
+		      }
 
-	      if (key === resolve_event){
-	        event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0]
-	        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
-	      }
+		      if (key === resolve_event){
+		        event_id = web3.eth.abi.decodeParameters(event_abi[5].inputs, input)[0];
+		        event_id = <DataFetchComponent contract="EventContract" method="getEventName" methodArgs={[parseInt(event_id), {from: this.props.eth_address}]} />
+		      }
 
-	      var newItem = item.slice();
-	      newItem.push(event_id);
-	      newItem.push(value);
-	      updatedFileList.push(newItem);
-			}
+		      console.log(tempFileList[i].timeStamp);
+		      var _time = this.getStringTime(tempFileList[i].timeStamp);
+		      var _from = tempFileList[i].from;
+		      var _to = tempFileList[i].to;
+		      var _value = value;
 
-			this.setState({
-				fileList: updatedFileList,
-				loaded: true
+		      const newItem = [_time, _from, _to, _value,];
+		      console.log(newItem);
+		      var _fileList = this.state.fileList.slice();
+		      _fileList.push(newItem);
+
+		     	this.setState({
+		     		fileList: _fileList,
+		     	});
+
+		     	// render after i hits a sufficiently large value
+		     	if(i > 10) {
+		     		this.setState({
+		     			loaded: true
+		     		})
+		     	}
+
+				}
+
+			}).catch((err) => {
+				console.log(err);
 			})
 
 		}).catch((err) => {
 			console.log(err);
 		})
-
-	}).catch((err) => {
-		console.log(err);
-	})
 
 	}
 
@@ -268,8 +290,8 @@ class ReactVirtualizedTable extends React.Component {
 			return(
 				<Paper style={{ height: 400, width: '100%' }}>
 					<WrappedVirtualizedTable
-						rowCount={this.state.updatedFileList.length}
-						rowGetter={({ index }) => this.state.updatedFileList[index]}
+						rowCount={this.state.fileList.length}
+						rowGetter={({ index }) => this.state.fileList[index]}
 						onRowClick={event => console.log(event)}
 						columns={[
 							{
@@ -281,21 +303,14 @@ class ReactVirtualizedTable extends React.Component {
 							{
 								width: 250,
 								flexGrow: 1.0,
-								label: 'To',
-								dataKey: '_to',
-							},
-							{
-								width: 250,
-								flexGrow: 1.0,
 								label: 'From',
 								dataKey: '_from',
 							},
 							{
-								width: 120,
+								width: 250,
 								flexGrow: 1.0,
-								label: 'ETH Transferred',
-								dataKey: 'eth_value',
-								numeric: true,
+								label: 'To',
+								dataKey: '_to',
 							},
 							{
 								width: 120,
