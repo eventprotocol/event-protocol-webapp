@@ -96,7 +96,7 @@ class Contracts extends React.Component {
 											idList: newIdList
 										})
 
-										console.log(i)
+										// console.log(i)
 										if(i === this.state.contractCount - 1) {
 											let newIdList = this.state.idList.slice();
 											newIdList.sort()
@@ -124,7 +124,7 @@ class Contracts extends React.Component {
 											idList: newIdList
 										})
 
-										console.log(i)
+										// console.log(i)
 										if(i === this.state.contractCount - 1) {
 											let newIdList = this.state.idList.slice();
 											newIdList.sort()
@@ -145,18 +145,6 @@ class Contracts extends React.Component {
 		});
 	}
 
-	content() {
-		this.state.idList.map((datum, i) => {
-			return(
-				<GridItem xs={12} sm={6} md={4} id={"griditem-" + i} key={"griditem-" + i} >
-					<ContractForm
-						id={datum}
-						account={this.state.userAddress}
-					/>
-				</GridItem>
-			);
-		})
-	}
 
 	render() {
 		return (
