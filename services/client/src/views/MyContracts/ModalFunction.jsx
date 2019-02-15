@@ -11,12 +11,16 @@ import FormControl from "@material-ui/core/FormControl";
 import Web3 from 'web3';
 import EventContract from "../../data/EventContract.json";
 
+import EventToken from "../../data/EventToken.json";
+
 var BigNumber = require('bignumber.js');
 
 // get abi
 let abi = EventContract.abi;
 // get address at rinkeby "4"
 let contractAddress = EventContract.networks['4'].address;
+
+
 
 let web3;
 
@@ -33,6 +37,12 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
 }
 const EventContractInst = new web3.eth.Contract(abi, contractAddress);
 
+//Debugging section----
+let token_abi = EventToken.abi;
+let token_address = EventToken.networks['4'].address;
+let EventTokenInst = new web3.eth.Contract(token_abi, token_address);
+console.log(EventTokenInst.methods);
+//---
 
 function getModalStyle() {
 	const top = 50;
@@ -93,7 +103,7 @@ class ModalFunction extends React.Component {
 			var buyerValue = this.state.buyerValue;
 			var buyerValueConv = new BigNumber(buyerValue).times(Math.pow(10, 18));
 
-			EventContractInst.methods.tokenFallback(account, buyerValueConv, this.props.id).send({from: account}).then((res) => {
+			EventTokenInst.methods.transferToContract(contractAddress, buyerValueConv, this.props.id).send({from: account}).then((res) => {
 				console.log(res);
 			}).catch((err) => {
 				console.log(err);
@@ -111,7 +121,9 @@ class ModalFunction extends React.Component {
 			var sellerValue = this.state.sellerValue;
 			var sellerValueConv = new BigNumber(sellerValue).times(Math.pow(10, 18));
 
-			EventContractInst.methods.tokenFallback(account, sellerValueConv, this.props.id).send({from: account}).then((res) => {
+      //EventContractInst.methods.tokenFallback(account, sellerValueConv, this.props.id).send({from: account}).then((res) => {
+
+			EventTokenInst.methods.transferToContract(contractAddress, sellerValueConv, this.props.id).send({from: account}).then((res) => {
 				console.log(res);
 			}).catch((err) => {
 				console.log(err);
